@@ -75,6 +75,18 @@ IDEAS PENDIENTES — Predicción Champions League
      - Si feature_importance muestra que es_seleccion domina demasiado
        (señal de que los patrones son incompatibles).
 
+9. Expansión a ligas domésticas (orden de prioridad para monetización)
+   Objetivo: más partidos = contenido casi diario para TikTok/Telegram.
+   UCL solo tiene ~125 partidos/temporada — muy poco para publicar predicciones diarias.
+   Orden recomendado:
+     1. Premier League — ~380 partidos/temporada, mayor audiencia global, datos
+        limpios y gratis en football-data.org (no necesita Playwright).
+     2. La Liga — segunda en audiencia hispanohablante (público natural del proyecto).
+     3. UCL mantiene el rol de "producto premium" dentro del Telegram Pro.
+   Siguiente paso tras agregar ligas: usar forma doméstica de cada equipo como
+   feature de contexto en predicciones UCL (mejora accuracy sin cambiar el producto).
+   Fuente recomendada: football-data.org (API + CSVs históricos gratuitos).
+
 8. Integrar scraper de redes sociales / web como fuente de features pre-partido
    Aprovechar el proyecto de scraping ya existente para sumar señal externa al modelo.
 
