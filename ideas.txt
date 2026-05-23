@@ -1,28 +1,9 @@
 IDEAS PENDIENTES — Predicción Champions League
 ===============================================
 
-1. Split cronológico
-   Agregar columna "Fecha" al Excel y ordenar los partidos por fecha.
-   Usar los más recientes como test en vez de una selección aleatoria.
-   Así el modelo entrena con el pasado y valida con lo más nuevo,
-   simulando mejor la predicción de partidos futuros.
 
-2. Columna Es_Local_E1 ✅ (implementado)
 
-3. Forma reciente
-   En vez de usar el promedio de todos los partidos del historial,
-   usar solo los últimos 3-5 partidos de cada equipo para el perfil.
-   Así un equipo que viene mal no se beneficia de victorias antiguas.
 
-5. Features históricas pre-partido (Opción B)
-   En vez de usar las estadísticas del partido actual como features,
-   calcular el promedio de los partidos ANTERIORES de cada equipo y usarlo
-   como input del modelo. Ejemplo: si Real Madrid juega la jornada 6,
-   usar el promedio de sus 5 partidos previos (disparos, posesión, pases, etc.)
-   como features en lugar de los datos de ese mismo partido.
-   Ventaja: el modelo aprende forma/rendimiento real del equipo y las predicciones
-   futuras usan las mismas features que el entrenamiento (ya no es una aproximación).
-   Requisito: columna Fecha en el Excel y que cada equipo tenga varios partidos registrados.
 
 4. Valor esperado (EV) para apuestas
    En predecir_partido(), pedir la cuota de la casa como parámetro opcional.

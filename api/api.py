@@ -38,6 +38,15 @@ from ml.predecir_v2 import predecir_partido_v2
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 _DEFAULT_DATASET = _PROJECT_ROOT / "data" / "creando_dataset_modificado.xlsx"
 DATASET = os.getenv("DATASET_PATH", str(_DEFAULT_DATASET))
+
+# CSVs de contexto (PL) para enriquecer ELO/forma/xG del pipeline UCL
+_PL_CONTEXT = [
+    str(p) for p in [
+        _PROJECT_ROOT / "data" / "premier_2024-25_enriquecido.csv",
+        _PROJECT_ROOT / "data" / "premier_2025-26_enriquecido.csv",
+    ]
+    if p.exists()
+]
 DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{_PROJECT_ROOT / 'data' / 'futbol.db'}")
 
 engine = create_engine(DATABASE_URL)
@@ -217,7 +226,7 @@ def _run_pipeline_background(evaluacion_id: int, filepath: str) -> None:
     """Entrena el pipeline en background y actualiza la DB cuando termina.
     Después genera automáticamente el record histórico honesto (predecir_v2)."""
     try:
-        results = run_pipeline(filepath)
+        results = run_pipeline(filepath, context_filepaths=_PL_CONTEXT)
         with Session(engine) as s:
             ev = s.get(Evaluacion, evaluacion_id)
             if ev:
@@ -242,7 +251,7 @@ def _get_or_run_pipeline(evaluacion_id: int, session: Session) -> dict:
     ev = session.get(Evaluacion, evaluacion_id)
     if not ev or not ev.activo:
         raise HTTPException(status_code=404, detail=f"Evaluación {evaluacion_id} no encontrada")
-    results = run_pipeline(ev.filepath)
+    results = run_pipeline(ev.filepath, context_filepaths=_PL_CONTEXT)
     _resultados_pipeline[evaluacion_id] = results
     return results
 
@@ -784,6 +793,7 @@ class FeaturedPickBody(SQLModel):
     goles: Optional[list] = None
     ultimos_e1: Optional[list] = None
     ultimos_e2: Optional[list] = None
+    stats_equipos: Optional[dict] = None
 
 
 @app.delete("/api/admin/featured-pick", status_code=204)

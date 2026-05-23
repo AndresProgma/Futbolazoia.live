@@ -1,0 +1,50 @@
+
+=== UCL — enriqueciendo lineups ===
+  Cargado: 372 partidos
+  [Browser] listo
+  Construyendo índice UCL en SofaScore...
+  Índice UCL: 288 partidos encontrados
+    30/372 procesados  (24 con datos)
+    60/372 procesados  (48 con datos)
+    90/372 procesados  (71 con datos)
+    120/372 procesados  (95 con datos)
+    300/372 procesados  (212 con datos)
+    330/372 procesados  (239 con datos)
+  Total enriquecidos: 239/372
+  Guardado: C:\Users\fehgb\OneDrive\Desktop\prediccion futybol\data\creando_dataset_modificado_lineups.xlsx
+  Cobertura lineup numérica: 63.8%
+
+=== PL — enriqueciendo lineups ===
+  [Browser] listo
+
+  Procesando premier_2024-25_enriquecido.csv (380 partidos)...
+    30/380 procesados  (30 con datos)
+    60/380 procesados  (60 con datos)
+    90/380 procesados  (90 con datos)
+    120/380 procesados  (120 con datos)
+    150/380 procesados  (150 con datos)
+    180/380 procesados  (180 con datos)
+    210/380 procesados  (210 con datos)
+    240/380 procesados  (240 con datos)
+    270/380 procesados  (270 con datos)
+    300/380 procesados  (300 con datos)
+    330/380 procesados  (330 con datos)
+    360/380 procesados  (360 con datos)
+  Total enriquecidos: 380/380
+  Guardado: C:\Users\fehgb\OneDrive\Desktop\prediccion futybol\data\premier_2024-25_enriquecido_lineups.csv  |  Cobertura: 98.8%
+
+  Procesando premier_2025-26_enriquecido.csv (370 partidos)...
+    30/370 procesados  (30 con datos)
+    60/370 procesados  (60 con datos)
+    90/370 procesados  (90 con datos)
+    120/370 procesados  (120 con datos)
+    150/370 procesados  (150 con datos)
+    180/370 procesados  (180 con datos)
+    210/370 procesados  (210 con datos)
+    240/370 procesados  (240 con datos)
+    270/370 procesados  (270 con datos)
+    300/370 procesados  (300 con datos)
+    330/370 procesados  (330 con datos)
+    360/370 procesados  (360 con datos)
+  Total enriquecidos: 370/370
+  Guardado: C:\Users\fehgb\OneDrive\Desktop\prediccion futybol\data\premier_2025-26_enriquecido_lineups.csv  |  Cobertura: 99.4%

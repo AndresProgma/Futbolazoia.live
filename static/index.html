@@ -40,18 +40,19 @@
       --lb:    #2A3245;
     }
 
-    /* Pitch background */
+    /* Default: estadio de noche */
     body {
-      background:
-        radial-gradient(ellipse 120% 80% at 50% -10%, rgba(7,9,15,0.5), rgba(7,9,15,0.97) 68%),
-        repeating-linear-gradient(90deg, #0E3B22 0, #0E3B22 120px, #0A2D1A 120px, #0A2D1A 240px);
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
     }
     body::before {
       content:"";
       position:fixed; inset:0; pointer-events:none; z-index:0;
-      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900' preserveAspectRatio='xMidYMid slice'><g fill='none' stroke='white' stroke-width='2' stroke-opacity='0.1'><rect x='40' y='60' width='1360' height='780'/><line x1='720' y1='60' x2='720' y2='840'/><circle cx='720' cy='450' r='130'/><rect x='40' y='245' width='200' height='410'/><rect x='40' y='340' width='80' height='220'/><path d='M 240 370 A 130 130 0 0 1 240 530'/><rect x='1200' y='245' width='200' height='410'/><rect x='1320' y='340' width='80' height='220'/><path d='M 1200 370 A 130 130 0 0 0 1200 530'/></g></svg>");
-      background-size:cover; background-position:center; opacity:.55;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(251,191,36,.10) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(74,222,128,.10) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(59,130,246,.10) 0%, transparent 50%);
     }
+    body::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:0; }
     body > * { position:relative; z-index:1; }
 
     @keyframes pulse-live {
@@ -141,6 +142,235 @@
     @media(min-width:1024px) { #elo-section:not(.hidden) { grid-template-columns:repeat(2,1fr); } }
 
     input:focus, select:focus { outline:none; border-color:var(--pos)!important; }
+
+    /* ── BACKGROUND THEMES ───────────────────────────────────────────── */
+    /* Champions */
+    body.theme-champions { background:linear-gradient(135deg,#1e1b4b 0%,#312e81 25%,#1e40af 50%,#1e3a8a 75%,#1e1b4b 100%)!important; }
+    body.theme-champions::before {
+      background-image:
+        radial-gradient(circle at 30% 40%, rgba(139,92,246,.15) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(59,130,246,.15) 0%, transparent 50%);
+    }
+    body.theme-champions::after {
+      content:"⭐"; background-image:none; background-size:auto;
+      inset:auto; top:50%; left:50%; transform:translate(-50%,-50%);
+      font-size:300px; opacity:.02; width:auto; height:auto;
+    }
+    /* Verde césped */
+    body.theme-cesped { background:linear-gradient(135deg,#065f46 0%,#047857 50%,#064e3b 100%)!important; }
+    body.theme-cesped::before {
+      background-image:repeating-linear-gradient(
+        90deg, transparent, transparent 80px,
+        rgba(255,255,255,.02) 80px, rgba(255,255,255,.02) 160px);
+    }
+    body.theme-cesped::after {
+      content:""; background-image:none; background-size:auto;
+      inset:auto; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:250px; height:250px;
+      border:3px solid rgba(255,255,255,.03); border-radius:50%;
+    }
+    /* Minimalista */
+    body.theme-minimal { background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%)!important; }
+    body.theme-minimal::before {
+      background-image:
+        linear-gradient(90deg, rgba(74,222,128,.03) 1px, transparent 1px),
+        linear-gradient(rgba(74,222,128,.03) 1px, transparent 1px);
+      background-size:100px 100px;
+    }
+    body.theme-minimal::after {
+      content:""; background-image:none; background-size:auto;
+      inset:auto; top:-50%; right:-10%; left:auto; bottom:auto;
+      width:60%; height:100%;
+      background:radial-gradient(circle, rgba(74,222,128,.05) 0%, transparent 70%);
+    }
+    /* Cancha realista */
+    body.theme-cancha {
+      background:
+        linear-gradient(135deg,rgba(10,31,13,.95) 0%,rgba(26,47,29,.95) 100%),
+        repeating-linear-gradient(90deg,#0d4d1f 0px,#0d4d1f 100px,#0a3d18 100px,#0a3d18 200px)
+        !important;
+    }
+    body.theme-cancha::before {
+      background-image:
+        linear-gradient(90deg,rgba(255,255,255,.015) 2px, transparent 2px),
+        linear-gradient(rgba(255,255,255,.015) 2px, transparent 2px);
+      background-size:120px 120px;
+    }
+    body.theme-cancha::after {
+      content:""; background-image:none; background-size:auto;
+      inset:auto; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:280px; height:280px;
+      border:4px solid rgba(255,255,255,.04); border-radius:50%;
+      box-shadow:0 0 0 150px rgba(255,255,255,.01),inset 0 0 0 4px rgba(255,255,255,.02);
+    }
+    /* Premium dorado */
+    body.theme-premium { background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 25%,#1f1f1f 50%,#1a1a1a 75%,#0a0a0a 100%)!important; }
+    body.theme-premium::before {
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(251,191,36,.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(234,179,8,.06) 0%, transparent 40%);
+    }
+    body.theme-premium::after {
+      content:"⚽"; background-image:none; background-size:auto;
+      inset:auto; top:50%; left:50%; transform:translate(-50%,-50%) rotate(15deg);
+      font-size:400px; opacity:.015; width:auto; height:auto;
+    }
+
+    /* ── MARKETING ANIMATIONS ──────────────────────────────────────── */
+    @keyframes pick-glow {
+      0%,100% { box-shadow:0 0 0 1px rgba(0,229,160,.22),0 0 24px rgba(0,229,160,.08),0 24px 64px rgba(0,0,0,.45); }
+      50%      { box-shadow:0 0 0 2px rgba(0,229,160,.55),0 0 52px rgba(0,229,160,.22),0 0 100px rgba(0,229,160,.07),0 24px 64px rgba(0,0,0,.45); }
+    }
+    @keyframes shimmer-sweep {
+      0%,100% { left:-75%; opacity:0; }
+      8%       { opacity:1; }
+      38%      { left:125%; opacity:0; }
+    }
+    @keyframes fire-flicker {
+      0%,100% { transform:scale(1) rotate(-2deg); }
+      50%      { transform:scale(1.25) rotate(3deg); }
+    }
+    @keyframes urgency-pulse {
+      0%,100% { opacity:1; }
+      50%      { opacity:.55; }
+    }
+    @keyframes float-spark {
+      0%   { opacity:0; transform:translateY(0) scale(.4); }
+      20%  { opacity:.85; }
+      100% { opacity:0; transform:translateY(-52px) scale(1.4); }
+    }
+    @keyframes viewers-bump {
+      0%,100% { transform:scale(1); }
+      50%      { transform:scale(1.12); }
+    }
+    @keyframes slide-up {
+      from { opacity:0; transform:translateY(18px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes money-shine {
+      0%   { background-position:200% center; }
+      100% { background-position:-200% center; }
+    }
+    .money-text {
+      background:linear-gradient(90deg,#b8860b,#ffd700,#fffacd,#ffd700,#b8860b);
+      background-size:300% auto;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      animation:money-shine 2.8s linear infinite;
+      font-weight:600;
+    }
+    @keyframes badge-pop {
+      0%  { transform:scale(.85); opacity:0; }
+      80% { transform:scale(1.05); }
+      100%{ transform:scale(1); opacity:1; }
+    }
+
+    /* Pick card glow wrapper */
+    .pick-card-glow { border-radius:18px; animation:pick-glow 3s ease-in-out infinite; }
+
+    /* Fire badge */
+    .fire-badge {
+      display:inline-flex; align-items:center; gap:4px;
+      font-size:12px; font-weight:700; letter-spacing:.04em;
+    }
+    .fire-badge .fire-icon { display:inline-block; animation:fire-flicker 1.6s ease-in-out infinite; }
+
+    /* Viewer count */
+    .viewers-badge {
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:11px; font-family:'JetBrains Mono',monospace;
+      color:#97A0B5; background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.09); border-radius:999px;
+      padding:3px 10px;
+    }
+    .viewers-bump { animation:viewers-bump .45s ease-out; }
+
+    /* Countdown badge */
+    .countdown-badge {
+      display:inline-flex; align-items:center; gap:5px;
+      font-size:11px; font-family:'JetBrains Mono',monospace;
+      color:var(--amber); background:rgba(255,182,39,.07);
+      border:1px solid rgba(255,182,39,.28); border-radius:6px;
+      padding:3px 10px; animation:urgency-pulse 2s ease-in-out infinite;
+    }
+
+    /* CTA Pro button shimmer */
+    .btn-pro-shimmer { position:relative; overflow:hidden; }
+    .btn-pro-shimmer::after {
+      content:""; position:absolute;
+      top:-50%; left:-75%; width:50%; height:200%;
+      background:rgba(255,255,255,.2); transform:skewX(-20deg);
+      animation:shimmer-sweep 3.5s ease-in-out infinite;
+      pointer-events:none;
+    }
+
+    /* Hot valor row enhanced */
+    .valor-row.hot {
+      background:linear-gradient(135deg,rgba(0,229,160,.12),#131826) !important;
+      border-color:rgba(0,229,160,.35) !important;
+      box-shadow:0 0 14px rgba(0,229,160,.08);
+    }
+    /* Heading gradient */
+    .valor-section-title {
+      background:linear-gradient(90deg,#00E5A0,#FFB627);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+
+    /* ── FLIP CARDS ────────────────────────────────────────────────── */
+    .flip-stage { perspective: 1400px; }
+    .flip-inner {
+      display: grid; grid-template-areas: "stack";
+      transform-style: preserve-3d;
+      transition: transform .7s cubic-bezier(.4,0,.2,1);
+      position: relative;
+    }
+    .flip-inner.flipped { transform: rotateY(180deg); }
+    .flip-face {
+      grid-area: stack;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+    .flip-back { transform: rotateY(180deg); }
+    .flip-btn {
+      font-family: 'JetBrains Mono', monospace; font-size: 9px;
+      padding: 3px 8px; border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      color: #97A0B5; cursor: pointer;
+      transition: all .15s;
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+    .flip-btn:hover { background: rgba(0,229,160,.1); border-color: var(--pos); color: var(--pos); }
+
+    /* Spark particle */
+    .spark {
+      position:absolute; width:4px; height:4px; border-radius:50%;
+      pointer-events:none; z-index:2;
+      animation:float-spark .85s ease-out forwards;
+    }
+
+    /* BG picker panel */
+    #bg-picker {
+      position:absolute; top:calc(100% + 8px); right:0;
+      background:rgba(12,16,24,.97); backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,.1); border-radius:12px;
+      padding:12px 10px; min-width:195px; z-index:50;
+      box-shadow:0 16px 40px rgba(0,0,0,.6);
+    }
+    #bg-picker h4 {
+      font-size:10px; font-family:'JetBrains Mono',monospace;
+      letter-spacing:.08em; text-transform:uppercase;
+      color:#5A6478; margin-bottom:8px; padding:0 4px;
+    }
+    .bg-option {
+      display:flex; align-items:center; gap:10px;
+      padding:7px 8px; border-radius:7px; cursor:pointer;
+      border:1px solid transparent; transition:all .15s; width:100%;
+      background:transparent; color:#97A0B5; font-size:13px; text-align:left;
+      font-family:'Space Grotesk',sans-serif;
+    }
+    .bg-option:hover  { background:rgba(255,255,255,.06); color:#E6EAF2; }
+    .bg-option.active { border-color:var(--pos); color:var(--pos); background:rgba(0,229,160,.07); }
+    .bg-swatch { width:28px; height:20px; border-radius:5px; flex-shrink:0; border:1px solid rgba(255,255,255,.12); }
 
     /* ═══ MERCADOS + COMBINADA ═════════════════════════════════════════ */
     .market-row {
@@ -413,6 +643,44 @@
         <span class="dot-live"></span> Datos en vivo
       </span>
       <span class="hidden sm:inline-flex px-2.5 py-1 rounded-full font-mono text-[11px] bg-surface-800 border border-[var(--lb)] text-[#97A0B5]">UCL &middot; 25/26</span>
+      <!-- BG Picker -->
+      <div class="relative">
+        <button id="btn-bg-picker" onclick="toggleBgPicker()" title="Cambiar fondo"
+          class="w-8 h-8 rounded-lg border border-[var(--lb)] flex items-center justify-center hover:border-[var(--pos)] transition-colors text-[#97A0B5] hover:text-[var(--pos)]">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+            <circle cx="8" cy="9" r="1.5" fill="currentColor"/><circle cx="12" cy="6.5" r="1.5" fill="currentColor"/>
+            <circle cx="16" cy="9" r="1.5" fill="currentColor"/><circle cx="16.5" cy="14" r="1.5" fill="currentColor"/>
+          </svg>
+        </button>
+        <div id="bg-picker" class="hidden">
+          <h4>Fondo</h4>
+          <button class="bg-option" data-theme="" onclick="setBgTheme('',this)">
+            <div class="bg-swatch" style="background:linear-gradient(135deg,#0f172a,#1e293b)"></div>
+            Estadio de noche
+          </button>
+          <button class="bg-option" data-theme="theme-champions" onclick="setBgTheme('theme-champions',this)">
+            <div class="bg-swatch" style="background:linear-gradient(135deg,#1e1b4b,#1e40af)"></div>
+            Champions
+          </button>
+          <button class="bg-option" data-theme="theme-cesped" onclick="setBgTheme('theme-cesped',this)">
+            <div class="bg-swatch" style="background:linear-gradient(135deg,#065f46,#047857)"></div>
+            Verde c&eacute;sped
+          </button>
+          <button class="bg-option" data-theme="theme-minimal" onclick="setBgTheme('theme-minimal',this)">
+            <div class="bg-swatch" style="background:linear-gradient(135deg,#0a0a0a,#1a1a1a)"></div>
+            Minimalista
+          </button>
+          <button class="bg-option" data-theme="theme-cancha" onclick="setBgTheme('theme-cancha',this)">
+            <div class="bg-swatch" style="background:linear-gradient(135deg,#0a1f0d,#0d4d1f)"></div>
+            Cancha realista
+          </button>
+          <button class="bg-option" data-theme="theme-premium" onclick="setBgTheme('theme-premium',this)">
+            <div class="bg-swatch" style="background:linear-gradient(135deg,#1a1a1a,#2d2d2d)"></div>
+            Premium dorado
+          </button>
+        </div>
+      </div>
       <!-- Login button -->
       <button id="btn-login" onclick="toggleLoginModal()"
         class="px-3.5 py-1.5 rounded-lg border border-[var(--lb)] text-[13px] font-medium hover:border-[var(--pos)] hover:text-[var(--pos)] transition-colors">
@@ -432,19 +700,13 @@
     <div id="hero-date" class="font-mono text-[11px] tracking-widest uppercase mb-3" style="color:var(--pos)"></div>
     <h1 class="text-4xl md:text-[50px] font-semibold tracking-tight leading-[1.08] mb-4">
       Hoy juegan <span id="hero-count" style="color:var(--pos)">&#x2014;</span> partidos<br>
-      de Champions. <span class="text-[#97A0B5] font-normal">Esto es lo que dice el modelo.</span>
+      de Champions. <span class="money-text">Esto es lo que dice el modelo.</span>
     </h1>
     <p class="text-[#97A0B5] text-base max-w-2xl leading-relaxed">
       El partido que hoy encontramos con valor y que nuestra IA predice mejor es:
     </p>
   </div>
-  <!-- Deco ball -->
-  <div class="absolute -right-20 -top-20 w-96 h-96 opacity-[0.04] pointer-events-none">
-    <svg viewBox="0 0 200 200" fill="none"><circle cx="100" cy="100" r="90" stroke="#00E5A0" stroke-width="2"/>
-    <polygon points="100,40 121,55 113,80 87,80 79,55" stroke="#00E5A0" stroke-width="1.5" fill="none"/>
-    <polygon points="40,90 56,80 70,98 60,118 44,114" stroke="#00E5A0" stroke-width="1.5" fill="none"/>
-    <polygon points="160,90 144,80 130,98 140,118 156,114" stroke="#00E5A0" stroke-width="1.5" fill="none"/></svg>
-  </div>
+
 </section>
 
 <!-- ════════════════════ MAIN ════════════════════ -->
@@ -452,9 +714,11 @@
 
   <!-- ★ PICK DEL DÍA -->
   <section id="hoy">
-    <div class="font-mono text-[11px] tracking-widest uppercase mb-3 flex items-center gap-3" style="color:#5A6478">
-      <span style="color:var(--pos)">&#x2605;</span> PICK DEL D&#xCDA;A
+    <div class="font-mono text-[11px] tracking-widest uppercase mb-3 flex items-center gap-2 flex-wrap" style="color:#5A6478">
+      <span class="fire-badge" style="color:var(--amber)"><span class="fire-icon">🔥</span> PICK DEL D&Iacute;A</span>
       <span class="flex-1 h-px bg-[var(--line)]"></span>
+      <span class="viewers-badge">👁 <span id="viewers-num">247</span> viendo ahora</span>
+      <span id="countdown-badge" class="countdown-badge hidden">⏱ <span id="countdown-text">—</span></span>
     </div>
 
     <!-- Estado vacío (no hay pick configurado) -->
@@ -491,6 +755,7 @@
           </button>
         </div>
       </div>
+      <div class="pick-card-glow">
       <div class="pick-card grid md:grid-cols-[1.4fr_1fr]">
 
         <!-- Left: match + probas -->
@@ -557,20 +822,22 @@
         <!-- Right: valores + CTA -->
         <div style="padding:36px 36px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;">
           <div>
-            <h4 class="font-mono text-[11px] tracking-widest uppercase text-[#5A6478] mb-4">Apuestas con valor</h4>
+            <h4 class="font-mono text-[11px] tracking-widest uppercase mb-4 valor-section-title">🎯 Apuestas con valor</h4>
             <div id="pk-valores" class="flex flex-col gap-3">
               <!-- llenado por JS -->
             </div>
           </div>
           <button onclick="document.getElementById('modal-pro').classList.remove('hidden')"
-            class="w-full py-3.5 rounded-lg font-bold text-[14px] tracking-wide transition-opacity hover:opacity-85"
-            style="background:var(--pos);color:#00130C;">
-            Ver predicci&#xF3;n completa &#x2192;
+            class="w-full py-3.5 rounded-lg font-bold text-[14px] tracking-wide hover:opacity-90 btn-pro-shimmer"
+            style="background:linear-gradient(135deg,#00E5A0,#00B27D);color:#00130C;box-shadow:0 8px 28px rgba(0,229,160,.3);transition:opacity .2s,box-shadow .2s;"
+            onmouseover="this.style.boxShadow='0 12px 40px rgba(0,229,160,.5)'" onmouseout="this.style.boxShadow='0 8px 28px rgba(0,229,160,.3)'">
+            ⚡ Ver predicci&oacute;n completa &rarr;
           </button>
-          <p class="text-center text-[10px] text-[#5A6478] mt-2 font-mono">&#x2605; Plan Pro &middot; $5/mes &middot; M&#xE1;s estad&#xED;sticas y partidos</p>
+          <p class="text-center text-[10px] mt-2 font-mono" style="color:var(--amber)">&#x2605; Plan Pro &middot; $5/mes &middot; Acceso inmediato</p>
         </div>
 
       </div>
+      </div><!-- /pick-card-glow -->
 
       <!-- Panel completo de mercados (debajo del card principal del Pick del Día) -->
       <div id="mercados-wrap" class="hidden space-y-4 mt-6">
@@ -579,41 +846,99 @@
           <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A6478]">Mercados de apuestas</span>
           <div class="h-px flex-1 bg-[var(--line)]"></div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div class="rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
-            <h4 class="text-xs font-semibold font-mono uppercase tracking-wider text-[#97A0B5]">Ambos marcan &middot; DNB &middot; Doble opc.</h4>
-            <div id="m-btts" class="space-y-1.5"></div>
-            <div class="h-px bg-[var(--line)]"></div>
-            <div id="m-dnb" class="space-y-1.5"></div>
-            <div class="h-px bg-[var(--line)]"></div>
-            <div id="m-doble" class="space-y-1.5"></div>
+        <!-- Hidden divs (compat con renderMercados/picks viejos) -->
+        <div id="m-btts" class="hidden"></div>
+        <div id="m-dnb" class="hidden"></div>
+        <div id="m-doble" class="hidden"></div>
+        <div id="m-totalgoles" class="hidden"></div>
+        <div id="m-golesequipos" class="hidden"></div>
+        <div id="m-handicap" class="hidden"></div>
+        <div id="m-winbtts" class="hidden"></div>
+        <div id="m-ambas-mitades" class="hidden"></div>
+        <div id="m-scores" class="hidden"></div>
+        <div id="m-htft" class="hidden"></div>
+
+        <!-- Distribuciones útiles (flip cards: front=total / back=por equipo) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+          <!-- GOLES -->
+          <div class="flip-stage">
+            <div id="flip-goles" class="flip-inner">
+              <!-- FRONT -->
+              <div class="flip-face rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--pos)">&#x26BD; Goles (total)</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-goles')">Por equipo &rarr;</button>
+                </div>
+                <div id="m-goles-dist" class="space-y-1.5"></div>
+              </div>
+              <!-- BACK -->
+              <div class="flip-face flip-back rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--pos)">&#x26BD; Goles por equipo</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-goles')">&larr; Total</button>
+                </div>
+                <div id="m-goles-back-e1"></div>
+                <div id="m-goles-back-e2"></div>
+              </div>
+            </div>
           </div>
-          <div class="rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
-            <h4 class="text-xs font-semibold font-mono uppercase tracking-wider text-[#97A0B5]">Total de goles</h4>
-            <div id="m-totalgoles" class="space-y-1.5"></div>
-            <div class="h-px bg-[var(--line)]"></div>
-            <h4 class="text-xs font-semibold font-mono uppercase tracking-wider text-[#97A0B5]">Goles por equipo</h4>
-            <div id="m-golesequipos" class="space-y-1.5"></div>
+
+          <!-- CORNERS -->
+          <div class="flip-stage">
+            <div id="flip-corners" class="flip-inner">
+              <div class="flip-face rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--cyan)">&#x1F3F3; Corners (total)</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-corners')">Por equipo &rarr;</button>
+                </div>
+                <div id="m-corners" class="space-y-1.5"></div>
+              </div>
+              <div class="flip-face flip-back rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--cyan)">&#x1F3F3; Corners por equipo</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-corners')">&larr; Total</button>
+                </div>
+                <div id="m-corners-back-e1"></div>
+                <div id="m-corners-back-e2"></div>
+              </div>
+            </div>
           </div>
-          <div class="rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
-            <h4 class="text-xs font-semibold font-mono uppercase tracking-wider text-[#97A0B5]">H&#xE1;ndicap</h4>
-            <div id="m-handicap" class="space-y-1.5"></div>
-            <div class="h-px bg-[var(--line)]"></div>
-            <h4 class="text-xs font-semibold font-mono uppercase tracking-wider text-[#97A0B5]">Victoria + ambos marcan</h4>
-            <div id="m-winbtts" class="space-y-1.5"></div>
-            <div class="h-px bg-[var(--line)]"></div>
-            <div id="m-ambas-mitades" class="space-y-1.5"></div>
+
+          <!-- AMARILLAS -->
+          <div class="flip-stage">
+            <div id="flip-amarillas" class="flip-inner">
+              <div class="flip-face rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--amber)">&#x1F7E8; Amarillas (total)</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-amarillas')">Por equipo &rarr;</button>
+                </div>
+                <div id="m-amarillas" class="space-y-1.5"></div>
+              </div>
+              <div class="flip-face flip-back rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--amber)">&#x1F7E8; Amarillas por equipo</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-amarillas')">&larr; Total</button>
+                </div>
+                <div id="m-amarillas-back-e1"></div>
+                <div id="m-amarillas-back-e2"></div>
+              </div>
+            </div>
           </div>
+
+          <!-- Compat: divs ocultos viejos -->
+          <div id="m-goles-team-wrap" class="hidden"><div id="m-goles-e1"></div><div id="m-goles-e2"></div></div>
+          <div id="m-corners-team-wrap" class="hidden"><div id="m-corners-e1"></div><div id="m-corners-e2"></div></div>
+          <div id="m-amarillas-team-wrap" class="hidden"><div id="m-amarillas-e1"></div><div id="m-amarillas-e2"></div></div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="rounded-xl p-4 border border-[var(--lb)]" style="background:rgba(19,24,38,.7)">
-            <h4 class="text-xs font-semibold font-mono uppercase tracking-wider text-[#97A0B5] mb-3">Resultado correcto</h4>
-            <div id="m-scores" class="grid grid-cols-2 gap-1.5"></div>
+
+        <!-- Tabla grande comparativa de stats de los equipos -->
+        <div id="m-stats-equipos-wrap" class="hidden rounded-xl p-5 border border-[var(--lb)] mt-4" style="background:rgba(19,24,38,.7)">
+          <div class="flex items-baseline gap-3 mb-4">
+            <h4 class="text-sm font-semibold tracking-tight">Estad&iacute;sticas de los equipos</h4>
+            <span class="font-mono text-[10px] text-[#5A6478]">Promedios por partido</span>
           </div>
-          <div class="rounded-xl p-4 border border-[var(--lb)]" style="background:rgba(19,24,38,.7)">
-            <h4 class="text-xs font-semibold font-mono uppercase tracking-wider text-[#97A0B5] mb-3">HT / FT</h4>
-            <div id="m-htft" class="grid grid-cols-3 gap-1.5"></div>
-          </div>
+          <div id="m-stats-equipos"></div>
         </div>
       </div>
     </div>
@@ -1049,9 +1374,10 @@ function renderFeaturedPick(pick) {
     histWrap.classList.add('hidden');
   }
 
-  // Panel completo de mercados (BTTS sí/no, DNB, O/U, hándicap, HT/FT, etc.)
+  // Panel completo de mercados
   if (pick.mercados) {
     renderMercados(pick.mercados, pick.equipo1, pick.equipo2);
+    renderStatsEquipos(pick.stats_equipos, pick.equipo1, pick.equipo2);
   } else {
     document.getElementById('mercados-wrap').classList.add('hidden');
   }
@@ -1115,7 +1441,23 @@ document.getElementById('form-set-pick').addEventListener('submit', async e => {
     // 2. Auto-seleccionar los 3 valores desde los mercados
     const valores = autoValores(pred.mercados, e1, e2);
 
-    const modelosConAcc = (pred.modelos||[]);
+    // 3. Guardar el pick en el backend
+    const body = {
+      equipo1: e1, equipo2: e2, hora, fase,
+      prob_win:  pred.consenso?.win  ?? 0,
+      prob_draw: pred.consenso?.draw ?? 0,
+      prob_loss: pred.consenso?.loss ?? 0,
+      valores, mercados: pred.mercados,
+      modelos: pred.modelos || [],
+      goles:   pred.goles   || [],
+      ultimos_e1: pred.ultimos_e1 || [],
+      ultimos_e2: pred.ultimos_e2 || [],
+      stats_equipos: pred.stats_equipos || null,
+    };
+    const res = await fetch(`${API_BASE}/api/admin/featured-pick`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(body),
+    });
     if (!res.ok) throw new Error(await res.text());
 
     // 4. Mostrar en la página
@@ -1275,85 +1617,212 @@ function renderMercados(m, e1, e2) {
   if (!m) return;
   document.getElementById('mercados-wrap').classList.remove('hidden');
 
-  // BTTS
-  document.getElementById('m-btts').innerHTML =
-    mRow('Ambos marcan · SÍ', m.btts.si, 'var(--pos)', m.btts.si > 0.5) +
-    mRow('Ambos marcan · NO', m.btts.no, 'var(--red)');
+  // ── Helper: render distribución (goles/corners/amarillas) ───────────
+  function renderDist(elId, d, label, unit, accentColor) {
+    if (!d) return;
+    const top = d.top5 || [];
+    const maxP = top.length ? Math.max(...top.map(t => t.prob)) : 0;
+    const topBars = top.map(t => {
+      const isMode = t.valor === d.mas_probable;
+      const pct = (t.prob * 100).toFixed(1);
+      const barW = maxP > 0 ? (t.prob / maxP * 100) : 0;
+      return `
+        <div class="flex items-center gap-2 ${isMode ? 'font-bold' : ''}">
+          <span class="font-mono text-[12px] w-6 text-right" style="color:${isMode ? accentColor : '#97A0B5'}">${t.valor}</span>
+          <div class="flex-1 h-2 rounded bg-[rgba(255,255,255,.04)] overflow-hidden">
+            <div class="h-full rounded" style="width:${barW}%;background:${isMode ? accentColor : 'rgba(255,255,255,.18)'}"></div>
+          </div>
+          <span class="font-mono text-[11px] w-10 text-right" style="color:${isMode ? accentColor : '#97A0B5'}">${pct}%</span>
+        </div>`;
+    }).join('');
 
-  // DNB
-  document.getElementById('m-dnb').innerHTML =
-    mRow(`DNB · gana ${e1}`, m.dnb[e1], 'var(--pos)') +
-    mRow(`DNB · gana ${e2}`, m.dnb[e2], 'var(--red)');
+    // Buscar las mejores apuestas: Over X.5 con prob 65-90% (seguras pero apostables)
+    const overLines = Object.entries(d)
+      .filter(([k,v]) => k.startsWith('over_') && typeof v === 'number')
+      .map(([k,v]) => ({ line: parseFloat(k.replace('over_','').replace('_','.')), prob: v }))
+      .filter(x => !isNaN(x.line));
 
-  // Doble oportunidad
-  document.getElementById('m-doble').innerHTML =
-    Object.entries(m.doble_oportunidad).map(([k,v]) => mRow(k, v, 'var(--cyan)')).join('');
+    // Mejor Over seguro: el con prob más alta cercana al 75-85%
+    const goodOver = overLines.filter(x => x.prob >= 0.65 && x.prob <= 0.92).sort((a,b)=>b.prob-a.prob)[0];
+    // Mejor Under seguro: 1 - over, buscar el con prob más alta cercana
+    const underCandidates = overLines.map(x => ({ line: x.line, prob: 1 - x.prob }))
+      .filter(x => x.prob >= 0.65 && x.prob <= 0.92).sort((a,b)=>b.prob-a.prob);
+    const goodUnder = underCandidates[0];
 
-  // Total goles
-  const tg = m.total_goles;
-  document.getElementById('m-totalgoles').innerHTML = [
-    mRow(`Más de 0.5 goles`, tg.over_0_5, 'var(--pos)'),
-    mRow(`Más de 1.5 goles`, tg.over_1_5, 'var(--pos)', tg.over_1_5 > 0.6),
-    mRow(`Más de 2.5 goles`, tg.over_2_5, 'var(--pos)', tg.over_2_5 > 0.5),
-    mRow(`Más de 3.5 goles`, tg.over_3_5, 'var(--amber)'),
-    mRow(`Más de 4.5 goles`, tg.over_4_5, 'var(--amber)'),
-    `<div class="flex items-center justify-between pt-1 border-t border-[var(--line)]">
-       <span class="text-[11px] text-[#5A6478] font-mono">xG total esperado</span>
-       <span class="font-mono text-[13px] font-bold text-[var(--cyan)]">${tg.xg.toFixed(2)}</span>
-     </div>`,
-  ].join('');
+    const apuestaRows = [];
+    if (goodOver) apuestaRows.push(`
+      <div class="flex items-center justify-between rounded px-2 py-1.5" style="background:rgba(0,229,160,.06);border:1px solid rgba(0,229,160,.2)">
+        <span class="text-[11px] font-mono" style="color:var(--pos)">✓ Más de ${goodOver.line} ${unit}</span>
+        <span class="font-mono text-[12px] font-bold" style="color:var(--pos)">${(goodOver.prob*100).toFixed(1)}%</span>
+      </div>`);
+    if (goodUnder) apuestaRows.push(`
+      <div class="flex items-center justify-between rounded px-2 py-1.5" style="background:rgba(255,77,94,.06);border:1px solid rgba(255,77,94,.2)">
+        <span class="text-[11px] font-mono" style="color:var(--red)">✓ Menos de ${goodUnder.line} ${unit}</span>
+        <span class="font-mono text-[12px] font-bold" style="color:var(--red)">${(goodUnder.prob*100).toFixed(1)}%</span>
+      </div>`);
 
-  // Goles por equipo
-  const ge1 = m.goles_e1, ge2 = m.goles_e2;
-  document.getElementById('m-golesequipos').innerHTML = [
-    `<div class="text-[10px] text-[var(--pos)] font-mono uppercase mb-1">${e1} (xG ${ge1.xg})</div>`,
-    mRow('Marca al menos 1', ge1.over_0_5, 'var(--pos)'),
-    mRow('Marca 2+', ge1.over_1_5, 'var(--amber)'),
-    `<div class="text-[10px] text-[var(--red)] font-mono uppercase mt-2 mb-1">${e2} (xG ${ge2.xg})</div>`,
-    mRow('Marca al menos 1', ge2.over_0_5, 'var(--pos)'),
-    mRow('Marca 2+', ge2.over_1_5, 'var(--amber)'),
-  ].join('');
+    document.getElementById(elId).innerHTML = `
+      <!-- Recomendación principal -->
+      <div class="rounded-lg p-3 mb-2" style="background:linear-gradient(135deg,${accentColor}1A,rgba(19,24,38,.6));border:1px solid ${accentColor}55">
+        <div class="font-mono text-[9px] uppercase tracking-widest mb-1" style="color:${accentColor}">🎯 Lo más probable</div>
+        <div class="flex items-baseline gap-2">
+          <span class="text-[28px] font-bold leading-none" style="color:${accentColor}">${d.mas_probable}</span>
+          <span class="text-[13px] text-[#97A0B5]">${unit}</span>
+          <span class="ml-auto font-mono text-[12px] text-[#97A0B5]">${(d.mas_probable_p*100).toFixed(1)}% chance</span>
+        </div>
+      </div>
+      <!-- Apuestas seguras (Over/Under con buen balance probabilidad/valor) -->
+      ${apuestaRows.length ? `
+      <div class="space-y-1.5 mb-2">
+        <div class="font-mono text-[9px] uppercase tracking-widest mb-1" style="color:#5A6478">Apuestas seguras</div>
+        ${apuestaRows.join('')}
+      </div>` : ''}
+      <!-- Distribución top 5 -->
+      <div class="space-y-1 mb-2">
+        <div class="font-mono text-[9px] uppercase tracking-widest mb-1" style="color:#5A6478">Top 5 valores más probables</div>
+        ${topBars}
+      </div>
+      <!-- Pie -->
+      <div class="flex items-center justify-between pt-2 border-t border-[var(--line)]">
+        <span class="text-[10px] text-[#5A6478] font-mono uppercase">${label} esperado</span>
+        <span class="font-mono text-[13px] font-bold" style="color:${accentColor}">${d.esperado}</span>
+      </div>`;
+  }
 
-  // Hándicap
-  document.getElementById('m-handicap').innerHTML =
-    Object.entries(m.handicap).map(([k,v]) => mRow(k, v, 'var(--purple)')).join('');
+  renderDist('m-goles-dist', m.goles_dist, 'Goles',     'goles',     'var(--pos)');
+  renderDist('m-corners',    m.corners,    'Corners',   'corners',   'var(--cyan)');
+  renderDist('m-amarillas',  m.amarillas,  'Amarillas', 'amarillas', 'var(--amber)');
 
-  // Win + BTTS
-  document.getElementById('m-winbtts').innerHTML =
-    mRow(`Gana ${e1} + ambos marcan`, m.win_btts[e1], 'var(--pos)') +
-    mRow(`Gana ${e2} + ambos marcan`, m.win_btts[e2], 'var(--red)');
+  // ── Mini-panel por equipo ────────────────────────────────────────
+  function renderTeamMini(elId, dist, teamName, unit, color) {
+    const el = document.getElementById(elId);
+    if (!el || !dist) return;
+    el.innerHTML = `
+      <div class="flex items-center justify-between rounded px-2 py-1.5" style="background:rgba(19,24,38,.6);border:1px solid var(--line)">
+        <div class="flex flex-col">
+          <span class="text-[11px] truncate max-w-[100px]" style="color:${color}">${teamName}</span>
+          <span class="font-mono text-[9px] text-[#5A6478]">esp: ${dist.esperado}</span>
+        </div>
+        <div class="text-right">
+          <span class="font-mono text-[18px] font-bold" style="color:${color}">${dist.mas_probable}</span>
+          <div class="font-mono text-[9px] text-[#5A6478]">${(dist.mas_probable_p*100).toFixed(0)}%</div>
+        </div>
+      </div>`;
+  }
 
-  // Gol en ambas mitades
-  document.getElementById('m-ambas-mitades').innerHTML =
-    `<div class="text-[10px] text-[#5A6478] font-mono uppercase mb-1">Gol en ambas mitades</div>` +
-    mRow('Hay gol en 1T y en 2T', m.gol_ambas_mitades, 'var(--cyan)', m.gol_ambas_mitades > 0.5);
+  // ── Renderiza un mini-card por equipo en el back del flip card ───
+  function renderTeamCard(elId, dist, teamName, unit, color) {
+    const el = document.getElementById(elId);
+    if (!el || !dist) { if (el) el.innerHTML = ''; return; }
 
-  // Resultado correcto
-  document.getElementById('m-scores').innerHTML = m.resultado_correcto.map(s => {
-    const isWin = s.g1 > s.g2, isDraw = s.g1 === s.g2, isLoss = s.g1 < s.g2;
-    const c = isWin ? 'var(--pos)' : isDraw ? 'var(--amber)' : 'var(--red)';
-    return `<div class="flex items-center justify-between rounded-lg px-2.5 py-2 border border-[var(--line)]"
-      style="background:rgba(19,24,38,.8)">
-      <span class="font-mono text-[13px] font-bold" style="color:${c}">${s.score}</span>
-      <span class="font-mono text-[12px] text-[#97A0B5]">${(s.prob*100).toFixed(1)}%</span>
-    </div>`;
+    // Mejores Over y Under con prob 65-92%
+    const overLines = Object.entries(dist)
+      .filter(([k,v]) => k.startsWith('over_') && typeof v === 'number')
+      .map(([k,v]) => ({ line: parseFloat(k.replace('over_','').replace('_','.')), prob: v }))
+      .filter(x => !isNaN(x.line));
+    const goodOver  = overLines.filter(x => x.prob >= 0.65 && x.prob <= 0.92).sort((a,b)=>b.prob-a.prob)[0];
+    const goodUnder = overLines.map(x => ({ line: x.line, prob: 1-x.prob }))
+                       .filter(x => x.prob >= 0.65 && x.prob <= 0.92).sort((a,b)=>b.prob-a.prob)[0];
+
+    el.innerHTML = `
+      <div class="rounded-lg p-3 mb-2" style="background:rgba(255,255,255,.02);border:1px solid ${color}33">
+        <div class="flex items-baseline justify-between mb-2">
+          <span class="text-[13px] font-semibold truncate max-w-[140px]" style="color:${color}">${teamName}</span>
+          <span class="font-mono text-[9px] text-[#5A6478]">esp: ${dist.esperado}</span>
+        </div>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="text-[22px] font-bold leading-none" style="color:${color}">${dist.mas_probable}</span>
+          <span class="text-[11px] text-[#97A0B5]">${unit}</span>
+          <span class="ml-auto font-mono text-[10px] text-[#5A6478]">${(dist.mas_probable_p*100).toFixed(0)}%</span>
+        </div>
+        ${goodOver ? `<div class="flex items-center justify-between rounded px-2 py-1 mb-1" style="background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2)">
+          <span class="text-[10px] font-mono" style="color:var(--pos)">✓ Más de ${goodOver.line} ${unit}</span>
+          <span class="font-mono text-[11px] font-bold" style="color:var(--pos)">${(goodOver.prob*100).toFixed(0)}%</span>
+        </div>` : ''}
+        ${goodUnder ? `<div class="flex items-center justify-between rounded px-2 py-1" style="background:rgba(255,77,94,.06);border:1px solid rgba(255,77,94,.2)">
+          <span class="text-[10px] font-mono" style="color:var(--red)">✓ Menos de ${goodUnder.line} ${unit}</span>
+          <span class="font-mono text-[11px] font-bold" style="color:var(--red)">${(goodUnder.prob*100).toFixed(0)}%</span>
+        </div>` : ''}
+      </div>`;
+  }
+
+  renderTeamCard('m-goles-back-e1',     m.goles_e1_dist, e1, 'goles',     'var(--pos)');
+  renderTeamCard('m-goles-back-e2',     m.goles_e2_dist, e2, 'goles',     'var(--red)');
+  renderTeamCard('m-corners-back-e1',   m.corners_e1,    e1, 'corners',   'var(--cyan)');
+  renderTeamCard('m-corners-back-e2',   m.corners_e2,    e2, 'corners',   'var(--purple)');
+  renderTeamCard('m-amarillas-back-e1', m.amarillas_e1,  e1, 'amarillas', 'var(--amber)');
+  renderTeamCard('m-amarillas-back-e2', m.amarillas_e2,  e2, 'amarillas', 'var(--red)');
+}
+
+// Flip toggle
+function flipCard(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('flipped');
+}
+
+// ── Tabla de stats de los equipos ──────────────────────────────────
+function renderStatsEquipos(stats, e1, e2) {
+  const el = document.getElementById('m-stats-equipos');
+  const wrap = document.getElementById('m-stats-equipos-wrap');
+  if (!el || !stats || !stats.e1 || !stats.e2) {
+    if (wrap) wrap.classList.add('hidden');
+    return;
+  }
+  if (wrap) wrap.classList.remove('hidden');
+  const s1 = stats.e1, s2 = stats.e2;
+  const rows = [
+    ['Goles a favor',       s1.goles_for,        s2.goles_for,        'hi'],
+    ['Goles en contra',     s1.goles_against,    s2.goles_against,    'lo'],
+    ['Tiros',               s1.tiros,            s2.tiros,            'hi'],
+    ['Tiros a puerta',      s1.tiros_puerta,     s2.tiros_puerta,     'hi'],
+    ['Oport. claras',       s1.oportunidades,    s2.oportunidades,    'hi'],
+    ['Corners a favor',     s1.corners_for,      s2.corners_for,      'hi'],
+    ['Corners en contra',   s1.corners_against,  s2.corners_against,  'lo'],
+    ['Posesión %',          s1.posesion,         s2.posesion,         'hi'],
+    ['Precisión pase %',    s1.precision_pase,   s2.precision_pase,   'hi'],
+    ['Amarillas',           s1.amarillas,        s2.amarillas,        'lo'],
+    ['Faltas',              s1.faltas,           s2.faltas,           'lo'],
+  ];
+  // Header
+  let html = `
+    <div class="grid grid-cols-[1fr_auto_1fr] gap-2 items-center pb-2 border-b border-[var(--line)] mb-2">
+      <div class="text-left">
+        <div class="font-semibold text-[14px] tracking-tight" style="color:var(--pos)">${s1.nombre}</div>
+        <div class="font-mono text-[10px] text-[#5A6478]">${s1.partidos} partidos</div>
+      </div>
+      <div class="font-mono text-[10px] uppercase tracking-widest text-[#5A6478] px-3">vs</div>
+      <div class="text-right">
+        <div class="font-semibold text-[14px] tracking-tight" style="color:var(--red)">${s2.nombre}</div>
+        <div class="font-mono text-[10px] text-[#5A6478]">${s2.partidos} partidos</div>
+      </div>
+    </div>
+  `;
+  // Rows
+  html += rows.map(([label, v1, v2, hilo]) => {
+    // Ganador: para "hi" gana el más alto; para "lo" gana el más bajo
+    let win1 = false, win2 = false;
+    if (hilo === 'hi') { win1 = v1 > v2; win2 = v2 > v1; }
+    else               { win1 = v1 < v2; win2 = v2 < v1; }
+    const sty1 = win1 ? 'color:var(--pos);font-weight:700' : 'color:#97A0B5';
+    const sty2 = win2 ? 'color:var(--pos);font-weight:700' : 'color:#97A0B5';
+    // Barras proporcionales
+    const max = Math.max(Math.abs(v1), Math.abs(v2), 0.01);
+    const w1 = (Math.abs(v1) / max * 100);
+    const w2 = (Math.abs(v2) / max * 100);
+    return `
+      <div class="grid grid-cols-[1fr_auto_1fr] gap-2 items-center py-1.5">
+        <div class="flex items-center gap-2 justify-end">
+          <span class="font-mono text-[13px]" style="${sty1}">${v1}</span>
+          <div class="h-1.5 rounded" style="width:${w1*0.6}px;max-width:60px;background:${win1?'var(--pos)':'rgba(151,160,181,.3)'}"></div>
+        </div>
+        <div class="text-center font-mono text-[10px] uppercase text-[#5A6478] tracking-wider whitespace-nowrap px-2">${label}</div>
+        <div class="flex items-center gap-2">
+          <div class="h-1.5 rounded" style="width:${w2*0.6}px;max-width:60px;background:${win2?'var(--pos)':'rgba(151,160,181,.3)'}"></div>
+          <span class="font-mono text-[13px]" style="${sty2}">${v2}</span>
+        </div>
+      </div>`;
   }).join('');
-
-  // HT/FT
-  const htft = m.ht_ft;
-  const htftLabels = { W: `Gana ${e1}`, D: 'Empate', L: `Gana ${e2}` };
-  const htftColors = { W: 'var(--pos)', D: 'var(--amber)', L: 'var(--red)' };
-  document.getElementById('m-htft').innerHTML = Object.entries(htft).map(([k, v]) => {
-    const [ht, ft] = k.split('/');
-    const top = Math.max(...Object.values(htft));
-    const hot = v === top;
-    return `<div class="rounded px-2 py-1.5 text-center border ${hot ? '' : ''}"
-      style="background:${hot ? 'rgba(0,229,160,.06)' : 'rgba(19,24,38,.8)'};border-color:${hot ? 'rgba(0,229,160,.3)' : 'var(--line)'}">
-      <div class="font-mono text-[9px] text-[#5A6478] uppercase tracking-wider">HT:${htftLabels[ht].split(' ')[0]}</div>
-      <div class="font-mono text-[9px] text-[#5A6478] uppercase tracking-wider">FT:${htftLabels[ft].split(' ')[0]}</div>
-      <div class="font-mono text-[13px] font-bold mt-1" style="color:${htftColors[ft]}">${(v*100).toFixed(1)}%</div>
-    </div>`;
-  }).join('');
+  el.innerHTML = html;
 }
 
 // ═══ RESOLVER PREDICCIÓN (admin) ════════════════════════════════════
@@ -1516,6 +1985,100 @@ async function renderRecordPublico() {
     tbody.innerHTML = `<tr><td colspan="10" class="text-center py-4 text-[#5A6478] text-xs">Error: ${err.message}</td></tr>`;
   }
 }
+
+// ═══ MARKETING ANIMATIONS ════════════════════════════════════════════
+
+// 1. Social proof: viewer counter simulation
+(function initViewers() {
+  const el = document.getElementById('viewers-num');
+  if (!el) return;
+  let count = 160 + Math.floor(Math.random() * 100);
+  el.textContent = count;
+  function bump() {
+    const delta = Math.random() < 0.65 ? 1 : -1;
+    count = Math.max(100, Math.min(420, count + delta));
+    el.textContent = count;
+    el.classList.remove('viewers-bump');
+    void el.offsetWidth;
+    el.classList.add('viewers-bump');
+    setTimeout(bump, 3000 + Math.random() * 4000);
+  }
+  setTimeout(bump, 2500);
+})();
+
+// 2. Countdown to match start
+function startMatchCountdown() {
+  const horaEl = document.getElementById('pk-hora-disp');
+  const badge   = document.getElementById('countdown-badge');
+  const text    = document.getElementById('countdown-text');
+  if (!horaEl || !badge || !text) return;
+  function tick() {
+    const parts = horaEl.textContent.trim().split(':').map(Number);
+    if (parts.length < 2 || isNaN(parts[0])) return;
+    const now = new Date();
+    const t = new Date(now);
+    t.setHours(parts[0], parts[1], 0, 0);
+    if (t <= now) t.setDate(t.getDate() + 1);
+    const diff = Math.floor((t - now) / 1000);
+    if (diff > 0 && diff < 86400) {
+      const h = Math.floor(diff / 3600);
+      const m = Math.floor((diff % 3600) / 60);
+      const s = diff % 60;
+      text.textContent = h > 0 ? `${h}h ${String(m).padStart(2,'0')}m` : `${m}m ${String(s).padStart(2,'0')}s`;
+      badge.classList.remove('hidden');
+    }
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+// Start countdown whenever pick hora loads
+(function() {
+  new MutationObserver(() => startMatchCountdown())
+    .observe(document.getElementById('pk-hora-disp') || document.body,
+             { childList:true, characterData:true, subtree:true });
+})();
+
+// 4. Spark particles on pick card
+(function initSparks() {
+  const colors = ['#00E5A0','#FFB627','#34D8FF','#8B6DFF'];
+  function spawn() {
+    const card = document.querySelector('.pick-card');
+    if (!card || document.getElementById('pick-card-wrap')?.classList.contains('hidden')) return;
+    const s = document.createElement('div');
+    s.className = 'spark';
+    s.style.cssText = `left:${15+Math.random()*70}%;top:${60+Math.random()*30}%;background:${colors[Math.floor(Math.random()*colors.length)]};`;
+    card.appendChild(s);
+    setTimeout(() => s.remove(), 900);
+  }
+  setInterval(spawn, 1800);
+})();
+
+// ═══ BACKGROUND THEME ════════════════════════════════════════════════
+const _BG_THEMES = ['theme-champions','theme-cesped','theme-minimal','theme-cancha','theme-premium'];
+function applyBgTheme(theme) {
+  _BG_THEMES.forEach(t => document.body.classList.remove(t));
+  if (theme) document.body.classList.add(theme);
+  document.querySelectorAll('.bg-option').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.theme === theme);
+  });
+}
+function setBgTheme(theme, btn) {
+  applyBgTheme(theme);
+  localStorage.setItem('fz_bg', theme);
+  document.getElementById('bg-picker').classList.add('hidden');
+}
+function toggleBgPicker() {
+  document.getElementById('bg-picker').classList.toggle('hidden');
+}
+document.addEventListener('click', e => {
+  const panel = document.getElementById('bg-picker');
+  const trigger = document.getElementById('btn-bg-picker');
+  if (panel && !panel.classList.contains('hidden') && !panel.contains(e.target) && !trigger.contains(e.target)) {
+    panel.classList.add('hidden');
+  }
+});
+applyBgTheme(localStorage.getItem('fz_bg') || '');
 
 // ═══ BOOT ═══════════════════════════════════════════════════════════
 applyRole();

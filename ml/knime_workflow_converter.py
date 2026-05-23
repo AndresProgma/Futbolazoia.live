@@ -253,6 +253,47 @@ def _xg_partido(shots, sot, clear):
             + XG_W_CC  * (clear or 0))
 
 
+MEDIA11_WINDOW = 5   # partidos previos para el rolling de ratings
+
+def compute_media11_rolling_features(df):
+    """Rating medio del once titular: promedio rolling de los últimos
+    MEDIA11_WINDOW partidos ANTERIORES de cada equipo. Sin leakage.
+
+    Los ratings de SofaScore son post-partido (reflejan la performance real),
+    por lo que usar el rating del partido actual sería leakage directo.
+    Esta función toma el historial previo de cada equipo y calcula su
+    rating medio esperado antes del partido.
+
+    Anexa: media11_E1_rolling, media11_E2_rolling, Diff_media11_rolling.
+    """
+    print("⭐ Calculando rating medio del once (rolling pre-partido)...")
+    df = df.copy()
+    historial = {}   # equipo → list de ratings
+
+    r1, r2 = [], []
+    for _, row in df.iterrows():
+        e1, e2 = row['Equipo1'], row['Equipo2']
+        h1 = (historial.get(e1) or [])[-MEDIA11_WINDOW:]
+        h2 = (historial.get(e2) or [])[-MEDIA11_WINDOW:]
+        r1.append(np.mean(h1) if h1 else np.nan)
+        r2.append(np.mean(h2) if h2 else np.nan)
+
+        # Agregar el rating de ESTE partido al historial (para partidos futuros)
+        m1 = row.get('media11_titular_E1')
+        m2 = row.get('media11_titular_E2')
+        if pd.notna(m1):
+            historial.setdefault(e1, []).append(float(m1))
+        if pd.notna(m2):
+            historial.setdefault(e2, []).append(float(m2))
+
+    df['media11_E1_rolling']   = r1
+    df['media11_E2_rolling']   = r2
+    df['Diff_media11_rolling'] = df['media11_E1_rolling'].fillna(0) - df['media11_E2_rolling'].fillna(0)
+
+    print(f"   ✓ Rating rolling calculado (ventana={MEDIA11_WINDOW}) para {len(historial)} equipos")
+    return df, historial
+
+
 def compute_xg_features(df):
     """xG / xGA sintético pre-partido: promedio rolling de los últimos
     XG_WINDOW partidos del equipo (como E1 o E2). Sin leakage.
@@ -613,8 +654,8 @@ def select_columns(df):
         'H2H_W_E1', 'H2H_D', 'H2H_L_E1', 'H2H_GF_E1', 'H2H_GC_E1', 'H2H_N',
         # xG sintético rolling (compute_xg_features) — promedio de partidos previos
         'xG_E1_rolling', 'xGA_E1_rolling', 'xG_E2_rolling', 'xGA_E2_rolling', 'Diff_xG_rolling',
-        # Media alineación titular (pre-partido, calidad del 11 inicial)
-        'media11_titular_E1', 'media11_titular_E2',
+        # Rating medio del once (rolling pre-partido, sin leakage)
+        'media11_E1_rolling', 'media11_E2_rolling', 'Diff_media11_rolling',
         # Rolling pre-partido por mercado (compute_market_rolling_features)
         'Corners_E1_for_ult5', 'Corners_E1_against_ult5',
         'Corners_E2_for_ult5', 'Corners_E2_against_ult5',
@@ -1026,15 +1067,19 @@ def train_regressors(X_train, y1_train, y2_train, X_test, y1_test, y2_test):
 # ============================================================================
 # FLUJO PRINCIPAL
 # ============================================================================
-def main(filepath, test_size=0.2, random_state=42):
+def main(filepath, test_size=0.2, random_state=42, context_filepaths=None):
     """
     Pipeline completo: carga, limpia, transforma y predice el resultado
     del partido (Win / Draw / Loss para Equipo1).
 
     Args:
-        filepath:     Ruta al archivo Excel con datos de partidos
-        test_size:    Proporción de datos de prueba (default 0.2 = 20 %)
-        random_state: Semilla para reproducibilidad
+        filepath:          Ruta al archivo Excel con datos UCL
+        test_size:         Proporción de datos de prueba (default 0.2 = 20 %)
+        random_state:      Semilla para reproducibilidad
+        context_filepaths: Lista de CSVs de otras ligas (ej. Premier League)
+                           usados SOLO para enriquecer las features de ELO,
+                           forma y xG rolling. El modelo entrena y evalúa
+                           únicamente con los partidos UCL del filepath.
     """
     from sklearn.model_selection import train_test_split
 
@@ -1042,11 +1087,30 @@ def main(filepath, test_size=0.2, random_state=42):
     print("⚽ PREDICCIÓN DE RESULTADO — CHAMPIONS LEAGUE")
     print("="*60 + "\n")
 
-    # 1-7. Carga, limpieza, transformación y enriquecimiento
-    df = load_data(filepath)
+    # 1. Carga principal (UCL)
+    df_ucl = load_data(filepath)
+    df_ucl['_es_ucl'] = True
+
+    # 1b. Contexto adicional (PL u otras ligas) — opcional
+    if context_filepaths:
+        dfs_ctx = []
+        for ctx_path in context_filepaths:
+            try:
+                df_ctx = pd.read_csv(ctx_path)
+                df_ctx['_es_ucl'] = False
+                dfs_ctx.append(df_ctx)
+                print(f"   📋 Contexto cargado: {ctx_path} ({len(df_ctx)} partidos)")
+            except Exception as e:
+                print(f"   ⚠ No se pudo cargar contexto {ctx_path}: {e}")
+        if dfs_ctx:
+            df = pd.concat([df_ucl] + dfs_ctx, ignore_index=True)
+            print(f"   ✓ Dataset combinado: {len(df_ucl)} UCL + {len(df)-len(df_ucl)} contexto = {len(df)} total")
+        else:
+            df = df_ucl
+    else:
+        df = df_ucl
 
     # Orden cronológico — crítico para que la validación temporal funcione.
-    # Hay que hacerlo ANTES de select_columns, que descarta Fecha y Partido_id.
     if 'Fecha' in df.columns:
         df['_fecha_orden'] = pd.to_datetime(df['Fecha'], errors='coerce')
         sort_cols = ['_fecha_orden']
@@ -1065,13 +1129,22 @@ def main(filepath, test_size=0.2, random_state=42):
             df.loc[mask_final, 'Es_Local_E1'] = 0
             print(f"   ✓ {int(mask_final.sum())} partido(s) de Final marcados como sede neutral")
 
-    # Features pre-partido (orden crítico: deben ir después del sort cronológico)
+    # Features pre-partido — se calculan sobre el dataset completo (UCL + contexto)
+    # para que los historiales de ELO/forma/xG incluyan partidos de otras ligas.
     df = compute_uefa_coef_features(df)
     df, team_elos = compute_elo_features(df)
     df, team_historial = compute_form_features(df)
     df, h2h_log = compute_h2h_features(df)
     df, xg_historial = compute_xg_features(df)
+    df, media11_historial = compute_media11_rolling_features(df)
 
+    # Filtrar: a partir de aquí solo trabaja con partidos UCL
+    if context_filepaths and '_es_ucl' in df.columns:
+        n_antes = len(df)
+        df = df[df['_es_ucl'] == True].copy().reset_index(drop=True)
+        print(f"   ✓ Filtrado a UCL: {n_antes} → {len(df)} partidos (contexto excluido del modelo)")
+
+    df_raw_stats = df.copy()   # conservar stats brutas (corners, amarillas, etc.)
     df = select_columns(df)
     df = handle_missing_values(df, strategy='mean')
     df = create_derived_variables(df)
@@ -1245,6 +1318,7 @@ def main(filepath, test_size=0.2, random_state=42):
 
     return {
         'df': df,
+        'df_raw_stats': df_raw_stats,
         'df_model': df_model,
         'models': models,
         'regressors': regressors,
@@ -1257,6 +1331,7 @@ def main(filepath, test_size=0.2, random_state=42):
         'team_historial': team_historial,
         'h2h_log': h2h_log,
         'xg_historial': xg_historial,
+        'media11_historial': media11_historial,
         'feature_importance': feature_importance,
         'full_models': full_models,
         'full_regressors': full_regressors,
@@ -1306,9 +1381,65 @@ def ultimos_partidos(df: pd.DataFrame, equipo: str, n: int = 3) -> list:
     return result
 
 
+def _distribution_summary(samples: np.ndarray) -> dict:
+    """
+    Analiza la distribución de un mercado discreto (corners, amarillas, goles).
+    Devuelve:
+      - esperado       : media simulada
+      - mas_probable   : moda (entero más probable) y su % individual
+      - top5           : top 5 valores con su probabilidad
+      - rango_60 / 80  : el rango más estrecho que cubre 60% / 80% de la probabilidad (HPD)
+      - over_lines     : probabilidades Over X.5 para todas las líneas relevantes
+    """
+    samples = samples.astype(int)
+    counts  = np.bincount(samples)
+    probs   = counts / counts.sum()
+
+    # Moda
+    mode = int(np.argmax(probs))
+    mode_prob = float(probs[mode])
+
+    # Top 5
+    top_idx = np.argsort(-probs)[:5]
+    top5 = [{'valor': int(i), 'prob': round(float(probs[i]), 4)} for i in top_idx if probs[i] > 0]
+
+    # HPD: rango más estrecho que cubre target% (acumular los más probables)
+    def hpd(target):
+        order = np.argsort(-probs)
+        cum = 0.0
+        chosen = []
+        for i in order:
+            chosen.append(int(i))
+            cum += probs[i]
+            if cum >= target:
+                break
+        return int(min(chosen)), int(max(chosen)), round(float(cum), 4)
+
+    r60_lo, r60_hi, p60 = hpd(0.60)
+    r80_lo, r80_hi, p80 = hpd(0.80)
+
+    # Over X.5 lines (desde 0.5 hasta el max+1)
+    max_val = int(samples.max())
+    over_lines = {}
+    for k in range(max_val + 1):
+        over_lines[f'over_{k}_5'] = round(float((samples > k + 0.5).mean()), 4)
+
+    return {
+        'esperado'       : round(float(samples.mean()), 1),
+        'mas_probable'   : mode,
+        'mas_probable_p' : round(mode_prob, 4),
+        'top5'           : top5,
+        'rango_60'       : {'lo': r60_lo, 'hi': r60_hi, 'prob': p60},
+        'rango_80'       : {'lo': r80_lo, 'hi': r80_hi, 'prob': p80},
+        **over_lines,
+    }
+
+
 def simular_mercados(g1_exp: float, g2_exp: float,
                      prob_win: float, prob_draw: float, prob_loss: float,
                      equipo1: str, equipo2: str,
+                     lam_corners_e1: float = 4.5, lam_corners_e2: float = 4.5,
+                     lam_amarillas_e1: float = 1.8, lam_amarillas_e2: float = 1.8,
                      n_sims: int = 20_000) -> dict:
     """
     Simulación Monte Carlo (Poisson) para estimar probabilidades de todos
@@ -1316,15 +1447,31 @@ def simular_mercados(g1_exp: float, g2_exp: float,
 
     g1_exp / g2_exp: goles esperados promedio de los regresores.
     prob_win/draw/loss: consenso del clasificador (más preciso para 1X2 y DNB).
+    lam_corners_e1/e2: promedio histórico de corners por partido de cada equipo.
+    lam_amarillas_e1/e2: promedio histórico de amarillas por partido.
     """
     rng = np.random.default_rng(42)
 
     lam1 = max(g1_exp, 0.05)
     lam2 = max(g2_exp, 0.05)
 
-    # Simular partido completo
+    # Simular partido completo — goles
     g1 = rng.poisson(lam1, n_sims)
     g2 = rng.poisson(lam2, n_sims)
+
+    # Simular corners
+    lc1 = max(lam_corners_e1, 0.5)
+    lc2 = max(lam_corners_e2, 0.5)
+    c1 = rng.poisson(lc1, n_sims)
+    c2 = rng.poisson(lc2, n_sims)
+    ctotal = c1 + c2
+
+    # Simular amarillas
+    la1 = max(lam_amarillas_e1, 0.1)
+    la2 = max(lam_amarillas_e2, 0.1)
+    a1 = rng.poisson(la1, n_sims)
+    a2 = rng.poisson(la2, n_sims)
+    atotal = a1 + a2
     total = g1 + g2
     diff  = g1.astype(int) - g2.astype(int)
 
@@ -1423,6 +1570,18 @@ def simular_mercados(g1_exp: float, g2_exp: float,
         ), 4),
         # Descanso / Tiempo reglamentario
         'ht_ft': ht_ft,
+        # Corners — distribución completa (total + por equipo)
+        'corners':    _distribution_summary(ctotal),
+        'corners_e1': _distribution_summary(c1),
+        'corners_e2': _distribution_summary(c2),
+        # Amarillas — total + por equipo
+        'amarillas':    _distribution_summary(atotal),
+        'amarillas_e1': _distribution_summary(a1),
+        'amarillas_e2': _distribution_summary(a2),
+        # Goles — total + por equipo
+        'goles_dist':    _distribution_summary(g1.astype(int) + g2.astype(int)),
+        'goles_e1_dist': _distribution_summary(g1.astype(int)),
+        'goles_e2_dist': _distribution_summary(g2.astype(int)),
     }
 
 
@@ -1503,6 +1662,13 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
     if h_xg_e1 or h_xg_e2:
         print(f"   xG últ.{XG_WINDOW}: {equipo1} {xg_e1_roll:.2f} (xGA {xga_e1_roll:.2f})  ·  {equipo2} {xg_e2_roll:.2f} (xGA {xga_e2_roll:.2f})")
 
+    # Rating medio del once (rolling últimos MEDIA11_WINDOW partidos, con contexto PL)
+    m11_hist = results.get('media11_historial', {})
+    h_m11_e1 = (m11_hist.get(equipo1) or [])[-MEDIA11_WINDOW:]
+    h_m11_e2 = (m11_hist.get(equipo2) or [])[-MEDIA11_WINDOW:]
+    m11_e1 = float(np.mean(h_m11_e1)) if h_m11_e1 else float(df_model.get('media11_E1_rolling', pd.Series([np.nan])).mean())
+    m11_e2 = float(np.mean(h_m11_e2)) if h_m11_e2 else float(df_model.get('media11_E2_rolling', pd.Series([np.nan])).mean())
+
     # Coeficiente UEFA
     coef_e1 = UEFA_COEF.get(equipo1, UEFA_COEF_DEFAULT)
     coef_e2 = UEFA_COEF.get(equipo2, UEFA_COEF_DEFAULT)
@@ -1521,6 +1687,8 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
         'xG_E1_rolling': xg_e1_roll, 'xGA_E1_rolling': xga_e1_roll,
         'xG_E2_rolling': xg_e2_roll, 'xGA_E2_rolling': xga_e2_roll,
         'Diff_xG_rolling': xg_e1_roll - xg_e2_roll,
+        'media11_E1_rolling': m11_e1, 'media11_E2_rolling': m11_e2,
+        'Diff_media11_rolling': m11_e1 - m11_e2,
         'Coef_UEFA_E1': coef_e1, 'Coef_UEFA_E2': coef_e2,
         'Diff_Coef_UEFA': coef_e1 - coef_e2,
     }
@@ -1686,10 +1854,67 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
     # Usar el promedio de goles esperados de todos los regresores
     g1_exp = np.mean([g['g1'] for g in goles_out]) if goles_out else 1.2
     g2_exp = np.mean([g['g2'] for g in goles_out]) if goles_out else 1.0
+
+    # Stats brutas (corners, amarillas) desde el df pre-select_columns
+    _dfr = results.get('df_raw_stats')
+
+    def _team_avg(equipo, col_e1, col_e2, fallback=0.0):
+        if _dfr is None or col_e1 not in _dfr.columns:
+            return fallback
+        try:
+            v1 = pd.to_numeric(_dfr[_dfr['Equipo1'] == equipo][col_e1], errors='coerce').dropna()
+            v2 = pd.to_numeric(_dfr[_dfr['Equipo2'] == equipo][col_e2], errors='coerce').dropna()
+            vals = list(v1) + list(v2)
+            return float(np.mean(vals)) if vals else fallback
+        except Exception:
+            return fallback
+
+    def _global(col, fallback):
+        if _dfr is None or col not in _dfr.columns:
+            return fallback
+        v = pd.to_numeric(_dfr[col], errors='coerce').mean()
+        return float(v) if pd.notna(v) else fallback
+
+    _gc = _global('Saques_de_esquina_sacados_E1', 4.5)
+    _ga = _global('Tarjetas_amarillas_E1', 1.8)
+
+    lam_corners_e1   = _team_avg(equipo1, 'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', _gc)
+    lam_corners_e2   = _team_avg(equipo2, 'Saques_de_esquina_sacados_E2', 'Saques_de_esquina_sacados_E1', _gc)
+    lam_amarillas_e1 = _team_avg(equipo1, 'Tarjetas_amarillas_E1', 'Tarjetas_amarillas_E2', _ga)
+    lam_amarillas_e2 = _team_avg(equipo2, 'Tarjetas_amarillas_E2', 'Tarjetas_amarillas_E1', _ga)
+
+    # ── Stats completos de cada equipo (para tabla comparativa) ─────
+    def _team_full_stats(equipo):
+        n = 0
+        if _dfr is not None:
+            n = int((_dfr['Equipo1'] == equipo).sum() + (_dfr['Equipo2'] == equipo).sum())
+        return {
+            'nombre':           equipo,
+            'partidos':         n,
+            'goles_for':        round(_team_avg(equipo, 'EQUIPO1_GOLES', 'EQUIPO2_GOLES', 0), 2),
+            'goles_against':    round(_team_avg(equipo, 'EQUIPO2_GOLES', 'EQUIPO1_GOLES', 0), 2),
+            'corners_for':      round(_team_avg(equipo, 'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', 0), 1),
+            'corners_against':  round(_team_avg(equipo, 'Saques_de_esquina_sacados_E2', 'Saques_de_esquina_sacados_E1', 0), 1),
+            'tiros':            round(_team_avg(equipo, 'Disparos_totales_E1', 'Disparos_totales_E2', 0), 1),
+            'tiros_puerta':     round(_team_avg(equipo, 'Disparos_a_puerta_E1', 'Disparos_a_puerta_E2', 0), 1),
+            'amarillas':        round(_team_avg(equipo, 'Tarjetas_amarillas_E1', 'Tarjetas_amarillas_E2', 0), 2),
+            'faltas':           round(_team_avg(equipo, 'Faltas_cometidas_E1', 'Faltas_cometidas_E2', 0), 1),
+            'posesion':         round(_team_avg(equipo, 'Posesion_E1', 'Posesion_E2', 0), 1),
+            'precision_pase':   round(_team_avg(equipo, 'Precision_pase_E1', 'Precision_pase_E2', 0), 1),
+            'oportunidades':    round(_team_avg(equipo, 'Oportunidades_claras_E1', 'Oportunidades_claras_E2', 0), 1),
+        }
+
+    stats_equipos = {
+        'e1': _team_full_stats(equipo1),
+        'e2': _team_full_stats(equipo2),
+    }
+
     mercados = simular_mercados(
         g1_exp=float(g1_exp), g2_exp=float(g2_exp),
         prob_win=w_c, prob_draw=d_c, prob_loss=l_c,
         equipo1=equipo1, equipo2=equipo2,
+        lam_corners_e1=lam_corners_e1, lam_corners_e2=lam_corners_e2,
+        lam_amarillas_e1=lam_amarillas_e1, lam_amarillas_e2=lam_amarillas_e2,
     )
 
     return {
@@ -1708,6 +1933,7 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
         'consenso': {'pred': pred_global, 'win': w_c, 'draw': d_c, 'loss': l_c},
         'goles': goles_out,
         'mercados': mercados,
+        'stats_equipos': stats_equipos,
         'ultimos_e1': ultimos_partidos(df, equipo1, n=3),
         'ultimos_e2': ultimos_partidos(df, equipo2, n=3),
         'equipos_desconocidos': desconocidos,

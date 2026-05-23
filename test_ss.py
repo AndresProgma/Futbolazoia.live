@@ -1,37 +1,41 @@
-"""Chequear partidos disponibles en PL 25/26."""
-from playwright.sync_api import sync_playwright
+"""Test del enriquecedor de lineups en 5 partidos UCL + 5 PL."""
+import sys
+sys.path.insert(0, '.')
+import pandas as pd
+import numpy as np
+from scraper.enriquecer_lineups import (
+    SSSession, construir_indice_ucl,
+    enriquecer_dataset, LINEUP_COLS
+)
 
-with sync_playwright() as p:
-    br  = p.chromium.launch(headless=True)
-    ctx = br.new_context(user_agent='Mozilla/5.0 Chrome/131')
-    pg  = ctx.new_page()
-    pg.goto('https://www.sofascore.com/', wait_until='domcontentloaded', timeout=30000)
+sess = SSSession()
+try:
+    # ── UCL: 5 primeros partidos ──────────────────────────────────────────────
+    print('\n=== UCL (5 partidos) ===')
+    ucl = pd.read_excel('data/creando_dataset_modificado.xlsx').head(5).copy()
+    indice = construir_indice_ucl(sess)
 
-    def api(path):
-        return pg.evaluate(f"""
-            async () => {{
-                const r = await fetch('https://api.sofascore.com/api/v1{path}',
-                    {{headers:{{'Accept':'application/json'}}}});
-                return r.json();
-            }}
-        """)
+    # Mostrar qué partidos hay y si se encuentran en el índice
+    for _, row in ucl.iterrows():
+        key = (str(row['Equipo1']), str(row['Equipo2']), str(row['Fecha'])[:10])
+        eid = indice.get(key)
+        print(f"  {key[0]} vs {key[1]} ({key[2]}) → eid={eid}")
 
-    rounds_data = api('/unique-tournament/17/season/76986/rounds')
-    rounds = [r['round'] for r in rounds_data.get('rounds', [])]
-    print(f'Rounds en 25/26: {len(rounds)} → {rounds}')
+    ucl_enr = enriquecer_dataset(ucl, sess, indice_ucl=indice, es_pl=False)
 
-    terminados = 0
-    pendientes = 0
-    for rnd in rounds:
-        data = api(f'/unique-tournament/17/season/76986/events/round/{rnd}')
-        for ev in data.get('events', []):
-            status = ev.get('status', {}).get('type', '')
-            if status == 'finished':
-                terminados += 1
-            else:
-                pendientes += 1
+    # Mostrar resultados
+    cols_muestra = ['Equipo1','Equipo2','Formacion_E1','GK_Rating_E1',
+                    'Def_Avg_Rating_E1','Mid_Avg_Rating_E1','Fwd_Avg_Rating_E1',
+                    'Top1_Rating_E1','Rating_Std_E1']
+    print('\nResultados UCL:')
+    print(ucl_enr[cols_muestra].to_string())
 
-    print(f'\nTerminados : {terminados}')
-    print(f'Pendientes : {pendientes}')
-    print(f'Total      : {terminados + pendientes}')
-    br.close()
+    # ── PL: 5 primeros partidos ───────────────────────────────────────────────
+    print('\n\n=== PL 24-25 (5 partidos) ===')
+    pl = pd.read_csv('data/premier_2024-25_enriquecido.csv').head(5).copy()
+    pl_enr = enriquecer_dataset(pl, sess, es_pl=True)
+    print('\nResultados PL:')
+    print(pl_enr[cols_muestra].to_string())
+
+finally:
+    sess.close()

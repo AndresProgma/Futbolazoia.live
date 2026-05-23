@@ -36,6 +36,16 @@ from ml.knime_workflow_converter import main as run_pipeline, predecir_partido
 
 DATASET = _PROJECT_ROOT / "data" / "creando_dataset_modificado.xlsx"
 
+# CSVs de Premier League usados como contexto de forma (ELO, xG, forma rolling).
+# El modelo sigue entrenando/evaluando solo en UCL — PL enriquece las features.
+PL_CONTEXT = [
+    p for p in [
+        _PROJECT_ROOT / "data" / "premier_2024-25_enriquecido.csv",
+        _PROJECT_ROOT / "data" / "premier_2025-26_enriquecido.csv",
+    ]
+    if p.exists()
+]
+
 
 def _norm_fecha(f):
     """YYYY-M-D ó YYYY-MM-DD → datetime."""
@@ -131,7 +141,7 @@ def predecir_partido_v2(equipo1, equipo2, fecha=None, fase=None,
     try:
         df_filtrado.to_excel(tmp.name, index=False)
         print(f"\n🧠 Entrenando pipeline sobre el dataset filtrado...\n")
-        results = run_pipeline(tmp.name)
+        results = run_pipeline(tmp.name, context_filepaths=[str(p) for p in PL_CONTEXT])
 
         # 4. Predecir
         print(f"\n{'='*60}")
