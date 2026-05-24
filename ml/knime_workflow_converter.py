@@ -622,9 +622,13 @@ warnings.filterwarnings('ignore')
 # 1. CARGAR DATOS (Excel Reader #4)
 # ============================================================================
 def load_data(filepath):
-    """Carga archivo Excel con datos de partidos deportivos"""
-    print("📂 Cargando datos del archivo Excel...")
-    df = pd.read_excel(filepath)
+    """Carga archivo Excel o CSV con datos de partidos deportivos"""
+    filepath = str(filepath)
+    print(f"📂 Cargando datos de {filepath}...")
+    if filepath.endswith('.csv'):
+        df = pd.read_csv(filepath)
+    else:
+        df = pd.read_excel(filepath)
     print(f"   ✓ {df.shape[0]} filas, {df.shape[1]} columnas cargadas")
     return df
 

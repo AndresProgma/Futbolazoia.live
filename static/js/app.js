@@ -509,6 +509,7 @@ $('btn-guardar-track').addEventListener('click', async () => {
   const fecha = prompt('Fecha del partido (YYYY-MM-DD), o deja vacío:', '');
   try {
     setLoading(true, 'Guardando al track record...');
+    const competencia = document.getElementById('sel-competencia')?.value || 'UCL';
     await api.trackCrear({
       equipo1: r.equipo1,
       equipo2: r.equipo2,
@@ -516,6 +517,7 @@ $('btn-guardar-track').addEventListener('click', async () => {
       evaluacion_id: state.evaluacionId,
       n_runs: r.n_runs,
       fase: r.fase,
+      competencia,
     });
     await cargarTrackPublico();
     alert(`✓ Predicción guardada: ${r.equipo1} vs ${r.equipo2} → ${r.consenso.pred}`);

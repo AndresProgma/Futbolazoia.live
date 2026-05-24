@@ -87,7 +87,10 @@
         <h1 class="text-xl font-semibold">Pick del D&#xED;a</h1>
         <p class="text-sm text-[#97A0B5] mt-0.5">Elige dos equipos, el modelo corre y se publica autom&#xE1;ticamente.</p>
       </div>
-      <button id="btn-eliminar-pick" onclick="eliminarPick()" class="btn-danger hidden">&#x2715; Eliminar pick actual</button>
+      <div class="flex items-center gap-3">
+        <span id="pl-status-badge" class="font-mono text-[10px] px-2 py-0.5 rounded hidden"></span>
+        <button id="btn-eliminar-pick" onclick="eliminarPick()" class="btn-danger hidden">&#x2715; Eliminar pick actual</button>
+      </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -98,17 +101,24 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="label">Equipo local</label>
-            <select id="pk-e1" class="input"></select>
+            <input id="pk-e1" type="text" list="equipos-datalist" class="input" placeholder="Escribe equipo..."/>
           </div>
           <div>
             <label class="label">Equipo visitante</label>
-            <select id="pk-e2" class="input"></select>
+            <input id="pk-e2" type="text" list="equipos-datalist" class="input" placeholder="Escribe equipo..."/>
           </div>
         </div>
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="label">Hora</label>
-            <input id="pk-hora" type="text" value="21:00" class="input"/>
+            <label class="label">Competencia</label>
+            <select id="pk-competencia" class="input">
+              <option value="UCL">UCL</option>
+              <option value="Premier League">Premier League</option>
+              <option value="LaLiga">LaLiga</option>
+              <option value="Bundesliga">Bundesliga</option>
+              <option value="Serie A">Serie A</option>
+              <option value="Ligue 1">Ligue 1</option>
+            </select>
           </div>
           <div>
             <label class="label">Fase</label>
@@ -116,6 +126,12 @@
               <option>Liga</option><option>Octavos</option><option selected>Cuartos</option>
               <option>Semifinal</option><option>Final</option>
             </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="label">Hora</label>
+            <input id="pk-hora" type="text" value="21:00" class="input"/>
           </div>
           <div>
             <label class="label">n_runs</label>
@@ -156,11 +172,11 @@
       <form id="form-predecir" class="grid grid-cols-1 md:grid-cols-5 gap-3 mb-6">
         <div class="md:col-span-2">
           <label class="label">Equipo 1 (local)</label>
-          <select id="sel-e1" class="input"></select>
+          <input id="sel-e1" type="text" list="equipos-datalist" class="input" placeholder="Escribe equipo..."/>
         </div>
         <div class="md:col-span-2">
           <label class="label">Equipo 2 (visitante)</label>
-          <select id="sel-e2" class="input"></select>
+          <input id="sel-e2" type="text" list="equipos-datalist" class="input" placeholder="Escribe equipo..."/>
         </div>
         <div>
           <label class="label">Fase</label>
@@ -168,6 +184,17 @@
             <option value="Liga">Liga</option><option value="Octavos">Octavos</option>
             <option value="Cuartos">Cuartos</option><option value="Semifinal">Semifinal</option>
             <option value="Final">Final (neutral)</option>
+          </select>
+        </div>
+        <div class="md:col-span-2">
+          <label class="label">Competencia (para track)</label>
+          <select id="sel-competencia" class="input">
+            <option value="UCL">UCL</option>
+            <option value="Premier League">Premier League</option>
+            <option value="LaLiga">LaLiga</option>
+            <option value="Bundesliga">Bundesliga</option>
+            <option value="Serie A">Serie A</option>
+            <option value="Ligue 1">Ligue 1</option>
           </select>
         </div>
         <div class="md:col-span-5 flex items-center gap-3">
@@ -424,9 +451,10 @@ async function guardarPick() {
   const e2 = document.getElementById('pk-e2').value;
   if (!e1 || !e2 || e1 === e2) { alert('Elige dos equipos distintos'); return; }
 
-  const hora  = document.getElementById('pk-hora').value || '21:00';
-  const fase  = document.getElementById('pk-fase').value;
-  const nRuns = parseInt(document.getElementById('pk-nruns').value) || 20;
+  const hora        = document.getElementById('pk-hora').value || '21:00';
+  const fase        = document.getElementById('pk-fase').value;
+  const nRuns       = parseInt(document.getElementById('pk-nruns').value) || 20;
+  const competencia = document.getElementById('pk-competencia').value || 'UCL';
 
   const estadoEl = document.getElementById('pk-estado');
   const spinnerEl = document.getElementById('pk-spinner');
@@ -436,7 +464,7 @@ async function guardarPick() {
   msgEl.classList.add('hidden');
 
   try {
-    const pred = await api.predecir({ equipo1:e1, equipo2:e2, fase, n_runs:nRuns, evaluacion_id: state?.evaluacionId||null });
+    const pred = await api.predecir({ equipo1:e1, equipo2:e2, fase, n_runs:nRuns, competencia, evaluacion_id: state?.evaluacionId||null });
 
     // Auto-valores
     const m = pred.mercados;
@@ -456,7 +484,7 @@ async function guardarPick() {
     const modelos = (pred.modelos||[]).map(m2 => ({...m2, accuracy: accMap[m2.modelo]??null}));
 
     const body = {
-      equipo1:e1, equipo2:e2, hora, fase,
+      equipo1:e1, equipo2:e2, hora, fase, competencia,
       prob_win:pred.consenso.win, prob_draw:pred.consenso.draw, prob_loss:pred.consenso.loss,
       valores, mercados:pred.mercados||null, modelos,
       goles: pred.goles||[],
@@ -669,13 +697,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     await Promise.all([cargarEquipos(), cargarPartidos(), cargarMetricas(), cargarRanking(), cargarAdminRecord(), cargarTrackPublico(), cargarFeatureImportance()]);
     renderKpis();
 
-    // Poblar selects del pick
-    const eq = document.getElementById('sel-e1');
-    if (eq && state.equipos.length) {
-      for (const id of ['pk-e1','pk-e2']) {
-        document.getElementById(id).innerHTML = state.equipos.map(e=>`<option>${e}</option>`).join('');
-      }
-      document.getElementById('pk-e2').value = state.equipos[1]||'';
+    // Poblar datalist con todos los equipos (UCL + PL)
+    if (state.equipos.length) {
+      const dl = document.getElementById('equipos-datalist');
+      if (dl) dl.innerHTML = state.equipos.map(e=>`<option value="${e}">`).join('');
     }
 
     // Cargar pick actual
@@ -699,8 +724,28 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+// Estado del modelo PL (polling cada 10s hasta que esté listo)
+async function checkPlStatus() {
+  try {
+    const s = await fetch(`${API_BASE}/api/pl/status`).then(r => r.json());
+    const badge = document.getElementById('pl-status-badge');
+    if (!badge) return;
+    badge.classList.remove('hidden');
+    if (s.listo) {
+      badge.textContent = '✓ Modelo PL listo';
+      badge.style.cssText = 'background:rgba(0,229,160,.12);color:var(--pos);border:1px solid rgba(0,229,160,.3)';
+    } else {
+      badge.textContent = s.status === 'training' ? '⏳ Entrenando modelo PL...' : `PL: ${s.status}`;
+      badge.style.cssText = 'background:rgba(255,182,39,.1);color:var(--amber);border:1px solid rgba(255,182,39,.3)';
+      if (s.status === 'training') setTimeout(checkPlStatus, 10000);
+    }
+  } catch(_) {}
+}
+checkPlStatus();
+
 // Elementos dummy para que app.js no rompa
 window.API_BASE_URL = window.API_BASE_URL || '';
 </script>
+<datalist id="equipos-datalist"></datalist>
 </body>
 </html>

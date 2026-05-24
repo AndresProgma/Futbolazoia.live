@@ -791,7 +791,7 @@
             <div class="d" style="width:27%"></div>
             <div class="l" style="width:24%"></div>
           </div>
-          <div class="grid grid-cols-3 mb-6">
+          <div class="grid grid-cols-3 mb-3">
             <div>
               <div id="pk-win-pct" class="font-mono text-[28px] font-bold leading-none" style="color:var(--pos)">49%</div>
               <div id="pk-e1-label" class="font-mono text-[10px] text-[#5A6478] uppercase tracking-wider mt-1">Gana local</div>
@@ -803,6 +803,43 @@
             <div class="text-right">
               <div id="pk-loss-pct" class="font-mono text-[28px] font-bold leading-none" style="color:var(--red)">24%</div>
               <div id="pk-e2-label" class="font-mono text-[10px] text-[#5A6478] uppercase tracking-wider mt-1">Gana visitante</div>
+            </div>
+          </div>
+
+          <!-- Cuotas justas + reales -->
+          <div id="pk-cuotas" class="rounded-lg px-3 py-2 mb-6" style="background:rgba(255,255,255,.03);border:1px solid var(--line)">
+            <div class="grid grid-cols-3">
+              <div>
+                <div id="pk-cuota-win" class="font-mono text-[15px] font-bold" style="color:var(--pos)">2.04</div>
+                <div class="font-mono text-[8px] text-[#5A6478] uppercase tracking-wide mt-0.5">cuota justa</div>
+              </div>
+              <div class="text-center">
+                <div id="pk-cuota-draw" class="font-mono text-[15px] font-bold" style="color:var(--amber)">3.70</div>
+                <div class="font-mono text-[8px] text-[#5A6478] uppercase tracking-wide mt-0.5">cuota justa</div>
+              </div>
+              <div class="text-right">
+                <div id="pk-cuota-loss" class="font-mono text-[15px] font-bold" style="color:var(--red)">4.17</div>
+                <div class="font-mono text-[8px] text-[#5A6478] uppercase tracking-wide mt-0.5">cuota justa</div>
+              </div>
+            </div>
+            <!-- Cuotas reales (se llena async desde The Odds API) -->
+            <div id="pk-cuotas-reales" class="hidden mt-2 pt-2 border-t border-[var(--line)]">
+              <div class="grid grid-cols-3">
+                <div>
+                  <div id="pk-real-win" class="font-mono text-[15px] font-bold text-white">—</div>
+                  <div class="font-mono text-[8px] text-[#5A6478] uppercase tracking-wide mt-0.5">casa</div>
+                </div>
+                <div class="text-center">
+                  <div id="pk-real-draw" class="font-mono text-[15px] font-bold text-white">—</div>
+                  <div class="font-mono text-[8px] text-[#5A6478] uppercase tracking-wide mt-0.5">casa</div>
+                </div>
+                <div class="text-right">
+                  <div id="pk-real-loss" class="font-mono text-[15px] font-bold text-white">—</div>
+                  <div class="font-mono text-[8px] text-[#5A6478] uppercase tracking-wide mt-0.5">casa</div>
+                </div>
+              </div>
+              <div id="pk-ev-badge" class="mt-1.5 text-center font-mono text-[10px]"></div>
+              <div id="pk-odds-src" class="text-center font-mono text-[8px] text-[#5A6478] mt-0.5"></div>
             </div>
           </div>
 
@@ -822,7 +859,7 @@
         <!-- Right: valores + CTA -->
         <div style="padding:36px 36px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;">
           <div>
-            <h4 class="font-mono text-[11px] tracking-widest uppercase mb-4 valor-section-title">🎯 Apuestas con valor</h4>
+            <h4 class="font-mono text-[11px] tracking-widest uppercase mb-4 valor-section-title">Apuestas recomendadas</h4>
             <div id="pk-valores" class="flex flex-col gap-3">
               <!-- llenado por JS -->
             </div>
@@ -858,70 +895,67 @@
         <div id="m-scores" class="hidden"></div>
         <div id="m-htft" class="hidden"></div>
 
-        <!-- Distribuciones útiles (flip cards: front=total / back=por equipo) -->
+        <!-- Flip cards: front=equipo local / back=equipo visitante -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-          <!-- GOLES -->
+          <!-- GOLES por equipo -->
           <div class="flip-stage">
             <div id="flip-goles" class="flip-inner">
-              <!-- FRONT -->
+              <!-- FRONT: equipo 1 -->
               <div class="flip-face rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
                 <div class="flex items-center justify-between">
-                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--pos)">&#x26BD; Goles (total)</h4>
-                  <button class="flip-btn" onclick="flipCard('flip-goles')">Por equipo &rarr;</button>
+                  <h4 id="flip-goles-h-e1" class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--pos)">&#x26BD; Goles — Local</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-goles')">Visitante &rarr;</button>
                 </div>
-                <div id="m-goles-dist" class="space-y-1.5"></div>
+                <div id="m-goles-e1-front" class="space-y-1.5"></div>
               </div>
-              <!-- BACK -->
+              <!-- BACK: equipo 2 -->
               <div class="flip-face flip-back rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
                 <div class="flex items-center justify-between">
-                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--pos)">&#x26BD; Goles por equipo</h4>
-                  <button class="flip-btn" onclick="flipCard('flip-goles')">&larr; Total</button>
+                  <h4 id="flip-goles-h-e2" class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--red)">&#x26BD; Goles — Visitante</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-goles')">&larr; Local</button>
                 </div>
-                <div id="m-goles-back-e1"></div>
-                <div id="m-goles-back-e2"></div>
+                <div id="m-goles-e2-back" class="space-y-1.5"></div>
               </div>
             </div>
           </div>
 
-          <!-- CORNERS -->
+          <!-- CORNERS por equipo -->
           <div class="flip-stage">
             <div id="flip-corners" class="flip-inner">
               <div class="flip-face rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
                 <div class="flex items-center justify-between">
-                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--cyan)">&#x1F3F3; Corners (total)</h4>
-                  <button class="flip-btn" onclick="flipCard('flip-corners')">Por equipo &rarr;</button>
+                  <h4 id="flip-corners-h-e1" class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--cyan)">&#x1F3F3; Corners — Local</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-corners')">Visitante &rarr;</button>
                 </div>
-                <div id="m-corners" class="space-y-1.5"></div>
+                <div id="m-corners-e1-front" class="space-y-1.5"></div>
               </div>
               <div class="flip-face flip-back rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
                 <div class="flex items-center justify-between">
-                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--cyan)">&#x1F3F3; Corners por equipo</h4>
-                  <button class="flip-btn" onclick="flipCard('flip-corners')">&larr; Total</button>
+                  <h4 id="flip-corners-h-e2" class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--purple)">&#x1F3F3; Corners — Visitante</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-corners')">&larr; Local</button>
                 </div>
-                <div id="m-corners-back-e1"></div>
-                <div id="m-corners-back-e2"></div>
+                <div id="m-corners-e2-back" class="space-y-1.5"></div>
               </div>
             </div>
           </div>
 
-          <!-- AMARILLAS -->
+          <!-- AMARILLAS por equipo -->
           <div class="flip-stage">
             <div id="flip-amarillas" class="flip-inner">
               <div class="flip-face rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
                 <div class="flex items-center justify-between">
-                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--amber)">&#x1F7E8; Amarillas (total)</h4>
-                  <button class="flip-btn" onclick="flipCard('flip-amarillas')">Por equipo &rarr;</button>
+                  <h4 id="flip-amarillas-h-e1" class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--amber)">&#x1F7E8; Amarillas — Local</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-amarillas')">Visitante &rarr;</button>
                 </div>
-                <div id="m-amarillas" class="space-y-1.5"></div>
+                <div id="m-amarillas-e1-front" class="space-y-1.5"></div>
               </div>
               <div class="flip-face flip-back rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
                 <div class="flex items-center justify-between">
-                  <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--amber)">&#x1F7E8; Amarillas por equipo</h4>
-                  <button class="flip-btn" onclick="flipCard('flip-amarillas')">&larr; Total</button>
+                  <h4 id="flip-amarillas-h-e2" class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--red)">&#x1F7E8; Amarillas — Visitante</h4>
+                  <button class="flip-btn" onclick="flipCard('flip-amarillas')">&larr; Local</button>
                 </div>
-                <div id="m-amarillas-back-e1"></div>
-                <div id="m-amarillas-back-e2"></div>
+                <div id="m-amarillas-e2-back" class="space-y-1.5"></div>
               </div>
             </div>
           </div>
@@ -930,6 +964,27 @@
           <div id="m-goles-team-wrap" class="hidden"><div id="m-goles-e1"></div><div id="m-goles-e2"></div></div>
           <div id="m-corners-team-wrap" class="hidden"><div id="m-corners-e1"></div><div id="m-corners-e2"></div></div>
           <div id="m-amarillas-team-wrap" class="hidden"><div id="m-amarillas-e1"></div><div id="m-amarillas-e2"></div></div>
+        </div>
+
+        <!-- Totales del partido -->
+        <div class="flex items-center gap-3 mt-2">
+          <div class="h-px flex-1 bg-[var(--line)]"></div>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A6478]">Total partido</span>
+          <div class="h-px flex-1 bg-[var(--line)]"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
+            <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--pos)">&#x26BD; Goles (partido)</h4>
+            <div id="m-goles-dist" class="space-y-1.5"></div>
+          </div>
+          <div class="rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
+            <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--cyan)">&#x1F3F3; Corners (partido)</h4>
+            <div id="m-corners" class="space-y-1.5"></div>
+          </div>
+          <div class="rounded-xl p-4 border border-[var(--lb)] space-y-3" style="background:rgba(19,24,38,.7)">
+            <h4 class="text-xs font-semibold font-mono uppercase tracking-wider" style="color:var(--amber)">&#x1F7E8; Amarillas (partido)</h4>
+            <div id="m-amarillas" class="space-y-1.5"></div>
+          </div>
         </div>
 
         <!-- Tabla grande comparativa de stats de los equipos -->
@@ -949,10 +1004,11 @@
     <div class="flex items-baseline gap-4 mb-5">
       <h2 class="text-2xl font-semibold tracking-tight">Partidos de hoy</h2>
       <span id="picks-count" class="font-mono text-[11px] text-[#5A6478]"></span>
-      <div class="ml-auto flex gap-2">
+      <div class="ml-auto flex gap-2 flex-wrap">
         <button class="chip active" data-filter="all">Todos</button>
         <button class="chip" data-filter="alta">Alta confianza</button>
-        <button class="chip" data-filter="valor">Con valor</button>
+        <button class="chip" data-filter="ucl">UCL</button>
+        <button class="chip" data-filter="pl">Premier League</button>
       </div>
     </div>
     <div id="picks-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1225,27 +1281,40 @@ function poblarSelectsPick(equipos) {
   if (e1.value === e2.value && equipos.length > 1) e2.value = equipos[1];
 }
 
-// Elige automáticamente los 3 mercados más relevantes como "valores"
-function autoValores(mercados, e1, e2) {
+// Encuentra la mejor línea Over/Under en la zona 62-78%: segura pero con paga decente
+function _mejorLinea(distObj, label) {
+  if (!distObj) return null;
+  const MIN = 0.62, MAX = 0.78, TARGET = 0.70;
+  const candidates = [];
+  for (const [key, prob] of Object.entries(distObj)) {
+    if (!key.startsWith('over_')) continue;
+    const linea = parseFloat(key.replace('over_', '').replace('_', '.'));
+    if (prob >= MIN && prob <= MAX)
+      candidates.push({ tipo: 'Over', linea, prob });
+    const under = 1 - prob;
+    if (under >= MIN && under <= MAX)
+      candidates.push({ tipo: 'Under', linea, prob: under });
+  }
+  if (!candidates.length) return null;
+  candidates.sort((a, b) => Math.abs(a.prob - TARGET) - Math.abs(b.prob - TARGET));
+  const best = candidates[0];
+  return {
+    nombre: `${label} · ${best.tipo} ${best.linea}`,
+    descripcion: `Cuota justa: ${(1 / best.prob).toFixed(2)}`,
+    porcentaje: Math.round(best.prob * 100),
+  };
+}
+
+function autoValores(mercados) {
   if (!mercados) return [];
-  const fav = mercados.dnb[e1] >= mercados.dnb[e2] ? e1 : e2;
-  return [
-    {
-      nombre: 'Ambos marcan · sí',
-      descripcion: 'Ambos equipos anotan al menos 1 gol',
-      porcentaje: Math.round(mercados.btts.si * 100),
-    },
-    {
-      nombre: 'Más de 2.5 goles',
-      descripcion: `xG total esperado: ${mercados.total_goles.xg.toFixed(2)}`,
-      porcentaje: Math.round(mercados.total_goles.over_2_5 * 100),
-    },
-    {
-      nombre: `Apuesta sin empate · ${fav.split(' ')[0]}`,
-      descripcion: 'Si hay empate, devuelven la apuesta',
-      porcentaje: Math.round(mercados.dnb[fav] * 100),
-    },
-  ];
+  const items = [
+    _mejorLinea(mercados.goles_dist,  'Goles'),
+    _mejorLinea(mercados.corners,     'Corners'),
+    _mejorLinea(mercados.amarillas,   'Tarjetas'),
+  ].filter(Boolean);
+  // La de mayor probabilidad va primera (hot)
+  items.sort((a, b) => b.porcentaje - a.porcentaje);
+  return items;
 }
 
 function renderFeaturedPick(pick) {
@@ -1276,6 +1345,15 @@ function renderFeaturedPick(pick) {
   document.getElementById('pk-win-pct').textContent  = `${win}%`;
   document.getElementById('pk-draw-pct').textContent = `${draw}%`;
   document.getElementById('pk-loss-pct').textContent = `${loss}%`;
+
+  // Cuotas justas (1 / probabilidad)
+  const cuotaJusta = p => p > 0 ? (1 / p).toFixed(2) : '—';
+  document.getElementById('pk-cuota-win').textContent  = cuotaJusta(pick.prob_win  || 0);
+  document.getElementById('pk-cuota-draw').textContent = cuotaJusta(pick.prob_draw || 0);
+  document.getElementById('pk-cuota-loss').textContent = cuotaJusta(pick.prob_loss || 0);
+
+  // Cuotas reales de The Odds API (async, no bloquea el render)
+  _cargarCuotasReales(pick);
 
   const bar = document.getElementById('pk-wdl-bar');
   bar.innerHTML = `
@@ -1439,7 +1517,7 @@ document.getElementById('form-set-pick').addEventListener('submit', async e => {
     });
 
     // 2. Auto-seleccionar los 3 valores desde los mercados
-    const valores = autoValores(pred.mercados, e1, e2);
+    const valores = autoValores(pred.mercados);
 
     // 3. Guardar el pick en el backend
     const body = {
@@ -1482,6 +1560,82 @@ function showPkStatus(msg, color) {
   document.getElementById('pk-status-spinner').classList.add('hidden');
 }
 
+// ═══ CUOTAS REALES (The Odds API) ════════════════════════════════════
+async function _cargarCuotasReales(pick) {
+  // Reset to hidden while loading
+  const wrap = document.getElementById('pk-cuotas-reales');
+  if (!wrap) return;
+  wrap.classList.add('hidden');
+  document.getElementById('pk-ev-badge').textContent  = '';
+  document.getElementById('pk-odds-src').textContent  = '';
+  ['pk-real-win','pk-real-draw','pk-real-loss'].forEach(id => {
+    document.getElementById(id).textContent = '—';
+    document.getElementById(id).style.color = '';
+  });
+
+  const e1   = encodeURIComponent(pick.equipo1  || '');
+  const e2   = encodeURIComponent(pick.equipo2  || '');
+  const comp = encodeURIComponent(pick.competencia || 'UCL');
+  if (!e1 || !e2) return;
+
+  let data;
+  try {
+    const r = await fetch(`/api/odds?equipo1=${e1}&equipo2=${e2}&competencia=${comp}`);
+    if (!r.ok) return;          // sin API key o sin partido → silencio
+    data = await r.json();
+  } catch { return; }
+
+  if (!data.disponible) {
+    if (data.motivo) {
+      document.getElementById('pk-odds-src').textContent = data.motivo;
+      wrap.classList.remove('hidden');
+    }
+    return;
+  }
+
+  // Cuotas reales
+  const rWin  = data.cuota_win  ?? null;
+  const rDraw = data.cuota_draw ?? null;
+  const rLoss = data.cuota_loss ?? null;
+
+  const fmt = v => v != null ? v.toFixed(2) : '—';
+  document.getElementById('pk-real-win').textContent  = fmt(rWin);
+  document.getElementById('pk-real-draw').textContent = fmt(rDraw);
+  document.getElementById('pk-real-loss').textContent = fmt(rLoss);
+
+  // Determinar cuál resultado predice el modelo (mayor prob)
+  const probs = [
+    { key: 'win',  prob: pick.prob_win  || 0, cuota: rWin  },
+    { key: 'draw', prob: pick.prob_draw || 0, cuota: rDraw },
+    { key: 'loss', prob: pick.prob_loss || 0, cuota: rLoss },
+  ];
+  const best = probs.reduce((a, b) => a.prob > b.prob ? a : b);
+
+  // EV = (prob_modelo × cuota_real) - 1
+  let evText = '', evColor = '#5A6478';
+  if (best.cuota != null && best.prob > 0) {
+    const ev = (best.prob * best.cuota) - 1;
+    const sign = ev >= 0 ? '+' : '';
+    evText  = `EV ${sign}${(ev * 100).toFixed(1)}%`;
+    evColor = ev >= 0.03 ? '#00E5A0' : ev >= 0 ? '#FFB627' : '#FF4D5E';
+
+    // Resaltar la cuota del resultado predicho
+    const idMap = { win: 'pk-real-win', draw: 'pk-real-draw', loss: 'pk-real-loss' };
+    const el = document.getElementById(idMap[best.key]);
+    if (el) el.style.color = evColor;
+  }
+
+  const badge = document.getElementById('pk-ev-badge');
+  badge.textContent  = evText;
+  badge.style.color  = evColor;
+
+  const n = data.bookmakers ?? 0;
+  document.getElementById('pk-odds-src').textContent =
+    `Promedio ${n} casa${n !== 1 ? 's' : ''} · The Odds API`;
+
+  wrap.classList.remove('hidden');
+}
+
 // ═══ PARTIDOS DE HOY (track record pendientes) ═══════════════════════
 let _allPendientes = [];
 
@@ -1496,8 +1650,13 @@ async function renderPicksGrid(filter = 'all') {
     let filtered = _allPendientes;
     if (filter === 'alta') {
       filtered = _allPendientes.filter(t => Math.max(t.prob_win, t.prob_draw, t.prob_loss) >= 0.60);
+    } else if (filter === 'ucl') {
+      filtered = _allPendientes.filter(t => (t.competencia || 'UCL') === 'UCL');
+    } else if (filter === 'pl') {
+      filtered = _allPendientes.filter(t => (t.competencia || '').toLowerCase().includes('premier'));
     }
-    countEl.textContent = `${filtered.length} partidos · UCL`;
+    const comps = [...new Set(_allPendientes.map(t => t.competencia || 'UCL'))];
+    countEl.textContent = `${filtered.length} partidos · ${comps.join(', ')}`;
 
     if (filtered.length === 0) {
       grid.innerHTML = `<div class="col-span-3 py-10 text-center text-[#5A6478] text-sm">
@@ -1524,8 +1683,8 @@ async function renderPicksGrid(filter = 'all') {
       return `
         <div class="match-card bg-surface-800 border border-[var(--lb)] rounded-2xl p-5">
           <div class="flex items-center justify-between mb-3">
-            <div class="font-mono text-[12px] font-semibold text-[#E6EAF2]">21:00</div>
-            <div class="font-mono text-[10px] text-[#5A6478] uppercase tracking-wider">${t.fase||'UCL'}</div>
+            <div class="font-mono text-[10px] text-[#5A6478] uppercase tracking-wider">${t.competencia||'UCL'}</div>
+            <div class="font-mono text-[10px] text-[#5A6478] uppercase tracking-wider">${t.fase||''}</div>
             <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold" style="${confStyle}">${conf.toUpperCase()}</span>
           </div>
           <div class="flex flex-col gap-2.5 mb-4">
@@ -1689,69 +1848,27 @@ function renderMercados(m, e1, e2) {
       </div>`;
   }
 
+  // Totales del partido
   renderDist('m-goles-dist', m.goles_dist, 'Goles',     'goles',     'var(--pos)');
   renderDist('m-corners',    m.corners,    'Corners',   'corners',   'var(--cyan)');
   renderDist('m-amarillas',  m.amarillas,  'Amarillas', 'amarillas', 'var(--amber)');
 
-  // ── Mini-panel por equipo ────────────────────────────────────────
-  function renderTeamMini(elId, dist, teamName, unit, color) {
-    const el = document.getElementById(elId);
-    if (!el || !dist) return;
-    el.innerHTML = `
-      <div class="flex items-center justify-between rounded px-2 py-1.5" style="background:rgba(19,24,38,.6);border:1px solid var(--line)">
-        <div class="flex flex-col">
-          <span class="text-[11px] truncate max-w-[100px]" style="color:${color}">${teamName}</span>
-          <span class="font-mono text-[9px] text-[#5A6478]">esp: ${dist.esperado}</span>
-        </div>
-        <div class="text-right">
-          <span class="font-mono text-[18px] font-bold" style="color:${color}">${dist.mas_probable}</span>
-          <div class="font-mono text-[9px] text-[#5A6478]">${(dist.mas_probable_p*100).toFixed(0)}%</div>
-        </div>
-      </div>`;
-  }
+  // Flip cards: front=e1, back=e2 (layout completo via renderDist)
+  renderDist('m-goles-e1-front',    m.goles_e1_dist, 'Goles ' + e1,    'goles',     'var(--pos)');
+  renderDist('m-goles-e2-back',     m.goles_e2_dist, 'Goles ' + e2,    'goles',     'var(--red)');
+  renderDist('m-corners-e1-front',  m.corners_e1,    'Corners ' + e1,  'corners',   'var(--cyan)');
+  renderDist('m-corners-e2-back',   m.corners_e2,    'Corners ' + e2,  'corners',   'var(--purple)');
+  renderDist('m-amarillas-e1-front',m.amarillas_e1,  'Amarillas ' + e1,'amarillas', 'var(--amber)');
+  renderDist('m-amarillas-e2-back', m.amarillas_e2,  'Amarillas ' + e2,'amarillas', 'var(--red)');
 
-  // ── Renderiza un mini-card por equipo en el back del flip card ───
-  function renderTeamCard(elId, dist, teamName, unit, color) {
-    const el = document.getElementById(elId);
-    if (!el || !dist) { if (el) el.innerHTML = ''; return; }
-
-    // Mejores Over y Under con prob 65-92%
-    const overLines = Object.entries(dist)
-      .filter(([k,v]) => k.startsWith('over_') && typeof v === 'number')
-      .map(([k,v]) => ({ line: parseFloat(k.replace('over_','').replace('_','.')), prob: v }))
-      .filter(x => !isNaN(x.line));
-    const goodOver  = overLines.filter(x => x.prob >= 0.65 && x.prob <= 0.92).sort((a,b)=>b.prob-a.prob)[0];
-    const goodUnder = overLines.map(x => ({ line: x.line, prob: 1-x.prob }))
-                       .filter(x => x.prob >= 0.65 && x.prob <= 0.92).sort((a,b)=>b.prob-a.prob)[0];
-
-    el.innerHTML = `
-      <div class="rounded-lg p-3 mb-2" style="background:rgba(255,255,255,.02);border:1px solid ${color}33">
-        <div class="flex items-baseline justify-between mb-2">
-          <span class="text-[13px] font-semibold truncate max-w-[140px]" style="color:${color}">${teamName}</span>
-          <span class="font-mono text-[9px] text-[#5A6478]">esp: ${dist.esperado}</span>
-        </div>
-        <div class="flex items-baseline gap-2 mb-2">
-          <span class="text-[22px] font-bold leading-none" style="color:${color}">${dist.mas_probable}</span>
-          <span class="text-[11px] text-[#97A0B5]">${unit}</span>
-          <span class="ml-auto font-mono text-[10px] text-[#5A6478]">${(dist.mas_probable_p*100).toFixed(0)}%</span>
-        </div>
-        ${goodOver ? `<div class="flex items-center justify-between rounded px-2 py-1 mb-1" style="background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2)">
-          <span class="text-[10px] font-mono" style="color:var(--pos)">✓ Más de ${goodOver.line} ${unit}</span>
-          <span class="font-mono text-[11px] font-bold" style="color:var(--pos)">${(goodOver.prob*100).toFixed(0)}%</span>
-        </div>` : ''}
-        ${goodUnder ? `<div class="flex items-center justify-between rounded px-2 py-1" style="background:rgba(255,77,94,.06);border:1px solid rgba(255,77,94,.2)">
-          <span class="text-[10px] font-mono" style="color:var(--red)">✓ Menos de ${goodUnder.line} ${unit}</span>
-          <span class="font-mono text-[11px] font-bold" style="color:var(--red)">${(goodUnder.prob*100).toFixed(0)}%</span>
-        </div>` : ''}
-      </div>`;
-  }
-
-  renderTeamCard('m-goles-back-e1',     m.goles_e1_dist, e1, 'goles',     'var(--pos)');
-  renderTeamCard('m-goles-back-e2',     m.goles_e2_dist, e2, 'goles',     'var(--red)');
-  renderTeamCard('m-corners-back-e1',   m.corners_e1,    e1, 'corners',   'var(--cyan)');
-  renderTeamCard('m-corners-back-e2',   m.corners_e2,    e2, 'corners',   'var(--purple)');
-  renderTeamCard('m-amarillas-back-e1', m.amarillas_e1,  e1, 'amarillas', 'var(--amber)');
-  renderTeamCard('m-amarillas-back-e2', m.amarillas_e2,  e2, 'amarillas', 'var(--red)');
+  // Actualiza títulos con nombres reales de los equipos
+  const th = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+  th('flip-goles-h-e1',     '⚽ ' + e1);
+  th('flip-goles-h-e2',     '⚽ ' + e2);
+  th('flip-corners-h-e1',   '🏳 ' + e1);
+  th('flip-corners-h-e2',   '🏳 ' + e2);
+  th('flip-amarillas-h-e1', '🟨 ' + e1);
+  th('flip-amarillas-h-e2', '🟨 ' + e2);
 }
 
 // Flip toggle

@@ -47,7 +47,8 @@ _PL_CONTEXT = [
     ]
     if p.exists()
 ]
-DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{_PROJECT_ROOT / 'data' / 'futbol.db'}")
+DATABASE_URL  = os.getenv("DATABASE_URL", f"sqlite:///{_PROJECT_ROOT / 'data' / 'futbol.db'}")
+ODDS_API_KEY  = os.getenv("ODDS_API_KEY", "")
 
 engine = create_engine(DATABASE_URL)
 
@@ -55,6 +56,10 @@ engine = create_engine(DATABASE_URL)
 _resultados_pipeline: dict[int, dict] = {}
 # Estado de entrenamiento: "training" | "ready" | "error:<msg>"
 _training_status: dict[int, str] = {}
+
+# Modelo PL separado (entrenado solo con datos de Premier League, sin contexto UCL)
+_PL_KEY = -1          # sentinel: evaluacion_id=-1 → modelo PL
+_pl_status: str = "idle"   # "idle" | "training" | "ready" | "error:<msg>"
 
 
 # ---------------------------------------------------------------------------
@@ -106,6 +111,7 @@ class PrediccionTrack(SQLModel, table=True):
     elo_e1: float
     elo_e2: float
     fase: str = "Liga"
+    competencia: Optional[str] = Field(default="UCL")
     # Auto-resuelto cuando llega el resultado
     resultado_real: Optional[str] = None      # Win / Draw / Loss desde la perspectiva E1
     g1_real: Optional[int] = None
@@ -188,8 +194,19 @@ def _cargar_excel(session: Session) -> int:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     SQLModel.metadata.create_all(engine)
+    # Migración: agregar columna competencia si no existe (SQLite)
+    from sqlalchemy import text
+    with engine.connect() as conn:
+        try:
+            conn.execute(text("ALTER TABLE predicciontrack ADD COLUMN competencia VARCHAR DEFAULT 'UCL'"))
+            conn.commit()
+        except Exception:
+            pass
     with Session(engine) as session:
         _cargar_excel(session)
+    # Entrenar modelo PL en background al arrancar
+    import threading
+    threading.Thread(target=_run_pl_pipeline_background, daemon=True).start()
     yield
 
 
@@ -222,6 +239,31 @@ def get_session():
         yield session
 
 
+def _run_pl_pipeline_background() -> None:
+    """Combina los CSVs de PL y entrena un modelo solo con datos de PL (sin contexto UCL)."""
+    global _pl_status
+    _pl_status = "training"
+    try:
+        pl_files = [
+            _PROJECT_ROOT / "data" / "premier_2024-25_enriquecido.csv",
+            _PROJECT_ROOT / "data" / "premier_2025-26_enriquecido.csv",
+        ]
+        dfs = [pd.read_csv(p) for p in pl_files if p.exists()]
+        if not dfs:
+            _pl_status = "error:no hay CSVs de PL"
+            return
+        combined = pd.concat(dfs, ignore_index=True)
+        tmp_path = _PROJECT_ROOT / "data" / "_pl_combined.csv"
+        combined.to_csv(tmp_path, index=False)
+        results = run_pipeline(str(tmp_path), context_filepaths=None)
+        _resultados_pipeline[_PL_KEY] = results
+        _pl_status = "ready"
+        print("✓ Modelo Premier League entrenado y listo")
+    except Exception as exc:
+        _pl_status = f"error:{exc}"
+        print(f"⚠ Error entrenando modelo PL: {exc}")
+
+
 def _run_pipeline_background(evaluacion_id: int, filepath: str) -> None:
     """Entrena el pipeline en background y actualiza la DB cuando termina.
     Después genera automáticamente el record histórico honesto (predecir_v2)."""
@@ -245,7 +287,14 @@ def _run_pipeline_background(evaluacion_id: int, filepath: str) -> None:
 
 
 def _get_or_run_pipeline(evaluacion_id: int, session: Session) -> dict:
-    """Devuelve los resultados en memoria, o reejecuta el pipeline si se reinició el server."""
+    """Devuelve los resultados en memoria, o reejecuta el pipeline si se reinició el server.
+    evaluacion_id == _PL_KEY (-1) → usa el modelo Premier League."""
+    if evaluacion_id == _PL_KEY:
+        if _PL_KEY not in _resultados_pipeline:
+            if _pl_status == "training":
+                raise HTTPException(status_code=503, detail="Modelo Premier League aún entrenando, intenta en unos minutos")
+            raise HTTPException(status_code=503, detail=f"Modelo Premier League no disponible: {_pl_status}")
+        return _resultados_pipeline[_PL_KEY]
     if evaluacion_id in _resultados_pipeline:
         return _resultados_pipeline[evaluacion_id]
     ev = session.get(Evaluacion, evaluacion_id)
@@ -254,6 +303,19 @@ def _get_or_run_pipeline(evaluacion_id: int, session: Session) -> dict:
     results = run_pipeline(ev.filepath, context_filepaths=_PL_CONTEXT)
     _resultados_pipeline[evaluacion_id] = results
     return results
+
+
+def _resolve_evaluacion_id(competencia: Optional[str], evaluacion_id: Optional[int], session: Session) -> int:
+    """Resuelve qué pipeline usar: PL si la competencia es Premier, si no UCL."""
+    if competencia and "premier" in competencia.lower():
+        return _PL_KEY
+    if evaluacion_id is not None:
+        return evaluacion_id
+    # Fallback: usar la evaluación UCL más reciente
+    ev = session.exec(select(Evaluacion).where(Evaluacion.activo == True).order_by(Evaluacion.id.desc())).first()
+    if not ev:
+        raise HTTPException(status_code=404, detail="No hay evaluaciones disponibles")
+    return ev.id
 
 
 def _resolver_predicciones_para_partido(partido: Partido, session: Session) -> int:
@@ -522,10 +584,20 @@ def estado_entrenamiento(evaluacion_id: int):
 
 @app.get("/api/equipos")
 def listar_equipos(session: Session = Depends(get_session)):
-    """Lista única de equipos del dataset (para los dropdowns del predictor)."""
+    """Lista única de equipos del dataset UCL + PL (para los dropdowns del predictor)."""
     partidos = session.exec(select(Partido).where(Partido.activo == True)).all()
-    equipos = sorted({p.equipo1 for p in partidos} | {p.equipo2 for p in partidos})
-    return {"equipos": equipos, "total": len(equipos)}
+    ucl_equipos = sorted({p.equipo1 for p in partidos} | {p.equipo2 for p in partidos})
+
+    pl_equipos: set = set()
+    for csv_path in _PL_CONTEXT:
+        try:
+            df_pl = pd.read_csv(csv_path, usecols=["Equipo1", "Equipo2"])
+            pl_equipos |= set(df_pl["Equipo1"].dropna()) | set(df_pl["Equipo2"].dropna())
+        except Exception:
+            pass
+
+    todos = sorted(set(ucl_equipos) | pl_equipos)
+    return {"equipos": todos, "ucl": ucl_equipos, "pl": sorted(pl_equipos), "total": len(todos)}
 
 
 @app.get("/api/evaluaciones/{evaluacion_id}/elos")
@@ -581,9 +653,10 @@ def predicciones_test(evaluacion_id: int, session: Session = Depends(get_session
 class PrediccionRapida(SQLModel):
     equipo1: str
     equipo2: str
-    evaluacion_id: int
+    evaluacion_id: Optional[int] = None
     n_runs: int = 20
     fase: str = "Liga"
+    competencia: Optional[str] = "UCL"
 
 
 @app.post("/api/predecir")
@@ -592,7 +665,8 @@ def predecir_rapido(data: PrediccionRapida, session: Session = Depends(get_sessi
     Predicción estructurada en JSON (no guarda en DB).
     Devuelve probabilidades por modelo, consenso, marcadores y ELO.
     """
-    results = _get_or_run_pipeline(data.evaluacion_id, session)
+    eid = _resolve_evaluacion_id(data.competencia, data.evaluacion_id, session)
+    results = _get_or_run_pipeline(eid, session)
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         salida = predecir_partido(
@@ -608,6 +682,144 @@ def predecir_rapido(data: PrediccionRapida, session: Session = Depends(get_sessi
 @app.get("/api/health")
 def health():
     return {"status": "ok", "evaluaciones_en_memoria": list(_resultados_pipeline.keys())}
+
+
+# ---------------------------------------------------------------------------
+# Cuotas reales — The Odds API
+# ---------------------------------------------------------------------------
+
+_SPORT_KEY = {
+    "ucl":            "soccer_uefa_champs_league",
+    "premier league": "soccer_epl",
+    "laliga":         "soccer_spain_la_liga",
+    "la liga":        "soccer_spain_la_liga",
+    "bundesliga":     "soccer_germany_bundesliga",
+    "serie a":        "soccer_italy_serie_a",
+    "ligue 1":        "soccer_france_ligue_one",
+}
+_odds_cache: dict = {}   # clave → (timestamp, datos)
+_ODDS_TTL = 600          # segundos (10 min)
+
+
+def _sport_key(competencia: str) -> str:
+    return _SPORT_KEY.get(competencia.lower(), "soccer_uefa_champs_league")
+
+
+def _best_match(name: str, candidates: list[str]) -> Optional[str]:
+    """Devuelve el candidato más parecido al nombre dado (fuzzy)."""
+    from difflib import get_close_matches
+    hits = get_close_matches(name.lower(), [c.lower() for c in candidates], n=1, cutoff=0.6)
+    if not hits:
+        return None
+    return candidates[[c.lower() for c in candidates].index(hits[0])]
+
+
+@app.get("/api/odds")
+def get_odds(equipo1: str, equipo2: str, competencia: str = "UCL"):
+    """
+    Devuelve cuotas reales de The Odds API para el partido dado.
+    Requiere ODDS_API_KEY en .env. Cachea 10 minutos.
+    """
+    import time, urllib.request, urllib.parse
+
+    if not ODDS_API_KEY:
+        return {"disponible": False, "motivo": "ODDS_API_KEY no configurada"}
+
+    sport = _sport_key(competencia)
+    cache_key = sport
+    now = time.time()
+
+    # Usar caché si está fresca
+    if cache_key in _odds_cache:
+        ts, data = _odds_cache[cache_key]
+        if now - ts < _ODDS_TTL:
+            eventos = data
+        else:
+            eventos = None
+    else:
+        eventos = None
+
+    if eventos is None:
+        try:
+            params = urllib.parse.urlencode({
+                "apiKey":      ODDS_API_KEY,
+                "regions":     "eu",
+                "markets":     "h2h",
+                "oddsFormat":  "decimal",
+                "dateFormat":  "iso",
+            })
+            url = f"https://api.the-odds-api.com/v4/sports/{sport}/odds/?{params}"
+            with urllib.request.urlopen(url, timeout=8) as resp:
+                eventos = json.loads(resp.read())
+            _odds_cache[cache_key] = (now, eventos)
+        except Exception as exc:
+            return {"disponible": False, "motivo": str(exc)}
+
+    # Buscar el partido por fuzzy match de nombres de equipos
+    nombres_api = [(e["home_team"], e["away_team"], e) for e in eventos]
+    todos_nombres = list({n for h, a, _ in nombres_api for n in [h, a]})
+
+    home_match = _best_match(equipo1, todos_nombres)
+    away_match = _best_match(equipo2, todos_nombres)
+
+    evento = None
+    for home, away, ev in nombres_api:
+        if home_match and away_match:
+            if home.lower() == home_match.lower() and away.lower() == away_match.lower():
+                evento = ev
+                break
+        # También probar orden inverso
+        if home_match and away_match:
+            if home.lower() == away_match.lower() and away.lower() == home_match.lower():
+                evento = ev
+                break
+
+    if not evento:
+        return {"disponible": False, "motivo": f"Partido no encontrado en The Odds API ({equipo1} vs {equipo2})"}
+
+    # Extraer cuotas promedio entre bookmakers
+    cuotas_win, cuotas_draw, cuotas_loss = [], [], []
+    for bm in evento.get("bookmakers", []):
+        for market in bm.get("markets", []):
+            if market["key"] != "h2h":
+                continue
+            for outcome in market["outcomes"]:
+                n = outcome["name"].lower()
+                p = outcome["price"]
+                if n == evento["home_team"].lower():
+                    cuotas_win.append(p)
+                elif n == evento["away_team"].lower():
+                    cuotas_loss.append(p)
+                elif n == "draw":
+                    cuotas_draw.append(p)
+
+    avg = lambda lst: round(sum(lst) / len(lst), 2) if lst else None
+    return {
+        "disponible":   True,
+        "home_team":    evento["home_team"],
+        "away_team":    evento["away_team"],
+        "commence":     evento.get("commence_time", ""),
+        "cuota_win":    avg(cuotas_win),
+        "cuota_draw":   avg(cuotas_draw),
+        "cuota_loss":   avg(cuotas_loss),
+        "bookmakers":   len(evento.get("bookmakers", [])),
+    }
+
+
+@app.get("/api/pl/status")
+def pl_status():
+    """Estado del modelo Premier League."""
+    return {"status": _pl_status, "listo": _PL_KEY in _resultados_pipeline}
+
+
+@app.post("/api/pl/entrenar", status_code=202)
+def pl_entrenar():
+    """Re-entrena el modelo Premier League en background."""
+    import threading
+    if _pl_status == "training":
+        return {"mensaje": "Ya está entrenando"}
+    threading.Thread(target=_run_pl_pipeline_background, daemon=True).start()
+    return {"mensaje": "Entrenamiento iniciado"}
 
 
 @app.post("/api/sync")
@@ -628,9 +840,10 @@ class PrediccionTrackCreate(SQLModel):
     equipo1: str
     equipo2: str
     fecha_partido: Optional[str] = None
-    evaluacion_id: int
+    evaluacion_id: Optional[int] = None
     n_runs: int = 20
     fase: str = "Liga"
+    competencia: Optional[str] = "UCL"
 
 
 @app.post("/api/track", response_model=PrediccionTrack, status_code=201)
@@ -638,7 +851,8 @@ def crear_prediccion_track(data: PrediccionTrackCreate, session: Session = Depen
     """Predice un partido futuro y lo guarda para tracking. Si el partido ya
     está en la DB con resultado, se autoresuelve inmediatamente."""
     from datetime import date
-    results = _get_or_run_pipeline(data.evaluacion_id, session)
+    eid = _resolve_evaluacion_id(data.competencia, data.evaluacion_id, session)
+    results = _get_or_run_pipeline(eid, session)
     salida = predecir_partido(
         data.equipo1, data.equipo2, results,
         n_runs=data.n_runs, fase=data.fase,
@@ -659,6 +873,7 @@ def crear_prediccion_track(data: PrediccionTrackCreate, session: Session = Depen
         elo_e1=salida["elo_e1"],
         elo_e2=salida["elo_e2"],
         fase=data.fase,
+        competencia=data.competencia or "UCL",
     )
     session.add(track)
     session.commit()
@@ -784,6 +999,7 @@ class FeaturedPickBody(SQLModel):
     equipo2: str
     hora: str = "21:00"
     fase: str = "UCL"
+    competencia: Optional[str] = "UCL"
     prob_win: float
     prob_draw: float
     prob_loss: float
