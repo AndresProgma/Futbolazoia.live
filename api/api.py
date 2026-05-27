@@ -33,6 +33,11 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select, func
 
 from ml.knime_workflow_converter import main as run_pipeline, predecir_partido
 from ml.predecir_v2 import predecir_partido_v2
+from ml.pipeline_mundial import (
+    main_mundial as run_pipeline_mundial,
+    predecir_partido_mundial,
+    DEFAULT_MUNDIAL_DATASET,
+)
 
 # Paths relativos al proyecto raíz (un nivel arriba de api/)
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -60,6 +65,11 @@ _training_status: dict[int, str] = {}
 # Modelo PL separado (entrenado solo con datos de Premier League, sin contexto UCL)
 _PL_KEY = -1          # sentinel: evaluacion_id=-1 → modelo PL
 _pl_status: str = "idle"   # "idle" | "training" | "ready" | "error:<msg>"
+
+# Modelo Mundial (selecciones nacionales — todos los torneos FIFA/UEFA)
+_MUNDIAL_KEY = -2     # sentinel
+_mundial_results: dict = {}
+_mundial_status: str = "idle"   # "idle" | "training" | "ready" | "error:<msg>"
 
 
 # ---------------------------------------------------------------------------
@@ -204,9 +214,10 @@ async def lifespan(app: FastAPI):
             pass
     with Session(engine) as session:
         _cargar_excel(session)
-    # Entrenar modelo PL en background al arrancar
+    # Entrenar modelos en background al arrancar
     import threading
     threading.Thread(target=_run_pl_pipeline_background, daemon=True).start()
+    threading.Thread(target=_run_mundial_pipeline_background, daemon=True).start()
     yield
 
 
@@ -237,6 +248,24 @@ if _STATIC_DIR.exists():
 def get_session():
     with Session(engine) as session:
         yield session
+
+
+def _run_mundial_pipeline_background() -> None:
+    """Entrena el pipeline de selecciones nacionales en background."""
+    global _mundial_status, _mundial_results
+    _mundial_status = "training"
+    try:
+        csv_path = DEFAULT_MUNDIAL_DATASET
+        if not csv_path.exists():
+            _mundial_status = "error:no se encuentra selecciones_combinado.csv"
+            return
+        results = run_pipeline_mundial(str(csv_path))
+        _mundial_results = results
+        _mundial_status = "ready"
+        print("✓ Modelo Mundial entrenado y listo")
+    except Exception as exc:
+        _mundial_status = f"error:{exc}"
+        print(f"⚠ Error entrenando modelo Mundial: {exc}")
 
 
 def _run_pl_pipeline_background() -> None:
@@ -1111,6 +1140,91 @@ def record_publico(session: Session = Depends(get_session)):
     if pred_df is None:
         return {"tipo": "sin_datos", "predicciones": []}
     return {"tipo": "test_split", "predicciones": json.loads(pred_df.to_json(orient="records"))}
+
+
+# ===========================================================================
+# MUNDIAL — endpoints para selecciones nacionales / FIFA World Cup
+# ===========================================================================
+
+class PrediccionMundial(SQLModel):
+    equipo1: str
+    equipo2: str
+    n_runs: int = 20
+    fase: str = "Ronda 1"
+
+
+@app.get("/api/mundial/estado")
+def mundial_estado():
+    """Estado del entrenamiento del pipeline mundial."""
+    return {"status": _mundial_status}
+
+
+@app.post("/api/mundial/entrenar")
+def mundial_entrenar(background_tasks: BackgroundTasks):
+    """Re-entrena el pipeline mundial en background."""
+    global _mundial_status
+    if _mundial_status == "training":
+        return {"detail": "ya está entrenando"}
+    _mundial_status = "training"
+    background_tasks.add_task(_run_mundial_pipeline_background)
+    return {"detail": "entrenamiento iniciado"}
+
+
+@app.get("/api/mundial/equipos")
+def mundial_equipos():
+    """Lista de selecciones disponibles en el dataset."""
+    if _mundial_status != "ready" or not _mundial_results:
+        raise HTTPException(status_code=503, detail=f"pipeline mundial: {_mundial_status}")
+    df = _mundial_results.get("df")
+    if df is None:
+        raise HTTPException(status_code=500, detail="sin datos")
+    equipos = sorted(set(df["Equipo1"].tolist() + df["Equipo2"].tolist()))
+    return {"equipos": equipos, "total": len(equipos)}
+
+
+@app.post("/api/mundial/predecir")
+def mundial_predecir(data: PrediccionMundial):
+    """Predicción completa de un partido de selecciones."""
+    if _mundial_status != "ready" or not _mundial_results:
+        raise HTTPException(status_code=503, detail=f"pipeline mundial: {_mundial_status}")
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        salida = predecir_partido_mundial(
+            data.equipo1, data.equipo2, _mundial_results,
+            n_runs=data.n_runs, fase=data.fase,
+        )
+    if salida is None:
+        raise HTTPException(status_code=500, detail="predecir_partido_mundial() no devolvió datos")
+    salida["log"] = buf.getvalue()
+    return salida
+
+
+@app.get("/api/mundial/elos")
+def mundial_elos():
+    """Ranking ELO de selecciones nacionales."""
+    if _mundial_status != "ready" or not _mundial_results:
+        raise HTTPException(status_code=503, detail=f"pipeline mundial: {_mundial_status}")
+    team_elos = _mundial_results.get("team_elos", {})
+    ranking = sorted(
+        ({"equipo": t, "elo": round(float(e), 1)} for t, e in team_elos.items()),
+        key=lambda x: -x["elo"],
+    )
+    return {"ranking": ranking, "total": len(ranking)}
+
+
+@app.get("/api/mundial/metricas")
+def mundial_metricas():
+    """Métricas CV del pipeline mundial."""
+    if _mundial_status != "ready" or not _mundial_results:
+        raise HTTPException(status_code=503, detail=f"pipeline mundial: {_mundial_status}")
+    cv_df = _mundial_results.get("cv_results")
+    test_df = _mundial_results.get("model_results")
+    df = _mundial_results.get("df")
+    return {
+        "n_partidos": len(df) if df is not None else 0,
+        "cv":   json.loads(cv_df.to_json(orient="records"))   if cv_df   is not None else [],
+        "test": json.loads(test_df.to_json(orient="records")) if test_df is not None else [],
+    }
 
 
 # ---------------------------------------------------------------------------

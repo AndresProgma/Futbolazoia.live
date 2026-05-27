@@ -1030,6 +1030,140 @@
   </div>
 
 
+  <!-- ════ MUNDIAL 2026 — PREDICTOR ════ -->
+  <section id="mundial" class="bg-surface-800 border rounded-2xl p-6" style="border-color:rgba(255,184,0,.25)">
+    <div class="flex items-center gap-3 mb-5 flex-wrap">
+      <span class="font-mono text-[11px] tracking-widest uppercase" style="color:rgba(255,184,0,.8)">&#x1F3C6; MUNDIAL 2026</span>
+      <span class="flex-1 h-px" style="background:rgba(255,184,0,.15)"></span>
+      <span id="mundial-status-badge" class="font-mono text-[10px] px-2 py-0.5 rounded-full border" style="color:#97A0B5;border-color:rgba(255,255,255,.1)">cargando...</span>
+    </div>
+
+    <!-- Formulario predictor -->
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto_auto] gap-3 items-end mb-5">
+      <div>
+        <label class="block text-[10px] text-[#5A6478] mb-1.5 font-mono uppercase tracking-widest">Equipo 1</label>
+        <select id="mun-e1" class="w-full bg-surface-700 border border-[var(--lb)] rounded-lg px-3 py-2.5 text-sm font-mono transition-colors">
+          <option value="">-- cargando --</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-[10px] text-[#5A6478] mb-1.5 font-mono uppercase tracking-widest">Equipo 2</label>
+        <select id="mun-e2" class="w-full bg-surface-700 border border-[var(--lb)] rounded-lg px-3 py-2.5 text-sm font-mono transition-colors">
+          <option value="">-- cargando --</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-[10px] text-[#5A6478] mb-1.5 font-mono uppercase tracking-widest">Fase</label>
+        <select id="mun-fase" class="bg-surface-700 border border-[var(--lb)] rounded-lg px-3 py-2.5 text-sm font-mono transition-colors">
+          <option value="Ronda 1">Fase de Grupos</option>
+          <option value="Ronda 2">Ronda 16</option>
+          <option value="Quarterfinals">Cuartos de Final</option>
+          <option value="Semifinals">Semifinal</option>
+          <option value="Final">Final</option>
+        </select>
+      </div>
+      <button id="mun-btn" onclick="mundialPredecir()"
+        class="px-5 py-2.5 rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity"
+        style="background:rgba(255,184,0,.9);color:#1a1200;">
+        Predecir &rarr;
+      </button>
+    </div>
+
+    <!-- Estado / spinner -->
+    <div id="mun-loading" class="hidden flex items-center gap-2 text-xs text-[#97A0B5] mb-4">
+      <div class="w-4 h-4 border-2 border-[rgba(255,184,0,.7)] border-t-transparent rounded-full animate-spin"></div>
+      <span>Ejecutando ensemble de modelos...</span>
+    </div>
+
+    <!-- Resultado -->
+    <div id="mun-result" class="hidden space-y-5">
+
+      <!-- Encabezado del partido -->
+      <div class="flex items-center gap-4 flex-wrap">
+        <div class="text-lg font-semibold font-mono" id="mun-r-header"></div>
+        <div class="font-mono text-[11px] text-[#5A6478]" id="mun-r-elo"></div>
+      </div>
+
+      <!-- Barras de probabilidad W/D/L -->
+      <div class="grid grid-cols-3 gap-3">
+        <div class="rounded-xl p-4 text-center" style="background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.25)">
+          <div class="font-mono text-[10px] text-[#97A0B5] uppercase tracking-widest mb-1" id="mun-label-win">Victoria E1</div>
+          <div class="text-3xl font-bold font-mono" style="color:var(--pos)" id="mun-pct-win">—</div>
+        </div>
+        <div class="rounded-xl p-4 text-center" style="background:rgba(255,184,0,.08);border:1px solid rgba(255,184,0,.2)">
+          <div class="font-mono text-[10px] text-[#97A0B5] uppercase tracking-widest mb-1">Empate</div>
+          <div class="text-3xl font-bold font-mono" style="color:rgba(255,184,0,.9)" id="mun-pct-draw">—</div>
+        </div>
+        <div class="rounded-xl p-4 text-center" style="background:rgba(255,77,94,.08);border:1px solid rgba(255,77,94,.2)">
+          <div class="font-mono text-[10px] text-[#97A0B5] uppercase tracking-widest mb-1" id="mun-label-loss">Victoria E2</div>
+          <div class="text-3xl font-bold font-mono" style="color:var(--red)" id="mun-pct-loss">—</div>
+        </div>
+      </div>
+
+      <!-- Cuotas justas -->
+      <div class="flex gap-4 text-xs font-mono text-[#5A6478]">
+        <span>Cuota justa: <span id="mun-cuota-win" class="text-[#E6EAF2]">—</span></span>
+        <span>/ Empate: <span id="mun-cuota-draw" class="text-[#E6EAF2]">—</span></span>
+        <span>/ <span id="mun-cuota-loss-lbl">E2</span>: <span id="mun-cuota-loss" class="text-[#E6EAF2]">—</span></span>
+      </div>
+
+      <!-- Tabla modelos -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-[10px] text-[#5A6478] uppercase font-mono tracking-widest border-b border-[var(--line)]">
+              <th class="text-left py-2 pr-4">Modelo</th>
+              <th class="text-center py-2 px-3">Pred.</th>
+              <th class="text-center py-2 px-3" style="color:var(--pos)">Win</th>
+              <th class="text-center py-2 px-3" style="color:rgba(255,184,0,.9)">Draw</th>
+              <th class="text-center py-2 px-3" style="color:var(--red)">Loss</th>
+            </tr>
+          </thead>
+          <tbody id="mun-tbl-modelos"></tbody>
+        </table>
+      </div>
+
+      <!-- Goles esperados -->
+      <div id="mun-goles" class="font-mono text-sm text-[#97A0B5]"></div>
+
+      <!-- Forma reciente -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <div class="text-[10px] font-mono text-[#5A6478] uppercase tracking-widest mb-2" id="mun-forma1-lbl">Forma E1</div>
+          <div class="text-xs text-[#97A0B5]" id="mun-forma1-val"></div>
+        </div>
+        <div>
+          <div class="text-[10px] font-mono text-[#5A6478] uppercase tracking-widest mb-2" id="mun-forma2-lbl">Forma E2</div>
+          <div class="text-xs text-[#97A0B5]" id="mun-forma2-val"></div>
+        </div>
+      </div>
+
+      <!-- H2H -->
+      <div id="mun-h2h" class="text-xs text-[#5A6478] font-mono"></div>
+
+    </div>
+
+    <!-- ELO ranking (colapsable) -->
+    <div class="mt-6 border-t border-[var(--line)] pt-4">
+      <button onclick="toggleMundialElo()" class="flex items-center gap-2 text-[11px] font-mono text-[#5A6478] hover:text-[#97A0B5] transition-colors">
+        <span id="mun-elo-icon">&#x25B6;</span>
+        <span>Ver ranking ELO de selecciones</span>
+      </button>
+      <div id="mun-elo-table" class="hidden mt-3 overflow-x-auto">
+        <table class="w-full text-xs">
+          <thead>
+            <tr class="text-[10px] text-[#5A6478] uppercase font-mono tracking-widest border-b border-[var(--line)]">
+              <th class="text-left py-1.5 pr-3">#</th>
+              <th class="text-left py-1.5">Selección</th>
+              <th class="text-right py-1.5">ELO</th>
+            </tr>
+          </thead>
+          <tbody id="mun-tbl-elo"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
   <!-- ════ RECORD DE PARTIDOS (público) ════ -->
   <section id="record" class="bg-surface-800 border border-[var(--lb)] rounded-2xl p-6">
     <div class="flex items-baseline gap-3 mb-2">
@@ -2216,6 +2350,161 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderRecordPublico(),
   ]);
 });
+
+// ═══ MUNDIAL 2026 ════════════════════════════════════════════════════
+const _mundialBase = `${typeof API_BASE !== 'undefined' ? API_BASE : ''}/api/mundial`;
+
+async function mundialInit() {
+  // Pollear estado hasta que esté listo
+  const badge = document.getElementById('mundial-status-badge');
+  const tryLoad = async () => {
+    try {
+      const r = await fetch(`${_mundialBase}/estado`);
+      const d = await r.json();
+      if (d.status === 'ready') {
+        badge.textContent = 'listo';
+        badge.style.color = 'var(--pos)';
+        badge.style.borderColor = 'rgba(0,229,160,.3)';
+        await mundialCargarEquipos();
+        await mundialCargarElo();
+      } else if (d.status === 'training') {
+        badge.textContent = 'entrenando...';
+        badge.style.color = 'rgba(255,184,0,.9)';
+        setTimeout(tryLoad, 4000);
+      } else {
+        badge.textContent = d.status;
+      }
+    } catch(e) {
+      badge.textContent = 'error';
+    }
+  };
+  tryLoad();
+}
+
+async function mundialCargarEquipos() {
+  try {
+    const d = await fetch(`${_mundialBase}/equipos`).then(r => r.json());
+    const equipos = d.equipos || [];
+    ['mun-e1', 'mun-e2'].forEach((id, idx) => {
+      const sel = document.getElementById(id);
+      sel.innerHTML = equipos.map(e => `<option value="${e}">${e}</option>`).join('');
+      // Default: Argentina vs Francia
+      if (id === 'mun-e1') sel.value = equipos.includes('Argentina') ? 'Argentina' : equipos[0];
+      if (id === 'mun-e2') sel.value = equipos.includes('Francia')   ? 'Francia'   : equipos[1];
+    });
+  } catch(e) {}
+}
+
+async function mundialCargarElo() {
+  try {
+    const d = await fetch(`${_mundialBase}/elos`).then(r => r.json());
+    const ranking = d.ranking || [];
+    const tbody = document.getElementById('mun-tbl-elo');
+    tbody.innerHTML = ranking.slice(0, 30).map((t, i) => `
+      <tr class="border-b border-[var(--line)] last:border-0">
+        <td class="py-1.5 pr-3 font-mono text-[#5A6478]">${i+1}</td>
+        <td class="py-1.5 font-medium">${t.equipo}</td>
+        <td class="py-1.5 text-right font-mono" style="color:var(--pos)">${t.elo.toFixed(0)}</td>
+      </tr>`).join('');
+  } catch(e) {}
+}
+
+function toggleMundialElo() {
+  const tbl  = document.getElementById('mun-elo-table');
+  const icon = document.getElementById('mun-elo-icon');
+  const hidden = tbl.classList.toggle('hidden');
+  icon.textContent = hidden ? '▶' : '▼';
+}
+
+async function mundialPredecir() {
+  const e1   = document.getElementById('mun-e1').value;
+  const e2   = document.getElementById('mun-e2').value;
+  const fase = document.getElementById('mun-fase').value;
+  if (!e1 || !e2 || e1 === e2) { alert('Elige dos selecciones distintas.'); return; }
+
+  const btn  = document.getElementById('mun-btn');
+  const load = document.getElementById('mun-loading');
+  const res  = document.getElementById('mun-result');
+  btn.disabled = true; btn.style.opacity = '.5';
+  load.classList.remove('hidden');
+  res.classList.add('hidden');
+
+  try {
+    const r = await fetch(`${_mundialBase}/predecir`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ equipo1: e1, equipo2: e2, n_runs: 20, fase }),
+    }).then(async rr => {
+      if (!rr.ok) throw new Error(await rr.text());
+      return rr.json();
+    });
+
+    // Mostrar resultado
+    const pct = v => `${Math.round((v||0)*100)}%`;
+    const cuota = p => p > 0 ? (1/p).toFixed(2) : '—';
+    const c = r.consenso || {};
+
+    document.getElementById('mun-r-header').textContent = `${e1}  vs  ${e2}`;
+    document.getElementById('mun-r-elo').textContent =
+      `ELO: ${Math.round(r.elo_e1||0)}  vs  ${Math.round(r.elo_e2||0)}  (Δ${(r.diff_elo||0)>0?'+':''}${Math.round(r.diff_elo||0)})`;
+
+    document.getElementById('mun-label-win').textContent  = `Gana ${e1.split(' ')[0]}`;
+    document.getElementById('mun-label-loss').textContent = `Gana ${e2.split(' ')[0]}`;
+    document.getElementById('mun-pct-win').textContent    = pct(c.win);
+    document.getElementById('mun-pct-draw').textContent   = pct(c.draw);
+    document.getElementById('mun-pct-loss').textContent   = pct(c.loss);
+
+    document.getElementById('mun-cuota-win').textContent  = cuota(c.win);
+    document.getElementById('mun-cuota-draw').textContent = cuota(c.draw);
+    document.getElementById('mun-cuota-loss-lbl').textContent = e2.split(' ')[0];
+    document.getElementById('mun-cuota-loss').textContent = cuota(c.loss);
+
+    // Tabla modelos
+    const colorPred = p => p==='Win'?'var(--pos)': p==='Loss'?'var(--red)':'rgba(255,184,0,.9)';
+    const tbody = document.getElementById('mun-tbl-modelos');
+    tbody.innerHTML = (r.modelos||[]).map(m => `
+      <tr class="border-b border-[var(--line)] last:border-0 text-xs">
+        <td class="py-1.5 pr-4 font-mono text-[#97A0B5]">${m.modelo}</td>
+        <td class="py-1.5 px-3 font-bold text-center" style="color:${colorPred(m.pred)}">${m.pred}</td>
+        <td class="py-1.5 px-3 text-center font-mono" style="color:var(--pos)">${pct(m.win)}</td>
+        <td class="py-1.5 px-3 text-center font-mono" style="color:rgba(255,184,0,.9)">${pct(m.draw)}</td>
+        <td class="py-1.5 px-3 text-center font-mono" style="color:var(--red)">${pct(m.loss)}</td>
+      </tr>`).join('');
+
+    // Goles esperados
+    const golesDiv = document.getElementById('mun-goles');
+    if (r.goles && r.goles.length > 0) {
+      golesDiv.innerHTML = (r.goles||[]).map(g =>
+        `<span>${g.modelo}: <b>${e1} ${g.g1}–${g.g2} ${e2}</b></span>`).join(' &nbsp;|&nbsp; ');
+    }
+
+    // Forma reciente
+    const forma = (f, lbl, valId) => {
+      document.getElementById(lbl).textContent = `Últ.5 ${f._label||''}`;
+      document.getElementById(valId).textContent =
+        f ? `${f.w}W ${f.d}D ${f.l}L | GF ${f.gf} GC ${f.gc} (${f.pts} pts)` : '—';
+    };
+    if (r.forma_e1) { document.getElementById('mun-forma1-lbl').textContent = `Forma últ.5 — ${e1}`; document.getElementById('mun-forma1-val').textContent = `${r.forma_e1.w}W ${r.forma_e1.d}D ${r.forma_e1.l}L · GF ${r.forma_e1.gf} GC ${r.forma_e1.gc}`; }
+    if (r.forma_e2) { document.getElementById('mun-forma2-lbl').textContent = `Forma últ.5 — ${e2}`; document.getElementById('mun-forma2-val').textContent = `${r.forma_e2.w}W ${r.forma_e2.d}D ${r.forma_e2.l}L · GF ${r.forma_e2.gf} GC ${r.forma_e2.gc}`; }
+
+    // H2H
+    const h2h = r.h2h || {};
+    if (h2h.n > 0) {
+      document.getElementById('mun-h2h').textContent =
+        `H2H últimos ${h2h.n}: ${e1} ${h2h.w}W-${h2h.d}D-${h2h.l}L · GF ${h2h.gf} GC ${h2h.gc}`;
+    }
+
+    res.classList.remove('hidden');
+  } catch(err) {
+    alert(`Error: ${err.message}`);
+  } finally {
+    btn.disabled = false; btn.style.opacity = '';
+    load.classList.add('hidden');
+  }
+}
+
+// Iniciar mundial al cargar
+mundialInit();
 </script>
 </body>
 </html>
