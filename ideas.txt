@@ -1,6 +1,10 @@
 IDEAS PENDIENTES — Predicción Champions League
 ===============================================
 
+3. Análisis pre-partido
+   Admin escribe un análisis táctico del partido del día con una imagen (pizarrón, stats,
+   foto). Aparece debajo del Pick del Día como contexto adicional para el usuario.
+
 
 
 
