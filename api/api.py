@@ -24,6 +24,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
 
+import joblib
 import pandas as pd
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -55,12 +56,37 @@ _PL_CONTEXT = [
 DATABASE_URL  = os.getenv("DATABASE_URL", f"sqlite:///{_PROJECT_ROOT / 'data' / 'futbol.db'}")
 ODDS_API_KEY  = os.getenv("ODDS_API_KEY", "")
 
+# Caché en disco para no reentrenar en cada reinicio del servidor
+_UCL_CACHE    = _PROJECT_ROOT / "data" / "_ucl_model_cache.pkl"
+_MUNDIAL_CACHE = _PROJECT_ROOT / "data" / "_mundial_model_cache.pkl"
+_PL_CACHE     = _PROJECT_ROOT / "data" / "_pl_model_cache.pkl"
+
+def _save_cache(path: Path, obj: dict) -> None:
+    try:
+        joblib.dump(obj, path, compress=3)
+        print(f"✓ Caché guardado: {path.name}")
+    except Exception as exc:
+        print(f"⚠ No se pudo guardar caché {path.name}: {exc}")
+
+def _load_cache(path: Path) -> dict | None:
+    try:
+        if path.exists():
+            obj = joblib.load(path)
+            print(f"✓ Caché cargado: {path.name}")
+            return obj
+    except Exception as exc:
+        print(f"⚠ Caché corrupto {path.name}, se ignorará: {exc}")
+        path.unlink(missing_ok=True)
+    return None
+
 engine = create_engine(DATABASE_URL)
 
 # Pipeline results guardados en memoria (demasiado pesados para DB)
 _resultados_pipeline: dict[int, dict] = {}
 # Estado de entrenamiento: "training" | "ready" | "error:<msg>"
 _training_status: dict[int, str] = {}
+# Lock para evitar dos entrenamientos UCL simultáneos
+_ucl_training = False
 
 # Modelo PL separado (entrenado solo con datos de Premier League, sin contexto UCL)
 _PL_KEY = -1          # sentinel: evaluacion_id=-1 → modelo PL
@@ -214,10 +240,10 @@ async def lifespan(app: FastAPI):
             pass
     with Session(engine) as session:
         _cargar_excel(session)
-    # Entrenar modelos en background al arrancar
     import threading
-    threading.Thread(target=_run_pl_pipeline_background, daemon=True).start()
+    threading.Thread(target=_reload_last_ucl_pipeline, daemon=True).start()
     threading.Thread(target=_run_mundial_pipeline_background, daemon=True).start()
+    threading.Thread(target=_run_pl_pipeline_background, daemon=True).start()
     yield
 
 
@@ -250,9 +276,15 @@ def get_session():
         yield session
 
 
-def _run_mundial_pipeline_background() -> None:
-    """Entrena el pipeline de selecciones nacionales en background."""
+def _run_mundial_pipeline_background(force_retrain: bool = False) -> None:
+    """Carga Mundial desde caché si existe; solo reentrena si force_retrain=True o no hay caché."""
     global _mundial_status, _mundial_results
+    if not force_retrain:
+        cached = _load_cache(_MUNDIAL_CACHE)
+        if cached is not None:
+            _mundial_results = cached
+            _mundial_status = "ready"
+            return
     _mundial_status = "training"
     try:
         csv_path = DEFAULT_MUNDIAL_DATASET
@@ -262,15 +294,22 @@ def _run_mundial_pipeline_background() -> None:
         results = run_pipeline_mundial(str(csv_path))
         _mundial_results = results
         _mundial_status = "ready"
-        print("✓ Modelo Mundial entrenado y listo")
+        _save_cache(_MUNDIAL_CACHE, results)
+        print("✓ Modelo Mundial entrenado y cacheado")
     except Exception as exc:
         _mundial_status = f"error:{exc}"
         print(f"⚠ Error entrenando modelo Mundial: {exc}")
 
 
-def _run_pl_pipeline_background() -> None:
-    """Combina los CSVs de PL y entrena un modelo solo con datos de PL (sin contexto UCL)."""
+def _run_pl_pipeline_background(force_retrain: bool = False) -> None:
+    """Carga PL desde caché si existe; solo reentrena si force_retrain=True o no hay caché."""
     global _pl_status
+    if not force_retrain:
+        cached = _load_cache(_PL_CACHE)
+        if cached is not None:
+            _resultados_pipeline[_PL_KEY] = cached
+            _pl_status = "ready"
+            return
     _pl_status = "training"
     try:
         pl_files = [
@@ -282,20 +321,62 @@ def _run_pl_pipeline_background() -> None:
             _pl_status = "error:no hay CSVs de PL"
             return
         combined = pd.concat(dfs, ignore_index=True)
+        thresh = len(combined) * 0.5
+        antes = combined.shape[1]
+        combined = combined.dropna(axis=1, thresh=thresh)
+        print(f"PL: {antes} cols → {combined.shape[1]} cols (quitadas {antes - combined.shape[1]} con >50% NaN)")
         tmp_path = _PROJECT_ROOT / "data" / "_pl_combined.csv"
         combined.to_csv(tmp_path, index=False)
         results = run_pipeline(str(tmp_path), context_filepaths=None)
         _resultados_pipeline[_PL_KEY] = results
         _pl_status = "ready"
-        print("✓ Modelo Premier League entrenado y listo")
+        _save_cache(_PL_CACHE, results)
+        print("✓ Modelo Premier League entrenado y cacheado")
     except Exception as exc:
         _pl_status = f"error:{exc}"
         print(f"⚠ Error entrenando modelo PL: {exc}")
 
 
+def _reload_last_ucl_pipeline() -> None:
+    """Carga UCL desde caché en disco; solo reentrena si no hay caché."""
+    global _ucl_training
+    if _ucl_training:
+        print("⚠ UCL ya está entrenando, reload cancelado")
+        return
+    # Intentar cargar desde caché primero
+    with Session(engine) as s:
+        evals = s.exec(select(Evaluacion).where(Evaluacion.activo == True)).all()
+        if not evals:
+            return
+        ev = max(evals, key=lambda e: e.id)
+    cached = _load_cache(_UCL_CACHE)
+    if cached is not None:
+        _resultados_pipeline[ev.id] = cached
+        _training_status[ev.id] = "ready"
+        return
+    # Sin caché: entrenar desde cero
+    _ucl_training = True
+    try:
+        _training_status[ev.id] = "training"
+        results = run_pipeline(ev.filepath, context_filepaths=_PL_CONTEXT)
+        _resultados_pipeline[ev.id] = results
+        _training_status[ev.id] = "ready"
+        _save_cache(_UCL_CACHE, results)
+        print(f"✓ Modelo UCL entrenado y cacheado (eval #{ev.id})")
+    except Exception as exc:
+        print(f"⚠ Error cargando modelo UCL: {exc}")
+    finally:
+        _ucl_training = False
+
+
 def _run_pipeline_background(evaluacion_id: int, filepath: str) -> None:
     """Entrena el pipeline en background y actualiza la DB cuando termina.
     Después genera automáticamente el record histórico honesto (predecir_v2)."""
+    global _ucl_training
+    if _ucl_training:
+        _training_status[evaluacion_id] = "error:ya hay un entrenamiento UCL en curso"
+        return
+    _ucl_training = True
     try:
         results = run_pipeline(filepath, context_filepaths=_PL_CONTEXT)
         with Session(engine) as s:
@@ -307,9 +388,13 @@ def _run_pipeline_background(evaluacion_id: int, filepath: str) -> None:
                 s.commit()
         _resultados_pipeline[evaluacion_id] = results
         _training_status[evaluacion_id] = "ready"
+        _save_cache(_UCL_CACHE, results)
     except Exception as exc:
         _training_status[evaluacion_id] = f"error:{exc}"
+        _ucl_training = False
         return
+    finally:
+        _ucl_training = False
 
     # Generar record histórico honesto con predecir_v2 (automático, sin botón)
     _generar_record_background(n_partidos=35)
@@ -326,12 +411,11 @@ def _get_or_run_pipeline(evaluacion_id: int, session: Session) -> dict:
         return _resultados_pipeline[_PL_KEY]
     if evaluacion_id in _resultados_pipeline:
         return _resultados_pipeline[evaluacion_id]
-    ev = session.get(Evaluacion, evaluacion_id)
-    if not ev or not ev.activo:
-        raise HTTPException(status_code=404, detail=f"Evaluación {evaluacion_id} no encontrada")
-    results = run_pipeline(ev.filepath, context_filepaths=_PL_CONTEXT)
-    _resultados_pipeline[evaluacion_id] = results
-    return results
+    # Modelo no está en memoria — no entrenar automáticamente, el admin lo hace con el botón.
+    status = _training_status.get(evaluacion_id, "idle")
+    if status == "training":
+        raise HTTPException(status_code=503, detail="Modelo UCL aún entrenando")
+    raise HTTPException(status_code=503, detail="Modelo UCL no cargado — usa Reentrenar UCL en el admin")
 
 
 def _resolve_evaluacion_id(competencia: Optional[str], evaluacion_id: Optional[int], session: Session) -> int:
@@ -693,7 +777,24 @@ def predecir_rapido(data: PrediccionRapida, session: Session = Depends(get_sessi
     """
     Predicción estructurada en JSON (no guarda en DB).
     Devuelve probabilidades por modelo, consenso, marcadores y ELO.
+    Soporta competencia=Mundial → usa pipeline_mundial.
     """
+    es_mundial = data.competencia and "mundial" in data.competencia.lower()
+
+    if es_mundial:
+        if _mundial_status != "ready" or not _mundial_results:
+            raise HTTPException(status_code=503, detail=f"Modelo Mundial no disponible: {_mundial_status}. Usa Reentrenar Mundial.")
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            salida = predecir_partido_mundial(
+                data.equipo1, data.equipo2, _mundial_results,
+                n_runs=data.n_runs, fase=data.fase,
+            )
+        if salida is None:
+            raise HTTPException(status_code=500, detail="predecir_partido_mundial() no devolvió datos")
+        salida["log"] = buf.getvalue()
+        return salida
+
     eid = _resolve_evaluacion_id(data.competencia, data.evaluacion_id, session)
     results = _get_or_run_pipeline(eid, session)
     buf = io.StringIO()
@@ -841,13 +942,29 @@ def pl_status():
     return {"status": _pl_status, "listo": _PL_KEY in _resultados_pipeline}
 
 
+@app.get("/api/pl/metricas")
+def pl_metricas():
+    """Métricas CV del pipeline Premier League."""
+    if _pl_status != "ready" or _PL_KEY not in _resultados_pipeline:
+        raise HTTPException(status_code=503, detail=f"pipeline PL: {_pl_status}")
+    res = _resultados_pipeline[_PL_KEY]
+    cv_df = res.get("cv_results")
+    test_df = res.get("results")
+    df = res.get("df")
+    return {
+        "n_partidos": len(df) if df is not None else 0,
+        "cv":   json.loads(cv_df.to_json(orient="records"))   if cv_df   is not None else [],
+        "test": json.loads(test_df.to_json(orient="records")) if test_df is not None else [],
+    }
+
+
 @app.post("/api/pl/entrenar", status_code=202)
 def pl_entrenar():
     """Re-entrena el modelo Premier League en background."""
     import threading
     if _pl_status == "training":
         return {"mensaje": "Ya está entrenando"}
-    threading.Thread(target=_run_pl_pipeline_background, daemon=True).start()
+    threading.Thread(target=lambda: _run_pl_pipeline_background(True), daemon=True).start()
     return {"mensaje": "Entrenamiento iniciado"}
 
 
@@ -1166,19 +1283,24 @@ def mundial_entrenar(background_tasks: BackgroundTasks):
     if _mundial_status == "training":
         return {"detail": "ya está entrenando"}
     _mundial_status = "training"
-    background_tasks.add_task(_run_mundial_pipeline_background)
+    background_tasks.add_task(_run_mundial_pipeline_background, True)
     return {"detail": "entrenamiento iniciado"}
 
 
 @app.get("/api/mundial/equipos")
 def mundial_equipos():
-    """Lista de selecciones disponibles en el dataset."""
-    if _mundial_status != "ready" or not _mundial_results:
-        raise HTTPException(status_code=503, detail=f"pipeline mundial: {_mundial_status}")
-    df = _mundial_results.get("df")
-    if df is None:
-        raise HTTPException(status_code=500, detail="sin datos")
-    equipos = sorted(set(df["Equipo1"].tolist() + df["Equipo2"].tolist()))
+    """Lista de selecciones disponibles. Lee del modelo si está listo, sino del CSV directamente."""
+    if _mundial_status == "ready" and _mundial_results:
+        df = _mundial_results.get("df")
+        if df is not None:
+            equipos = sorted(set(df["Equipo1"].tolist() + df["Equipo2"].tolist()))
+            return {"equipos": equipos, "total": len(equipos)}
+    # Fallback: leer del CSV sin necesitar el modelo cargado
+    csv_path = DEFAULT_MUNDIAL_DATASET
+    if not csv_path.exists():
+        raise HTTPException(status_code=503, detail="CSV de selecciones no encontrado")
+    df = pd.read_csv(csv_path, usecols=["Equipo1", "Equipo2"])
+    equipos = sorted(set(df["Equipo1"].dropna().tolist() + df["Equipo2"].dropna().tolist()))
     return {"equipos": equipos, "total": len(equipos)}
 
 

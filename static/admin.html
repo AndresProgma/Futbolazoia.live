@@ -101,18 +101,19 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="label">Equipo local</label>
-            <input id="pk-e1" type="text" list="equipos-datalist" class="input" placeholder="Escribe equipo..."/>
+            <select id="pk-e1" class="input"><option value="">— elige equipo —</option></select>
           </div>
           <div>
             <label class="label">Equipo visitante</label>
-            <input id="pk-e2" type="text" list="equipos-datalist" class="input" placeholder="Escribe equipo..."/>
+            <select id="pk-e2" class="input"><option value="">— elige equipo —</option></select>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="label">Competencia</label>
-            <select id="pk-competencia" class="input">
+            <select id="pk-competencia" class="input" onchange="actualizarEquiposPick()">
               <option value="UCL">UCL</option>
+              <option value="Mundial">Mundial 2026</option>
               <option value="Premier League">Premier League</option>
               <option value="LaLiga">LaLiga</option>
               <option value="Bundesliga">Bundesliga</option>
@@ -126,6 +127,23 @@
               <option>Liga</option><option>Octavos</option><option selected>Cuartos</option>
               <option>Semifinal</option><option>Final</option>
             </select>
+            <script>
+            (function(){
+              const compSel = document.getElementById('pk-competencia');
+              const faseSel = document.getElementById('pk-fase');
+              const FASES = {
+                mundial: ['Ronda 1','Ronda 2','Ronda 3','Quarterfinals','Semifinals','Final'],
+                default: ['Liga','Grupos','Octavos','Cuartos','Semifinal','Final'],
+              };
+              compSel.addEventListener('change', function() {
+                const esMundial = this.value.toLowerCase().includes('mundial');
+                const lista = esMundial ? FASES.mundial : FASES.default;
+                const actual = faseSel.value;
+                faseSel.innerHTML = lista.map(f => `<option${f===actual?' selected':''}>${f}</option>`).join('');
+                if (!lista.includes(actual)) faseSel.value = lista[0];
+              });
+            })();
+            </script>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
@@ -303,14 +321,49 @@
         </div>
       </div>
       <div class="card">
-        <h2 class="text-sm font-semibold mb-1">M&#xE9;tricas CV</h2>
+        <div class="flex items-center justify-between mb-1">
+          <h2 class="text-sm font-semibold">M&#xE9;tricas CV &mdash; UCL</h2>
+          <button onclick="adminReentrenarUCL()" id="btn-retrain-ucl" class="btn-outline text-[11px] px-3 py-1">&#x2699; Reentrenar UCL</button>
+        </div>
         <p class="text-[11px] text-[#97A0B5] mb-3 font-mono">Walk-forward sobre <span id="metricas-n-partidos">&#x2014;</span> partidos &middot; 3 folds</p>
         <div class="overflow-x-auto mt-3">
           <table class="w-full text-sm">
             <thead class="text-[10px] text-[#5A6478] uppercase border-b border-[var(--line)] font-mono">
-              <tr><th class="text-left py-2 px-2">Modelo</th><th class="text-right py-2 px-2">CV Acc</th><th class="text-right py-2 px-2">F1</th><th class="text-right py-2 px-2">&#xDA;lt. fold</th></tr>
+              <tr><th class="text-left py-2 px-2">Modelo</th><th class="text-right py-2 px-2">&#xDA;lt. fold</th><th class="text-right py-2 px-2">Media CV</th><th class="text-right py-2 px-2">F1</th></tr>
             </thead>
             <tbody id="tbl-metricas"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="flex items-center justify-between mb-1">
+          <h2 class="text-sm font-semibold">M&#xE9;tricas CV &mdash; Mundial</h2>
+          <button onclick="adminReentrenarMundial()" id="btn-retrain-mundial" class="btn-outline text-[11px] px-3 py-1">&#x2699; Reentrenar Mundial</button>
+        </div>
+        <p class="text-[11px] text-[#97A0B5] mb-3 font-mono">Walk-forward sobre <span id="metricas-n-partidos-mundial">&#x2014;</span> partidos &middot; 3 folds</p>
+        <div class="overflow-x-auto mt-3">
+          <table class="w-full text-sm">
+            <thead class="text-[10px] text-[#5A6478] uppercase border-b border-[var(--line)] font-mono">
+              <tr><th class="text-left py-2 px-2">Modelo</th><th class="text-right py-2 px-2">&#xDA;lt. fold</th><th class="text-right py-2 px-2">Media CV</th><th class="text-right py-2 px-2">F1</th></tr>
+            </thead>
+            <tbody id="tbl-metricas-mundial"><tr><td colspan="4" class="text-center py-4 text-[#5A6478] text-xs">No entrenado &mdash; usa el bot&#xF3;n para entrenar</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="flex items-center justify-between mb-1">
+          <h2 class="text-sm font-semibold">M&#xE9;tricas CV &mdash; Premier League</h2>
+          <button onclick="adminReentrenarPL()" id="btn-retrain-pl" class="btn-outline text-[11px] px-3 py-1">&#x2699; Reentrenar PL</button>
+        </div>
+        <p class="text-[11px] text-[#97A0B5] mb-3 font-mono">Walk-forward sobre <span id="metricas-n-partidos-pl">&#x2014;</span> partidos &middot; 3 folds</p>
+        <div class="overflow-x-auto mt-3">
+          <table class="w-full text-sm">
+            <thead class="text-[10px] text-[#5A6478] uppercase border-b border-[var(--line)] font-mono">
+              <tr><th class="text-left py-2 px-2">Modelo</th><th class="text-right py-2 px-2">&#xDA;lt. fold</th><th class="text-right py-2 px-2">Media CV</th><th class="text-right py-2 px-2">F1</th></tr>
+            </thead>
+            <tbody id="tbl-metricas-pl"><tr><td colspan="4" class="text-center py-4 text-[#5A6478] text-xs">No entrenado &mdash; usa el bot&#xF3;n para entrenar</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -430,7 +483,7 @@
 <script src="/static/js/app.js"></script>
 <script>
 // ═══ AUTH CHECK ═══════════════════════════════════════════
-const FZ_CREDS = { admin: { user:'admin', pass:'fz2026!' }, pro:{ pass:'pro2026' } };
+const FZ_CREDS = { admin: { user:'admin', pass:'12pipe27' }, pro:{ pass:'pro2026' } };
 if (localStorage.getItem('fz_role') !== 'admin') { location.href = '/'; }
 
 function doLogout() { localStorage.removeItem('fz_role'); location.href = '/'; }
@@ -468,18 +521,46 @@ async function guardarPick() {
 
     // Auto-valores
     const m = pred.mercados;
-    const fav = m && m.dnb[e1] >= m.dnb[e2] ? e1 : e2;
-    const valores = m ? [
-      { nombre:'Ambos marcan · sí', descripcion:'Ambos equipos anotan', porcentaje:Math.round(m.btts.si*100) },
-      { nombre:'Más de 2.5 goles',  descripcion:`xG total: ${m.total_goles.xg.toFixed(2)}`, porcentaje:Math.round(m.total_goles.over_2_5*100) },
-      { nombre:`DNB · ${fav.split(' ')[0]}`, descripcion:'Sin empate', porcentaje:Math.round(m.dnb[fav]*100) },
-    ] : [];
 
-    // Métricas de accuracy
-    let accMap = {};
+    // Resultado más probable (1X2)
+    const c = pred.consenso;
+    let resultLabel, resultDesc, resultPct;
+    if (c.win >= c.draw && c.win >= c.loss) {
+      resultLabel = `1X2 · ${e1}`; resultDesc = 'Victoria local'; resultPct = Math.round(c.win * 100);
+    } else if (c.loss >= c.win && c.loss >= c.draw) {
+      resultLabel = `1X2 · ${e2}`; resultDesc = 'Victoria visitante'; resultPct = Math.round(c.loss * 100);
+    } else {
+      resultLabel = '1X2 · Empate'; resultDesc = 'Partido igualado'; resultPct = Math.round(c.draw * 100);
+    }
+
+    // Mejor línea Under para un mercado discreto
+    function bestUnder(d) {
+      if (!d) return null;
+      const overLines = Object.entries(d)
+        .filter(([k]) => k.startsWith('over_'))
+        .map(([k,v]) => ({ line: parseFloat(k.replace('over_','').replace('_','.')), prob: v }))
+        .filter(x => !isNaN(x.line));
+      const candidates = overLines.map(x => ({ line: x.line, prob: 1 - x.prob }))
+        .filter(x => x.prob >= 0.62 && x.prob <= 0.75).sort((a,b) => b.prob - a.prob);
+      return candidates[0] || null;
+    }
+
+    const cornersUnder   = bestUnder(m?.corners);
+    const amarillasUnder = bestUnder(m?.amarillas);
+
+    const valores = [
+      { nombre: resultLabel, descripcion: resultDesc, porcentaje: resultPct },
+      cornersUnder   ? { nombre: `Corners U${cornersUnder.line}`,   descripcion: 'Mejor under corners',   porcentaje: Math.round(cornersUnder.prob * 100)   } : null,
+      amarillasUnder ? { nombre: `Amarillas U${amarillasUnder.line}`, descripcion: 'Mejor under amarillas', porcentaje: Math.round(amarillasUnder.prob * 100) } : null,
+    ].filter(Boolean);
+
+    // Métricas de accuracy (Acc Last — último fold, más representativo)
+    let accMap = state?.accMap || {};
     try {
-      const met = await api.metricas(state?.evaluacionId);
-      for (const r of met.cv||[]) if (r['CV Mean']!=null) accMap[r.Model] = Math.round(r['CV Mean']*100);
+      if (!Object.keys(accMap).length) {
+        const met = await api.metricas(state?.evaluacionId);
+        for (const r of met.cv||[]) if (r['Acc Last']!=null) accMap[r.Model] = Math.round(r['Acc Last']*100);
+      }
     } catch(_) {}
     const modelos = (pred.modelos||[]).map(m2 => ({...m2, accuracy: accMap[m2.modelo]??null}));
 
@@ -552,19 +633,100 @@ async function adminSync() {
   finally { setLoading(false); }
 }
 
-async function adminReentrenar() {
-  if (!confirm('¿Reentrenar el modelo desde cero? (1-2 min)')) return;
+async function adminReentrenarUCL() {
+  if (!confirm('¿Reentrenar el modelo UCL desde cero? (1-2 min)')) return;
+  const btn = document.getElementById('btn-retrain-ucl');
   try {
-    setLoading(true, 'Iniciando reentrenamiento...');
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Entrenando...'; }
+    setLoading(true, 'Reentrenando UCL...');
     const ev = await api.crearEvaluacion();
     if (state) state.evaluacionId = ev.id;
     document.getElementById('eval-id-text').textContent = `#${ev.id}`;
     document.getElementById('eval-id-text2').textContent = `#${ev.id}`;
     await esperarEntrenamiento(ev.id);
     await Promise.all([cargarMetricas(), cargarRanking(), cargarAdminRecord(), cargarFeatureImportance()]);
-    alert('Modelo reentrenado correctamente.');
+    alert('Modelo UCL reentrenado correctamente.');
   } catch(err) { alert(`Error: ${err.message}`); }
-  finally { setLoading(false); }
+  finally {
+    setLoading(false);
+    if (btn) { btn.disabled = false; btn.textContent = '⚙ Reentrenar UCL'; }
+  }
+}
+
+// alias para el botón viejo en tab Dataset
+const adminReentrenar = adminReentrenarUCL;
+
+async function adminReentrenarMundial() {
+  if (!confirm('¿Reentrenar el modelo Mundial? (~2-3 min)')) return;
+  const btn = document.getElementById('btn-retrain-mundial');
+  const tbody = document.getElementById('tbl-metricas-mundial');
+  try {
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Entrenando...'; }
+    if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-[#FFB627] text-xs">Entrenando... esto puede tardar 2-3 min</td></tr>';
+    await fetch(`${API_BASE}/api/mundial/entrenar`, { method: 'POST' });
+    // Polling hasta que esté listo
+    while (true) {
+      await new Promise(r => setTimeout(r, 5000));
+      const s = await fetch(`${API_BASE}/api/mundial/estado`).then(r => r.json());
+      if (s.status === 'ready') break;
+      if (s.status && s.status.startsWith('error')) throw new Error(s.status);
+    }
+    await cargarMetricas();
+    alert('Modelo Mundial reentrenado correctamente.');
+  } catch(err) { alert(`Error: ${err.message}`); }
+  finally {
+    if (btn) { btn.disabled = false; btn.textContent = '⚙ Reentrenar Mundial'; }
+  }
+}
+
+async function adminReentrenarPL() {
+  if (!confirm('¿Reentrenar el modelo Premier League? (~2-3 min)')) return;
+  const btn = document.getElementById('btn-retrain-pl');
+  const tbody = document.getElementById('tbl-metricas-pl');
+  try {
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Entrenando...'; }
+    if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-[#FFB627] text-xs">Entrenando... esto puede tardar 2-3 min</td></tr>';
+    await fetch(`${API_BASE}/api/pl/entrenar`, { method: 'POST' });
+    // Polling hasta que esté listo
+    while (true) {
+      await new Promise(r => setTimeout(r, 5000));
+      const s = await fetch(`${API_BASE}/api/pl/status`).then(r => r.json());
+      if (s.listo) break;
+      if (s.status && s.status.startsWith('error')) throw new Error(s.status);
+    }
+    await cargarMetricas();
+    alert('Modelo Premier League reentrenado correctamente.');
+  } catch(err) { alert(`Error: ${err.message}`); }
+  finally {
+    if (btn) { btn.disabled = false; btn.textContent = '⚙ Reentrenar PL'; }
+  }
+}
+
+// ═══ DATALIST DINÁMICO POR COMPETENCIA ═══════════════════
+const _equiposPorComp = { ucl: [], mundial: [], pl: [] };
+
+async function cargarEquiposMundial() {
+  try {
+    const d = await fetch(`${API_BASE}/api/mundial/equipos`).then(r => r.json());
+    _equiposPorComp.mundial = d.equipos || [];
+  } catch(_) {}
+}
+
+function actualizarEquiposPick() {
+  const comp = (document.getElementById('pk-competencia')?.value || '').toLowerCase();
+  let lista;
+  if (comp.includes('mundial')) {
+    lista = _equiposPorComp.mundial;
+  } else if (comp.includes('premier')) {
+    lista = _equiposPorComp.pl.length ? _equiposPorComp.pl : _equiposPorComp.ucl;
+  } else {
+    lista = _equiposPorComp.ucl;
+  }
+  const opts = '<option value="">— elige equipo —</option>' + lista.map(e => `<option value="${e}">${e}</option>`).join('');
+  const s1 = document.getElementById('pk-e1');
+  const s2 = document.getElementById('pk-e2');
+  if (s1) s1.innerHTML = opts;
+  if (s2) s2.innerHTML = opts;
 }
 
 // ═══ RECORD (mismo que página pública) ═══════════════════
@@ -683,9 +845,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const evals = await api.evaluaciones();
     if (evals.length > 0) {
       state.evaluacionId = evals[evals.length-1].id;
-      const s = await api.estadoEvaluacion(state.evaluacionId);
-      if (s.status === 'training') { setLoading(true,'Completando entrenamiento...'); await esperarEntrenamiento(state.evaluacionId); }
     } else {
+      // Primera vez: crear evaluación base (sin bloquear la UI en ciclos siguientes)
       setLoading(true,'Entrenando modelo por primera vez...');
       const ev = await api.crearEvaluacion();
       state.evaluacionId = ev.id;
@@ -694,14 +855,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('eval-id-text').textContent  = `#${state.evaluacionId}`;
     document.getElementById('eval-id-text2').textContent = `#${state.evaluacionId}`;
 
-    await Promise.all([cargarEquipos(), cargarPartidos(), cargarMetricas(), cargarRanking(), cargarAdminRecord(), cargarTrackPublico(), cargarFeatureImportance()]);
+    await Promise.all([cargarEquipos(), cargarPartidos(), cargarMetricas(), cargarRanking(), cargarAdminRecord(), cargarTrackPublico(), cargarFeatureImportance(), cargarEquiposMundial()]);
     renderKpis();
 
-    // Poblar datalist con todos los equipos (UCL + PL)
-    if (state.equipos.length) {
-      const dl = document.getElementById('equipos-datalist');
-      if (dl) dl.innerHTML = state.equipos.map(e=>`<option value="${e}">`).join('');
-    }
+    // Poblar datalists
+    _equiposPorComp.ucl = state.equipos || [];
+    actualizarEquiposPick(); // carga UCL por defecto
 
     // Cargar pick actual
     try {
@@ -709,6 +868,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       renderPickPreview(pick);
       if (pick?.equipo1) {
         document.getElementById('btn-eliminar-pick').classList.remove('hidden');
+        if (pick.competencia) {
+          document.getElementById('pk-competencia').value = pick.competencia;
+          actualizarEquiposPick();
+        }
         document.getElementById('pk-e1').value = pick.equipo1;
         document.getElementById('pk-e2').value = pick.equipo2;
         document.getElementById('pk-hora').value = pick.hora||'21:00';

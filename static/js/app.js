@@ -125,38 +125,77 @@ $('filtro-historial').addEventListener('input', (e) => {
 // ---------------------------------------------------------------------------
 // Métricas modelos
 // ---------------------------------------------------------------------------
+function _renderMetricasRows(cv) {
+  if (!cv || !cv.length) return '<tr><td colspan="4" class="text-center py-4 text-[#5A6478] text-xs">Sin datos</td></tr>';
+  return cv.map(m => {
+    const lastA = m['Acc Last'] != null ? (m['Acc Last'] * 100).toFixed(1) : '—';
+    const accF  = m['CV Mean']  != null ? (m['CV Mean']  * 100).toFixed(1) : '—';
+    const f1F   = m['F1 Mean']  != null ? (m['F1 Mean']  * 100).toFixed(1) : '—';
+    const std   = m['CV Std']   != null ? (m['CV Std']   * 100).toFixed(1) : '—';
+    const hi    = lastA !== '—' && parseFloat(lastA) >= 58;
+    return `
+      <tr class="border-b border-surface-700/50">
+        <td class="py-2 px-2 font-medium">${m.Model}</td>
+        <td class="py-2 px-2 text-right font-mono font-semibold ${hi ? 'text-emerald-400' : ''}">${lastA}%</td>
+        <td class="py-2 px-2 text-right font-mono text-slate-400">${accF}% <span class="text-slate-500 text-xs">±${std}%</span></td>
+        <td class="py-2 px-2 text-right font-mono">${f1F}%</td>
+      </tr>`;
+  }).join('');
+}
+
 async function cargarMetricas() {
   state.metricas = await api.metricas(state.evaluacionId);
   const tbody = $('tbl-metricas');
   const cv = state.metricas.cv;
 
-  // Mostrar tamaño del dataset usado en el walk-forward
   const nEl = $('metricas-n-partidos');
   const nPart = state.metricas.n_partidos ?? (state.partidos || []).length;
   if (nEl && nPart) nEl.textContent = nPart;
 
-  tbody.innerHTML = cv.map(m => {
-    const accF = m['CV Mean']  != null ? (m['CV Mean']  * 100).toFixed(1) : '—';
-    const f1F  = m['F1 Mean']  != null ? (m['F1 Mean']  * 100).toFixed(1) : '—';
-    const lastA= m['Acc Last'] != null ? (m['Acc Last'] * 100).toFixed(0) : '—';
-    const std  = m['CV Std']   != null ? (m['CV Std']   * 100).toFixed(1) : '—';
-    return `
-      <tr class="border-b border-surface-700/50">
-        <td class="py-2 px-2 font-medium">${m.Model}</td>
-        <td class="py-2 px-2 text-right font-mono">${accF}% <span class="text-slate-500 text-xs">±${std}%</span></td>
-        <td class="py-2 px-2 text-right font-mono ${f1F !== '—' && parseFloat(f1F) > 60 ? 'text-emerald-400' : ''}">${f1F}%</td>
-        <td class="py-2 px-2 text-right font-mono">${lastA}%</td>
-      </tr>`;
-  }).join('');
+  if (tbody) tbody.innerHTML = _renderMetricasRows(cv);
+
+  // Actualizar accMap (usado en pick preview) con Acc Last
+  state.accMap = {};
+  for (const r of cv || []) if (r['Acc Last'] != null) state.accMap[r.Model] = Math.round(r['Acc Last'] * 100);
+
+  // Mundial
+  try {
+    const met = await fetch(`${API_BASE}/api/mundial/metricas`).then(r => r.json());
+    const tbM = document.getElementById('tbl-metricas-mundial');
+    const nM  = document.getElementById('metricas-n-partidos-mundial');
+    if (nM && met.n_partidos) nM.textContent = met.n_partidos;
+    if (tbM) tbM.innerHTML = _renderMetricasRows(met.cv);
+  } catch(_) {
+    const tbM = document.getElementById('tbl-metricas-mundial');
+    if (tbM) tbM.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-[#5A6478] text-xs">No disponible</td></tr>';
+  }
+
+  // Premier League
+  try {
+    const met = await fetch(`${API_BASE}/api/pl/metricas`).then(r => r.json());
+    const tbP = document.getElementById('tbl-metricas-pl');
+    const nP  = document.getElementById('metricas-n-partidos-pl');
+    if (nP && met.n_partidos) nP.textContent = met.n_partidos;
+    if (tbP) tbP.innerHTML = _renderMetricasRows(met.cv);
+  } catch(_) {
+    const tbP = document.getElementById('tbl-metricas-pl');
+    if (tbP) tbP.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-[#5A6478] text-xs">No disponible</td></tr>';
+  }
 }
 
 // ---------------------------------------------------------------------------
 // Ranking ELO
 // ---------------------------------------------------------------------------
 async function cargarRanking() {
-  const data = await api.elos(state.evaluacionId);
-  state.ranking = data.ranking;
   const tbody = $('tbl-elo');
+  let data;
+  try {
+    data = await api.elos(state.evaluacionId);
+  } catch(_) {
+    if (tbody) tbody.innerHTML = '<tr><td colspan="4" class="text-center py-6 text-[#5A6478] text-xs">Modelo no cargado — usa Reentrenar UCL</td></tr>';
+    return;
+  }
+  state.ranking = data.ranking;
   const maxElo = Math.max(...state.ranking.map(r => r.elo));
   const minElo = Math.min(...state.ranking.map(r => r.elo));
   const rango  = maxElo - minElo || 1;
@@ -198,8 +237,14 @@ const colorByAcc = (acc) =>
   :              'text-rose-400';
 
 async function cargarTrackRecord() {
-  const data  = await api.prediccionesTest(state.evaluacionId);
   const tbody = $('tbl-track');
+  let data;
+  try {
+    data = await api.prediccionesTest(state.evaluacionId);
+  } catch(_) {
+    if (tbody) tbody.innerHTML = '<tr><td colspan="9" class="text-center py-6 text-[#5A6478] text-xs">Sin datos de test</td></tr>';
+    return;
+  }
   const tipo  = data.tipo || 'test_split';
   const rows  = data.predicciones || [];
 

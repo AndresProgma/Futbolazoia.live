@@ -258,6 +258,13 @@
       animation:money-shine 2.8s linear infinite;
       font-weight:600;
     }
+    .model-green {
+      background:linear-gradient(90deg,#00e5a0,#00ffc8,#00e5a0);
+      background-size:200% auto;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      animation:money-shine 2s linear infinite reverse;
+      font-weight:700;
+    }
     @keyframes badge-pop {
       0%  { transform:scale(.85); opacity:0; }
       80% { transform:scale(1.05); }
@@ -700,7 +707,7 @@
     <div id="hero-date" class="font-mono text-[11px] tracking-widest uppercase mb-3" style="color:var(--pos)"></div>
     <h1 class="text-4xl md:text-[50px] font-semibold tracking-tight leading-[1.08] mb-4">
       Hoy juegan <span id="hero-count" style="color:var(--pos)">&#x2014;</span> partidos<br>
-      de Champions. <span class="money-text">Esto es lo que dice el modelo.</span>
+      de Champions. 💰<span class="money-text">Esto es lo que dice el <span class="model-green">modelo</span>.</span>💰
     </h1>
     <p class="text-[#97A0B5] text-base max-w-2xl leading-relaxed">
       El partido que hoy encontramos con valor y que nuestra IA predice mejor es:
@@ -1261,7 +1268,7 @@ function setLoading(on, msg='Procesando...') {
 // ═══ AUTH ═══════════════════════════════════════════════════════════
 // Cambiar credenciales aquí:
 const FZ_CREDS = {
-  admin: { user: 'admin', pass: 'fz2026!' },
+  admin: { user: 'admin', pass: '12pipe27' },
   pro:   { pass: 'pro2026' }
 };
 // ════════════════════════════════════════════════════════════════════
@@ -1439,15 +1446,42 @@ function _mejorLinea(distObj, label) {
   };
 }
 
-function autoValores(mercados) {
+function _bestUnder(distObj) {
+  if (!distObj) return null;
+  const overLines = Object.entries(distObj)
+    .filter(([k]) => k.startsWith('over_'))
+    .map(([k, v]) => ({ line: parseFloat(k.replace('over_','').replace('_','.')), prob: v }))
+    .filter(x => !isNaN(x.line));
+  const candidates = overLines.map(x => ({ line: x.line, prob: 1 - x.prob }))
+    .filter(x => x.prob >= 0.62 && x.prob <= 0.75).sort((a, b) => b.prob - a.prob);
+  return candidates[0] || null;
+}
+
+function autoValores(mercados, consenso, e1, e2) {
   if (!mercados) return [];
-  const items = [
-    _mejorLinea(mercados.goles_dist,  'Goles'),
-    _mejorLinea(mercados.corners,     'Corners'),
-    _mejorLinea(mercados.amarillas,   'Tarjetas'),
-  ].filter(Boolean);
-  // La de mayor probabilidad va primera (hot)
-  items.sort((a, b) => b.porcentaje - a.porcentaje);
+  const items = [];
+
+  // 1. Resultado más probable
+  if (consenso) {
+    let label, desc, pct;
+    if (consenso.win >= consenso.draw && consenso.win >= consenso.loss) {
+      label = `1X2 · ${e1}`; desc = 'Victoria local'; pct = Math.round(consenso.win * 100);
+    } else if (consenso.loss >= consenso.win && consenso.loss >= consenso.draw) {
+      label = `1X2 · ${e2}`; desc = 'Victoria visitante'; pct = Math.round(consenso.loss * 100);
+    } else {
+      label = '1X2 · Empate'; desc = 'Partido igualado'; pct = Math.round(consenso.draw * 100);
+    }
+    items.push({ nombre: label, descripcion: desc, porcentaje: pct });
+  }
+
+  // 2. Mejor Under corners
+  const cu = _bestUnder(mercados.corners);
+  if (cu) items.push({ nombre: `Corners U${cu.line}`, descripcion: 'Mejor under corners', porcentaje: Math.round(cu.prob * 100) });
+
+  // 3. Mejor Under amarillas
+  const au = _bestUnder(mercados.amarillas);
+  if (au) items.push({ nombre: `Amarillas U${au.line}`, descripcion: 'Mejor under amarillas', porcentaje: Math.round(au.prob * 100) });
+
   return items;
 }
 
@@ -1651,7 +1685,7 @@ document.getElementById('form-set-pick').addEventListener('submit', async e => {
     });
 
     // 2. Auto-seleccionar los 3 valores desde los mercados
-    const valores = autoValores(pred.mercados);
+    const valores = autoValores(pred.mercados, pred.consenso, e1, e2);
 
     // 3. Guardar el pick en el backend
     const body = {

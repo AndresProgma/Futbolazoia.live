@@ -1,208 +1,209 @@
 {
-  "equipo1": "Paris",
-  "equipo2": "Arsenal",
+  "equipo1": "Colombia",
+  "equipo2": "Costa Rica",
   "hora": "21:00",
-  "fase": "Final",
-  "prob_win": 0.5238753318468177,
-  "prob_draw": 0.16793618934325322,
-  "prob_loss": 0.3081884788099291,
+  "fase": "Cuartos",
+  "competencia": "Mundial",
+  "prob_win": 0.7062891641426212,
+  "prob_draw": 0.18941115311848228,
+  "prob_loss": 0.10429968273889657,
   "valores": [
     {
-      "nombre": "Ambos marcan · sí",
-      "descripcion": "Ambos equipos anotan",
-      "porcentaje": 67
+      "nombre": "1X2 · Colombia",
+      "descripcion": "Victoria local",
+      "porcentaje": 71
     },
     {
-      "nombre": "Más de 2.5 goles",
-      "descripcion": "xG total: 3.50",
-      "porcentaje": 68
+      "nombre": "Corners U11.5",
+      "descripcion": "Mejor under corners",
+      "porcentaje": 73
     },
     {
-      "nombre": "DNB · Paris",
-      "descripcion": "Sin empate",
-      "porcentaje": 63
+      "nombre": "Amarillas U4.5",
+      "descripcion": "Mejor under amarillas",
+      "porcentaje": 65
     }
   ],
   "mercados": {
     "btts": {
-      "si": 0.6675,
-      "no": 0.3325
+      "si": 0.5985,
+      "no": 0.4016
     },
     "resultado_correcto": [
       {
-        "score": "1-1",
-        "g1": 1,
-        "g2": 1,
-        "prob": 0.0882
+        "score": "3-0",
+        "g1": 3,
+        "g2": 0,
+        "prob": 0.0825
       },
       {
         "score": "2-1",
         "g1": 2,
         "g2": 1,
-        "prob": 0.088
-      },
-      {
-        "score": "1-2",
-        "g1": 1,
-        "g2": 2,
-        "prob": 0.0669
-      },
-      {
-        "score": "2-2",
-        "g1": 2,
-        "g2": 2,
-        "prob": 0.0664
-      },
-      {
-        "score": "1-0",
-        "g1": 1,
-        "g2": 0,
-        "prob": 0.0627
+        "prob": 0.0818
       },
       {
         "score": "2-0",
         "g1": 2,
         "g2": 0,
-        "prob": 0.062
+        "prob": 0.0811
       },
       {
         "score": "3-1",
         "g1": 3,
         "g2": 1,
-        "prob": 0.0605
+        "prob": 0.0801
       },
       {
-        "score": "0-1",
-        "g1": 0,
+        "score": "4-1",
+        "g1": 4,
         "g2": 1,
-        "prob": 0.0446
+        "prob": 0.0636
+      },
+      {
+        "score": "4-0",
+        "g1": 4,
+        "g2": 0,
+        "prob": 0.0614
+      },
+      {
+        "score": "1-0",
+        "g1": 1,
+        "g2": 0,
+        "prob": 0.0553
+      },
+      {
+        "score": "1-1",
+        "g1": 1,
+        "g2": 1,
+        "prob": 0.053
+      },
+      {
+        "score": "2-2",
+        "g1": 2,
+        "g2": 2,
+        "prob": 0.0413
       },
       {
         "score": "3-2",
         "g1": 3,
         "g2": 2,
-        "prob": 0.0442
-      },
-      {
-        "score": "3-0",
-        "g1": 3,
-        "g2": 0,
-        "prob": 0.0408
+        "prob": 0.0391
       }
     ],
     "dnb": {
-      "Paris": 0.6296,
-      "Arsenal": 0.3704
+      "Colombia": 0.8713,
+      "Costa Rica": 0.1287
     },
     "doble_oportunidad": {
-      "1X (gana Paris o empate)": 0.6918,
-      "X2 (empate o gana Arsenal)": 0.4761,
-      "12 (no empate)": 0.8321
+      "1X (gana Colombia o empate)": 0.8957,
+      "X2 (empate o gana Costa Rica)": 0.2937,
+      "12 (no empate)": 0.8106
     },
     "goles_e1": {
-      "nombre": "Paris",
-      "xg": 2,
-      "over_0_5": 0.8639,
-      "over_1_5": 0.5946,
-      "over_2_5": 0.3235
+      "nombre": "Colombia",
+      "xg": 3.02,
+      "over_0_5": 0.9497,
+      "over_1_5": 0.8001,
+      "over_2_5": 0.5784
     },
     "goles_e2": {
-      "nombre": "Arsenal",
-      "xg": 1.5,
-      "over_0_5": 0.7739,
-      "over_1_5": 0.443,
-      "over_2_5": 0.1971
+      "nombre": "Costa Rica",
+      "xg": 1,
+      "over_0_5": 0.6297,
+      "over_1_5": 0.2659,
+      "over_2_5": 0.0799
     },
     "total_goles": {
-      "xg": 3.5,
-      "over_0_5": 0.9702,
-      "over_1_5": 0.8629,
-      "over_2_5": 0.6788,
-      "over_3_5": 0.4642,
-      "over_4_5": 0.2766
+      "xg": 4.02,
+      "over_0_5": 0.9809,
+      "over_1_5": 0.9073,
+      "over_2_5": 0.764,
+      "over_3_5": 0.5667,
+      "over_4_5": 0.3746
     },
     "handicap": {
-      "Paris -1": 0.2854,
-      "Paris -1.5": 0.2854,
-      "Paris -2": 0.1368,
-      "+1 Arsenal": 0.8652,
-      "+1.5 Arsenal": 0.8652,
-      "Arsenal -1": 0.1348,
-      "Arsenal -1.5": 0.1348
+      "Colombia -1": 0.5868,
+      "Colombia -1.5": 0.5868,
+      "Colombia -2": 0.3876,
+      "+1 Costa Rica": 0.9703,
+      "+1.5 Costa Rica": 0.9703,
+      "Costa Rica -1": 0.0297,
+      "Costa Rica -1.5": 0.0297
     },
     "win_btts": {
-      "Paris": 0.299,
-      "Arsenal": 0.1867
+      "Colombia": 0.4239,
+      "Costa Rica": 0.0649
     },
-    "gol_ambas_mitades": 0.671,
+    "gol_ambas_mitades": 0.7439,
     "ht_ft": {
-      "W/W": 0.3028,
-      "W/D": 0.0527,
-      "W/L": 0.0235,
-      "D/W": 0.149,
-      "D/D": 0.1108,
-      "D/L": 0.0965,
-      "L/W": 0.0367,
-      "L/D": 0.0565,
-      "L/L": 0.1715
+      "W/W": 0.5571,
+      "W/D": 0.0319,
+      "W/L": 0.0089,
+      "D/W": 0.1799,
+      "D/D": 0.0662,
+      "D/L": 0.034,
+      "L/W": 0.0396,
+      "L/D": 0.0319,
+      "L/L": 0.0505
     },
     "corners": {
-      "esperado": 9.4,
+      "esperado": 9.7,
       "mas_probable": 9,
-      "mas_probable_p": 0.1305,
+      "mas_probable_p": 0.1326,
       "top5": [
         {
           "valor": 9,
-          "prob": 0.1305
-        },
-        {
-          "valor": 8,
-          "prob": 0.1265
+          "prob": 0.1326
         },
         {
           "valor": 10,
-          "prob": 0.1185
+          "prob": 0.1226
         },
         {
-          "valor": 7,
-          "prob": 0.1065
+          "valor": 8,
+          "prob": 0.1166
         },
         {
           "valor": 11,
-          "prob": 0.1038
+          "prob": 0.1108
+        },
+        {
+          "valor": 7,
+          "prob": 0.1017
         }
       ],
       "rango_60": {
         "lo": 7,
         "hi": 12,
-        "prob": 0.6684
+        "prob": 0.6705
       },
       "rango_80": {
         "lo": 6,
         "hi": 13,
-        "prob": 0.8083
+        "prob": 0.8104
       },
       "over_0_5": 1,
       "over_1_5": 0.9993,
-      "over_2_5": 0.9953,
-      "over_3_5": 0.9838,
-      "over_4_5": 0.9555,
-      "over_5_5": 0.9041,
-      "over_6_5": 0.8232,
-      "over_7_5": 0.7167,
-      "over_8_5": 0.5901,
-      "over_9_5": 0.4596,
-      "over_10_5": 0.3411,
-      "over_11_5": 0.2372,
-      "over_12_5": 0.1547,
-      "over_13_5": 0.0958,
-      "over_14_5": 0.0559,
-      "over_15_5": 0.0315,
-      "over_16_5": 0.016,
-      "over_17_5": 0.0084,
-      "over_18_5": 0.0037,
-      "over_19_5": 0.0019,
-      "over_20_5": 0.0008,
+      "over_2_5": 0.9967,
+      "over_3_5": 0.9876,
+      "over_4_5": 0.9639,
+      "over_5_5": 0.9212,
+      "over_6_5": 0.8495,
+      "over_7_5": 0.7478,
+      "over_8_5": 0.6312,
+      "over_9_5": 0.4986,
+      "over_10_5": 0.376,
+      "over_11_5": 0.2652,
+      "over_12_5": 0.179,
+      "over_13_5": 0.1108,
+      "over_14_5": 0.0664,
+      "over_15_5": 0.0364,
+      "over_16_5": 0.0196,
+      "over_17_5": 0.0106,
+      "over_18_5": 0.005,
+      "over_19_5": 0.0022,
+      "over_20_5": 0.001,
       "over_21_5": 0.0003,
       "over_22_5": 0.0001,
       "over_23_5": 0.0001,
@@ -210,471 +211,494 @@
       "over_25_5": 0
     },
     "corners_e1": {
-      "esperado": 5.9,
-      "mas_probable": 5,
-      "mas_probable_p": 0.1643,
+      "esperado": 4.7,
+      "mas_probable": 4,
+      "mas_probable_p": 0.1877,
       "top5": [
         {
+          "valor": 4,
+          "prob": 0.1877
+        },
+        {
           "valor": 5,
-          "prob": 0.1643
+          "prob": 0.1716
+        },
+        {
+          "valor": 3,
+          "prob": 0.1623
         },
         {
           "valor": 6,
-          "prob": 0.1599
-        },
-        {
-          "valor": 4,
-          "prob": 0.1361
-        },
-        {
-          "valor": 7,
-          "prob": 0.1341
-        },
-        {
-          "valor": 8,
-          "prob": 0.1013
-        }
-      ],
-      "rango_60": {
-        "lo": 4,
-        "hi": 8,
-        "prob": 0.6956
-      },
-      "rango_80": {
-        "lo": 3,
-        "hi": 9,
-        "prob": 0.8584
-      },
-      "over_0_5": 0.9968,
-      "over_1_5": 0.9825,
-      "over_2_5": 0.9364,
-      "over_3_5": 0.8399,
-      "over_4_5": 0.7037,
-      "over_5_5": 0.5395,
-      "over_6_5": 0.3796,
-      "over_7_5": 0.2455,
-      "over_8_5": 0.1442,
-      "over_9_5": 0.078,
-      "over_10_5": 0.0391,
-      "over_11_5": 0.0181,
-      "over_12_5": 0.0078,
-      "over_13_5": 0.0033,
-      "over_14_5": 0.0011,
-      "over_15_5": 0.0006,
-      "over_16_5": 0.0002,
-      "over_17_5": 0
-    },
-    "corners_e2": {
-      "esperado": 3.5,
-      "mas_probable": 3,
-      "mas_probable_p": 0.2172,
-      "top5": [
-        {
-          "valor": 3,
-          "prob": 0.2172
-        },
-        {
-          "valor": 4,
-          "prob": 0.1883
+          "prob": 0.1343
         },
         {
           "valor": 2,
-          "prob": 0.1873
+          "prob": 0.1041
+        }
+      ],
+      "rango_60": {
+        "lo": 3,
+        "hi": 6,
+        "prob": 0.6558
+      },
+      "rango_80": {
+        "lo": 2,
+        "hi": 7,
+        "prob": 0.8481
+      },
+      "over_0_5": 0.9897,
+      "over_1_5": 0.948,
+      "over_2_5": 0.8439,
+      "over_3_5": 0.6816,
+      "over_4_5": 0.494,
+      "over_5_5": 0.3225,
+      "over_6_5": 0.1882,
+      "over_7_5": 0.0999,
+      "over_8_5": 0.0488,
+      "over_9_5": 0.0215,
+      "over_10_5": 0.0086,
+      "over_11_5": 0.0029,
+      "over_12_5": 0.0008,
+      "over_13_5": 0.0003,
+      "over_14_5": 0.0001,
+      "over_15_5": 0.0001,
+      "over_16_5": 0
+    },
+    "corners_e2": {
+      "esperado": 5,
+      "mas_probable": 4,
+      "mas_probable_p": 0.176,
+      "top5": [
+        {
+          "valor": 4,
+          "prob": 0.176
         },
         {
           "valor": 5,
-          "prob": 0.1334
+          "prob": 0.1759
         },
         {
-          "valor": 1,
-          "prob": 0.1114
+          "valor": 6,
+          "prob": 0.1479
+        },
+        {
+          "valor": 3,
+          "prob": 0.1391
+        },
+        {
+          "valor": 7,
+          "prob": 0.1046
+        }
+      ],
+      "rango_60": {
+        "lo": 3,
+        "hi": 6,
+        "prob": 0.6389
+      },
+      "rango_80": {
+        "lo": 2,
+        "hi": 7,
+        "prob": 0.8268
+      },
+      "over_0_5": 0.9939,
+      "over_1_5": 0.9604,
+      "over_2_5": 0.877,
+      "over_3_5": 0.7379,
+      "over_4_5": 0.5619,
+      "over_5_5": 0.3861,
+      "over_6_5": 0.2382,
+      "over_7_5": 0.1336,
+      "over_8_5": 0.0698,
+      "over_9_5": 0.0335,
+      "over_10_5": 0.015,
+      "over_11_5": 0.0065,
+      "over_12_5": 0.0023,
+      "over_13_5": 0.0006,
+      "over_14_5": 0.0002,
+      "over_15_5": 0.0001,
+      "over_16_5": 0.0001,
+      "over_17_5": 0.0001,
+      "over_18_5": 0.0001,
+      "over_19_5": 0
+    },
+    "amarillas": {
+      "esperado": 3.9,
+      "mas_probable": 4,
+      "mas_probable_p": 0.2029,
+      "top5": [
+        {
+          "valor": 4,
+          "prob": 0.2029
+        },
+        {
+          "valor": 3,
+          "prob": 0.1988
+        },
+        {
+          "valor": 2,
+          "prob": 0.1572
+        },
+        {
+          "valor": 5,
+          "prob": 0.1535
+        },
+        {
+          "valor": 6,
+          "prob": 0.0935
         }
       ],
       "rango_60": {
         "lo": 2,
         "hi": 5,
-        "prob": 0.7262
+        "prob": 0.7124
       },
       "rango_80": {
-        "lo": 1,
-        "hi": 5,
-        "prob": 0.8376
+        "lo": 2,
+        "hi": 6,
+        "prob": 0.8059
       },
-      "over_0_5": 0.9709,
-      "over_1_5": 0.8595,
-      "over_2_5": 0.6722,
-      "over_3_5": 0.455,
-      "over_4_5": 0.2667,
-      "over_5_5": 0.1333,
-      "over_6_5": 0.0617,
-      "over_7_5": 0.0253,
-      "over_8_5": 0.0093,
-      "over_9_5": 0.0032,
-      "over_10_5": 0.0009,
-      "over_11_5": 0.0004,
-      "over_12_5": 0.0002,
+      "over_0_5": 0.9815,
+      "over_1_5": 0.9052,
+      "over_2_5": 0.7481,
+      "over_3_5": 0.5493,
+      "over_4_5": 0.3464,
+      "over_5_5": 0.1929,
+      "over_6_5": 0.0993,
+      "over_7_5": 0.0453,
+      "over_8_5": 0.0193,
+      "over_9_5": 0.0069,
+      "over_10_5": 0.0024,
+      "over_11_5": 0.0007,
+      "over_12_5": 0.0001,
       "over_13_5": 0.0001,
-      "over_14_5": 0.0001,
-      "over_15_5": 0
+      "over_14_5": 0
     },
-    "amarillas": {
-      "esperado": 2.9,
+    "amarillas_e1": {
+      "esperado": 2.1,
       "mas_probable": 2,
-      "mas_probable_p": 0.2401,
+      "mas_probable_p": 0.2766,
       "top5": [
         {
           "valor": 2,
-          "prob": 0.2401
-        },
-        {
-          "valor": 3,
-          "prob": 0.2233
+          "prob": 0.2766
         },
         {
           "valor": 1,
-          "prob": 0.1598
+          "prob": 0.2472
+        },
+        {
+          "valor": 3,
+          "prob": 0.1906
+        },
+        {
+          "valor": 0,
+          "prob": 0.1174
         },
         {
           "valor": 4,
-          "prob": 0.157
-        },
-        {
-          "valor": 5,
-          "prob": 0.0937
+          "prob": 0.1018
         }
       ],
       "rango_60": {
         "lo": 1,
         "hi": 3,
-        "prob": 0.6232
-      },
-      "rango_80": {
-        "lo": 1,
-        "hi": 5,
-        "prob": 0.8739
-      },
-      "over_0_5": 0.9448,
-      "over_1_5": 0.7851,
-      "over_2_5": 0.545,
-      "over_3_5": 0.3216,
-      "over_4_5": 0.1646,
-      "over_5_5": 0.0709,
-      "over_6_5": 0.0285,
-      "over_7_5": 0.01,
-      "over_8_5": 0.0032,
-      "over_9_5": 0.0009,
-      "over_10_5": 0.0002,
-      "over_11_5": 0.0001,
-      "over_12_5": 0
-    },
-    "amarillas_e1": {
-      "esperado": 1,
-      "mas_probable": 1,
-      "mas_probable_p": 0.3646,
-      "top5": [
-        {
-          "valor": 1,
-          "prob": 0.3646
-        },
-        {
-          "valor": 0,
-          "prob": 0.3608
-        },
-        {
-          "valor": 2,
-          "prob": 0.19
-        },
-        {
-          "valor": 3,
-          "prob": 0.0625
-        },
-        {
-          "valor": 4,
-          "prob": 0.0182
-        }
-      ],
-      "rango_60": {
-        "lo": 0,
-        "hi": 1,
-        "prob": 0.7254
+        "prob": 0.7144
       },
       "rango_80": {
         "lo": 0,
-        "hi": 2,
-        "prob": 0.9155
+        "hi": 3,
+        "prob": 0.8318
       },
-      "over_0_5": 0.6392,
-      "over_1_5": 0.2746,
-      "over_2_5": 0.0846,
-      "over_3_5": 0.0221,
-      "over_4_5": 0.0039,
-      "over_5_5": 0.0008,
-      "over_6_5": 0.0001,
-      "over_7_5": 0.0001,
-      "over_8_5": 0
+      "over_0_5": 0.8826,
+      "over_1_5": 0.6354,
+      "over_2_5": 0.3588,
+      "over_3_5": 0.1682,
+      "over_4_5": 0.0664,
+      "over_5_5": 0.0221,
+      "over_6_5": 0.006,
+      "over_7_5": 0.0016,
+      "over_8_5": 0.0003,
+      "over_9_5": 0
     },
     "amarillas_e2": {
       "esperado": 1.8,
       "mas_probable": 1,
-      "mas_probable_p": 0.2938,
+      "mas_probable_p": 0.3053,
       "top5": [
         {
           "valor": 1,
-          "prob": 0.2938
+          "prob": 0.3053
         },
         {
           "valor": 2,
-          "prob": 0.2691
-        },
-        {
-          "valor": 3,
-          "prob": 0.1673
+          "prob": 0.2721
         },
         {
           "valor": 0,
-          "prob": 0.1548
+          "prob": 0.1686
+        },
+        {
+          "valor": 3,
+          "prob": 0.1544
         },
         {
           "valor": 4,
-          "prob": 0.0751
+          "prob": 0.0675
         }
       ],
       "rango_60": {
-        "lo": 1,
-        "hi": 3,
-        "prob": 0.7301
+        "lo": 0,
+        "hi": 2,
+        "prob": 0.746
       },
       "rango_80": {
         "lo": 0,
         "hi": 3,
-        "prob": 0.885
+        "prob": 0.9003
       },
-      "over_0_5": 0.8451,
-      "over_1_5": 0.5514,
-      "over_2_5": 0.2823,
-      "over_3_5": 0.115,
-      "over_4_5": 0.0399,
-      "over_5_5": 0.012,
-      "over_6_5": 0.0029,
+      "over_0_5": 0.8314,
+      "over_1_5": 0.5261,
+      "over_2_5": 0.254,
+      "over_3_5": 0.0997,
+      "over_4_5": 0.0321,
+      "over_5_5": 0.0095,
+      "over_6_5": 0.0021,
       "over_7_5": 0.0008,
       "over_8_5": 0.0002,
       "over_9_5": 0.0001,
       "over_10_5": 0
     },
     "goles_dist": {
-      "esperado": 3.5,
+      "esperado": 4,
       "mas_probable": 3,
-      "mas_probable_p": 0.2147,
+      "mas_probable_p": 0.1972,
       "top5": [
         {
           "valor": 3,
-          "prob": 0.2147
+          "prob": 0.1972
         },
         {
           "valor": 4,
-          "prob": 0.1876
-        },
-        {
-          "valor": 2,
-          "prob": 0.1841
+          "prob": 0.1921
         },
         {
           "valor": 5,
-          "prob": 0.1324
+          "prob": 0.1562
         },
         {
-          "valor": 1,
-          "prob": 0.1073
+          "valor": 2,
+          "prob": 0.1434
+        },
+        {
+          "valor": 6,
+          "prob": 0.1022
         }
       ],
       "rango_60": {
         "lo": 2,
         "hi": 5,
-        "prob": 0.7188
+        "prob": 0.6889
+      },
+      "rango_80": {
+        "lo": 1,
+        "hi": 6,
+        "prob": 0.8647
+      },
+      "over_0_5": 0.9809,
+      "over_1_5": 0.9073,
+      "over_2_5": 0.764,
+      "over_3_5": 0.5667,
+      "over_4_5": 0.3746,
+      "over_5_5": 0.2184,
+      "over_6_5": 0.1162,
+      "over_7_5": 0.0532,
+      "over_8_5": 0.0227,
+      "over_9_5": 0.0086,
+      "over_10_5": 0.0027,
+      "over_11_5": 0.0007,
+      "over_12_5": 0.0003,
+      "over_13_5": 0
+    },
+    "goles_e1_dist": {
+      "esperado": 3,
+      "mas_probable": 2,
+      "mas_probable_p": 0.2218,
+      "top5": [
+        {
+          "valor": 2,
+          "prob": 0.2218
+        },
+        {
+          "valor": 3,
+          "prob": 0.2198
+        },
+        {
+          "valor": 4,
+          "prob": 0.1686
+        },
+        {
+          "valor": 1,
+          "prob": 0.1496
+        },
+        {
+          "valor": 5,
+          "prob": 0.1046
+        }
+      ],
+      "rango_60": {
+        "lo": 2,
+        "hi": 4,
+        "prob": 0.6101
       },
       "rango_80": {
         "lo": 1,
         "hi": 5,
-        "prob": 0.826
+        "prob": 0.8643
       },
-      "over_0_5": 0.9702,
-      "over_1_5": 0.8629,
-      "over_2_5": 0.6788,
-      "over_3_5": 0.4642,
-      "over_4_5": 0.2766,
-      "over_5_5": 0.1442,
-      "over_6_5": 0.0663,
-      "over_7_5": 0.0265,
-      "over_8_5": 0.0105,
-      "over_9_5": 0.0032,
-      "over_10_5": 0.0009,
-      "over_11_5": 0.0002,
-      "over_12_5": 0.0001,
-      "over_13_5": 0
-    },
-    "goles_e1_dist": {
-      "esperado": 2,
-      "mas_probable": 2,
-      "mas_probable_p": 0.2711,
-      "top5": [
-        {
-          "valor": 2,
-          "prob": 0.2711
-        },
-        {
-          "valor": 1,
-          "prob": 0.2693
-        },
-        {
-          "valor": 3,
-          "prob": 0.1797
-        },
-        {
-          "valor": 0,
-          "prob": 0.1361
-        },
-        {
-          "valor": 4,
-          "prob": 0.0903
-        }
-      ],
-      "rango_60": {
-        "lo": 1,
-        "hi": 3,
-        "prob": 0.7201
-      },
-      "rango_80": {
-        "lo": 0,
-        "hi": 3,
-        "prob": 0.8562
-      },
-      "over_0_5": 0.8639,
-      "over_1_5": 0.5946,
-      "over_2_5": 0.3235,
-      "over_3_5": 0.1437,
-      "over_4_5": 0.0534,
-      "over_5_5": 0.0169,
-      "over_6_5": 0.004,
-      "over_7_5": 0.001,
-      "over_8_5": 0.0001,
-      "over_9_5": 0
+      "over_0_5": 0.9497,
+      "over_1_5": 0.8001,
+      "over_2_5": 0.5784,
+      "over_3_5": 0.3586,
+      "over_4_5": 0.19,
+      "over_5_5": 0.0854,
+      "over_6_5": 0.0367,
+      "over_7_5": 0.0129,
+      "over_8_5": 0.0037,
+      "over_9_5": 0.001,
+      "over_10_5": 0.0003,
+      "over_11_5": 0.0001,
+      "over_12_5": 0
     },
     "goles_e2_dist": {
-      "esperado": 1.5,
-      "mas_probable": 1,
-      "mas_probable_p": 0.3308,
+      "esperado": 1,
+      "mas_probable": 0,
+      "mas_probable_p": 0.3704,
       "top5": [
         {
+          "valor": 0,
+          "prob": 0.3704
+        },
+        {
           "valor": 1,
-          "prob": 0.3308
+          "prob": 0.3638
         },
         {
           "valor": 2,
-          "prob": 0.2459
-        },
-        {
-          "valor": 0,
-          "prob": 0.2261
+          "prob": 0.186
         },
         {
           "valor": 3,
-          "prob": 0.1321
+          "prob": 0.0608
         },
         {
           "valor": 4,
-          "prob": 0.0466
+          "prob": 0.0146
         }
       ],
       "rango_60": {
         "lo": 0,
-        "hi": 2,
-        "prob": 0.8028
+        "hi": 1,
+        "prob": 0.7341
       },
       "rango_80": {
         "lo": 0,
         "hi": 2,
-        "prob": 0.8028
+        "prob": 0.9201
       },
-      "over_0_5": 0.7739,
-      "over_1_5": 0.443,
-      "over_2_5": 0.1971,
-      "over_3_5": 0.0651,
-      "over_4_5": 0.0185,
-      "over_5_5": 0.0046,
-      "over_6_5": 0.001,
-      "over_7_5": 0.0001,
-      "over_8_5": 0
+      "over_0_5": 0.6297,
+      "over_1_5": 0.2659,
+      "over_2_5": 0.0799,
+      "over_3_5": 0.0191,
+      "over_4_5": 0.0044,
+      "over_5_5": 0.0004,
+      "over_6_5": 0
     }
   },
   "modelos": [
     {
       "modelo": "Dixon-Coles",
-      "pred": "Loss",
-      "win": 0.3392632542549042,
-      "draw": 0.27089237348544365,
-      "loss": 0.3898443722596523,
-      "accuracy": 56
-    },
-    {
-      "modelo": "Gradient Boosting",
       "pred": "Win",
-      "win": 0.6365912854606883,
-      "draw": 0.15829818529860526,
-      "loss": 0.20511052924070644,
-      "accuracy": 54
-    },
-    {
-      "modelo": "Random Forest",
-      "pred": "Win",
-      "win": 0.5604151493748016,
-      "draw": 0.15092262000091058,
-      "loss": 0.28866223062428775,
-      "accuracy": 57
-    },
-    {
-      "modelo": "KNN",
-      "pred": "Win",
-      "win": 0.4694891849110349,
-      "draw": 0.14824929792278782,
-      "loss": 0.38226151716617734,
-      "accuracy": 53
+      "win": 0.6791533909506166,
+      "draw": 0.21078264222698645,
+      "loss": 0.110063966822397,
+      "accuracy": 58
     },
     {
       "modelo": "Logistic Regression",
       "pred": "Win",
-      "win": 0.5378830082575281,
-      "draw": 0.150644346384624,
-      "loss": 0.3114726453578479,
-      "accuracy": 56
+      "win": 0.6729173768867381,
+      "draw": 0.26075594325820356,
+      "loss": 0.06632667985505829,
+      "accuracy": 55
     },
     {
       "modelo": "SVM",
       "pred": "Win",
-      "win": 0.5264195620872157,
-      "draw": 0.13641171519559644,
-      "loss": 0.33716872271718784,
-      "accuracy": 56
+      "win": 0.7898470509280887,
+      "draw": 0.18961076188810977,
+      "loss": 0.020542187183801606,
+      "accuracy": 53
     },
     {
       "modelo": "XGBoost",
       "pred": "Win",
-      "win": 0.5970658785815507,
-      "draw": 0.16013478711480494,
-      "loss": 0.2427993343036444,
-      "accuracy": 54
+      "win": 0.7059627224873194,
+      "draw": 0.16827458356457217,
+      "loss": 0.12576269394810843,
+      "accuracy": 46
+    },
+    {
+      "modelo": "Random Forest",
+      "pred": "Win",
+      "win": 0.7154719529971356,
+      "draw": 0.15117898573682578,
+      "loss": 0.13334906126603854,
+      "accuracy": 51
+    },
+    {
+      "modelo": "LightGBM",
+      "pred": "Win",
+      "win": 0.7683384232869835,
+      "draw": 0.14412149394732235,
+      "loss": 0.08754008276569399,
+      "accuracy": 49
+    },
+    {
+      "modelo": "Gradient Boosting",
+      "pred": "Win",
+      "win": 0.6860539877895401,
+      "draw": 0.18335503354538718,
+      "loss": 0.1305909786650727,
+      "accuracy": 48
+    },
+    {
+      "modelo": "KNN",
+      "pred": "Win",
+      "win": 0.569665240250258,
+      "draw": 0.246399033508586,
+      "loss": 0.18393572624115598,
+      "accuracy": 48
+    },
+    {
+      "modelo": "Stacker",
+      "pred": "Win",
+      "win": 0.756919372653538,
+      "draw": 0.1485890189872559,
+      "loss": 0.09449160835920607,
+      "accuracy": null
     }
   ],
   "goles": [
     {
       "modelo": "Random Forest",
-      "g1": 2,
-      "g2": 2,
-      "std1": 0.12775087755821474,
-      "std2": 0.09234072084974633
+      "g1": 3,
+      "g2": 1,
+      "std1": 0.07413501197140251,
+      "std2": 0.08708616422830898
     },
     {
       "modelo": "XGBoost",
-      "g1": 2,
+      "g1": 3,
       "g2": 1,
       "std1": 0,
       "std2": 0
@@ -683,53 +707,53 @@
   "ultimos_e1": [
     {
       "fecha": "—",
-      "rival": "Arsenal",
-      "gf": 1,
-      "gc": 1,
-      "res": "D",
-      "es_local": true
-    },
-    {
-      "fecha": "—",
-      "rival": "Bayern Munchen",
-      "gf": 1,
-      "gc": 1,
-      "res": "D",
-      "es_local": false
-    },
-    {
-      "fecha": "—",
-      "rival": "Bayern Munchen",
-      "gf": 5,
-      "gc": 4,
+      "rival": "Venezuela",
+      "gf": 6,
+      "gc": 3,
       "res": "W",
-      "es_local": true
-    }
-  ],
-  "ultimos_e2": [
-    {
-      "fecha": "—",
-      "rival": "Paris",
-      "gf": 1,
-      "gc": 1,
-      "res": "D",
       "es_local": false
     },
     {
       "fecha": "—",
-      "rival": "Atleti",
-      "gf": 1,
+      "rival": "Bolivia",
+      "gf": 3,
       "gc": 0,
       "res": "W",
       "es_local": true
     },
     {
       "fecha": "—",
-      "rival": "Atleti",
+      "rival": "Argentina",
       "gf": 1,
       "gc": 1,
       "res": "D",
       "es_local": false
+    }
+  ],
+  "ultimos_e2": [
+    {
+      "fecha": "—",
+      "rival": "México",
+      "gf": 0,
+      "gc": 0,
+      "res": "D",
+      "es_local": false
+    },
+    {
+      "fecha": "—",
+      "rival": "Dominican Republic",
+      "gf": 2,
+      "gc": 1,
+      "res": "W",
+      "es_local": true
+    },
+    {
+      "fecha": "—",
+      "rival": "Suriname",
+      "gf": 4,
+      "gc": 3,
+      "res": "W",
+      "es_local": true
     }
   ],
   "stats_equipos": null

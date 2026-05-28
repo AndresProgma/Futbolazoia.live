@@ -37,9 +37,18 @@ from sklearn.pipeline import Pipeline
 from sklearn.calibration import CalibratedClassifierCV
 from xgboost import XGBClassifier, XGBRegressor
 
+try:
+    from lightgbm import LGBMClassifier as _LGBMClassifier
+    _HAS_LGBM = True
+except ImportError:
+    _HAS_LGBM = False
+
 from ml.dixon_coles import DixonColesModel
 
 K_FEATURES = 20  # top features según ANOVA-F dentro de cada fold (evita curse of dimensionality)
+FORMA_DECAY = 0.75      # factor de decaimiento exponencial por partido (0.75 → 25% descuento por partido más antiguo)
+ELO_SEASON_DECAY = 0.90 # acercar ELO a ELO_BASE un 10% después de off-season (>90 días sin jugar)
+ELO_SEASON_GAP_DAYS = 90
 
 
 def _dc_proba_in_class_order(dc, equipo1, equipo2, is_home_e1, classes):
@@ -89,7 +98,7 @@ def build_classifiers(seed=42, n_features=None, calibrar=None):
     k = min(K_FEATURES, n_features) if n_features else K_FEATURES
     sk = lambda: SelectKBest(f_classif, k=k)
     cw = _class_weight()
-    return {
+    clfs = {
         'Random Forest':       _wrap_calibrado(Pipeline([('sk', sk()),
                                          ('rf', RandomForestClassifier(
                                              n_estimators=200, max_depth=5, min_samples_leaf=3,
@@ -116,6 +125,14 @@ def build_classifiers(seed=42, n_features=None, calibrar=None):
                                          ('knn', KNeighborsClassifier(
                                              n_neighbors=5, weights='distance'))]), calibrar),
     }
+    if _HAS_LGBM:
+        clfs['LightGBM'] = _wrap_calibrado(Pipeline([('sk', sk()),
+                                         ('lgbm', _LGBMClassifier(
+                                             n_estimators=300, max_depth=4, learning_rate=0.05,
+                                             num_leaves=31, subsample=0.8, colsample_bytree=0.8,
+                                             class_weight=cw,
+                                             random_state=seed, verbose=-1))]), calibrar)
+    return clfs
 
 
 ELO_BASE = 1500
@@ -135,10 +152,23 @@ def compute_elo_features(df):
     print("📈 Calculando ELO incremental...")
     df = df.copy()
     elos = {}
+    _elo_last_date = {}  # equipo → última fecha jugada (para decay por off-season)
     elo_e1_list, elo_e2_list = [], []
 
     for _, row in df.iterrows():
         e1, e2 = row['Equipo1'], row['Equipo2']
+
+        # Off-season ELO decay: si un equipo lleva >ELO_SEASON_GAP_DAYS sin jugar
+        # su ELO se acerca a ELO_BASE un (1-ELO_SEASON_DECAY)*100% (ej. 10%)
+        fecha_raw = row.get('Fecha')
+        fecha_dt = pd.to_datetime(fecha_raw, errors='coerce') if fecha_raw is not None else pd.NaT
+        if pd.notna(fecha_dt):
+            for equipo in (e1, e2):
+                prev = _elo_last_date.get(equipo)
+                if prev is not None and (fecha_dt - prev).days > ELO_SEASON_GAP_DAYS:
+                    cur = elos.get(equipo, ELO_BASE)
+                    elos[equipo] = ELO_BASE + (cur - ELO_BASE) * ELO_SEASON_DECAY
+
         elo_e1 = elos.get(e1, ELO_BASE)
         elo_e2 = elos.get(e2, ELO_BASE)
         elo_e1_list.append(elo_e1)
@@ -164,6 +194,9 @@ def compute_elo_features(df):
         delta = ELO_K * margin * (s1 - expected_e1)
         elos[e1] = elo_e1 + delta
         elos[e2] = elo_e2 - delta
+        if pd.notna(fecha_dt):
+            _elo_last_date[e1] = fecha_dt
+            _elo_last_date[e2] = fecha_dt
 
     df['ELO_E1'] = elo_e1_list
     df['ELO_E2'] = elo_e2_list
@@ -347,7 +380,8 @@ def compute_xg_features(df):
 # ============================================================================
 
 FORMA_WINDOW = 5      # últimos N partidos
-H2H_WINDOW = 3        # últimos N enfrentamientos directos
+FORMA_MAX_MESES = 24  # ventana máxima en meses — descarta partidos muy viejos
+H2H_WINDOW = 5        # últimos N enfrentamientos directos
 
 
 def compute_form_features(df):
@@ -376,11 +410,18 @@ def compute_form_features(df):
     cols = ['Forma_W_E1', 'Forma_D_E1', 'Forma_L_E1', 'Forma_GF_E1', 'Forma_GC_E1', 'Forma_Pts_E1',
             'Forma_W_E2', 'Forma_D_E2', 'Forma_L_E2', 'Forma_GF_E2', 'Forma_GC_E2', 'Forma_Pts_E2',
             'Dias_Descanso_E1', 'Dias_Descanso_E2',
-            'Diff_Forma_Pts', 'Diff_Forma_GD']
+            'Diff_Forma_Pts', 'Diff_Forma_GD',
+            # Nuevas: forma con decaimiento exponencial + racha de victorias
+            'Forma_Exp_Pts_E1', 'Forma_Exp_Pts_E2', 'Diff_Forma_Exp_Pts',
+            'WinStreak_E1', 'WinStreak_E2']
     rows = {c: [] for c in cols}
 
-    def resumen(hist):
-        last = hist[-FORMA_WINDOW:] if hist else []
+    def resumen(hist, fecha_ref=None):
+        recientes = hist
+        if fecha_ref is not None and pd.notna(fecha_ref):
+            cutoff = fecha_ref - pd.Timedelta(days=30 * FORMA_MAX_MESES)
+            recientes = [h for h in hist if pd.notna(h.get('fecha')) and h['fecha'] >= cutoff]
+        last = recientes[-FORMA_WINDOW:] if recientes else []
         w = sum(1 for h in last if h['res'] == 'W')
         d = sum(1 for h in last if h['res'] == 'D')
         l = sum(1 for h in last if h['res'] == 'L')
@@ -393,9 +434,12 @@ def compute_form_features(df):
         e1, e2 = row['Equipo1'], row['Equipo2']
         fecha = row['_fecha_dt']
 
-        # Forma actual (antes del partido)
-        w1, d1, l1, gf1, gc1, pts1 = resumen(historial.get(e1, []))
-        w2, d2, l2, gf2, gc2, pts2 = resumen(historial.get(e2, []))
+        h1 = historial.get(e1, [])
+        h2 = historial.get(e2, [])
+
+        # Forma actual (antes del partido) — solo partidos dentro de FORMA_MAX_MESES
+        w1, d1, l1, gf1, gc1, pts1 = resumen(h1, fecha)
+        w2, d2, l2, gf2, gc2, pts2 = resumen(h2, fecha)
         rows['Forma_W_E1'].append(w1); rows['Forma_D_E1'].append(d1); rows['Forma_L_E1'].append(l1)
         rows['Forma_GF_E1'].append(gf1); rows['Forma_GC_E1'].append(gc1); rows['Forma_Pts_E1'].append(pts1)
         rows['Forma_W_E2'].append(w2); rows['Forma_D_E2'].append(d2); rows['Forma_L_E2'].append(l2)
@@ -412,6 +456,21 @@ def compute_form_features(df):
             else:
                 rows[key].append(7)  # default razonable (semana)
 
+        # Forma con decaimiento exponencial y racha actual (filtrada por fecha)
+        def _filtrar(hist):
+            if fecha is not None and pd.notna(fecha):
+                cutoff = fecha - pd.Timedelta(days=30 * FORMA_MAX_MESES)
+                return [h for h in hist if pd.notna(h.get('fecha')) and h['fecha'] >= cutoff]
+            return hist
+        h1f, h2f = _filtrar(h1), _filtrar(h2)
+        ep1 = _exp_form_pts(h1f)
+        ep2 = _exp_form_pts(h2f)
+        rows['Forma_Exp_Pts_E1'].append(ep1)
+        rows['Forma_Exp_Pts_E2'].append(ep2)
+        rows['Diff_Forma_Exp_Pts'].append(ep1 - ep2)
+        rows['WinStreak_E1'].append(_win_streak(h1f))
+        rows['WinStreak_E2'].append(_win_streak(h2f))
+
         # Actualizar historial con el resultado real
         g1, g2 = row.get('EQUIPO1_GOLES'), row.get('EQUIPO2_GOLES')
         if pd.notna(g1) and pd.notna(g2):
@@ -424,7 +483,7 @@ def compute_form_features(df):
         df[c] = vals
     df = df.drop(columns=['_fecha_dt'])
 
-    print(f"   ✓ Forma calculada para {len(historial)} equipos (ventana={FORMA_WINDOW})")
+    print(f"   ✓ Forma calculada para {len(historial)} equipos (ventana={FORMA_WINDOW}, decay={FORMA_DECAY})")
     return df, historial
 
 
@@ -587,15 +646,47 @@ def compute_h2h_features(df):
     return df, h2h_log
 
 
-def resumen_forma(hist_equipo, window=FORMA_WINDOW):
+def _exp_form_pts(hist_list, window=FORMA_WINDOW, decay=FORMA_DECAY):
+    """Puntos de forma con decaimiento exponencial (partidos recientes pesan más).
+    Retorna un valor normalizado [0, 3] — comparable entre equipos con distinto
+    número de partidos en la ventana."""
+    last = (hist_list or [])[-window:]
+    if not last:
+        return 0.0
+    n = len(last)
+    weights = [decay**(n-1-i) for i in range(n)]  # índice 0=más antiguo, n-1=más reciente
+    tw = sum(weights)
+    return sum(w * (3 if h['res']=='W' else (1 if h['res']=='D' else 0)) for w, h in zip(weights, last)) / tw
+
+
+def _win_streak(hist_list):
+    """Número de victorias consecutivas hasta el último partido (racha actual)."""
+    streak = 0
+    for entry in reversed(hist_list or []):
+        if entry['res'] == 'W':
+            streak += 1
+        else:
+            break
+    return streak
+
+
+def resumen_forma(hist_equipo, window=FORMA_WINDOW, fecha_ref=None):
     """Helper para predecir_partido: resume el historial de un equipo."""
-    last = (hist_equipo or [])[-window:]
+    recientes = hist_equipo or []
+    if recientes and fecha_ref is not None and pd.notna(fecha_ref):
+        cutoff = fecha_ref - pd.Timedelta(days=30 * FORMA_MAX_MESES)
+        recientes = [h for h in recientes if pd.notna(h.get('fecha')) and h['fecha'] >= cutoff]
+    last = recientes[-window:]
     w = sum(1 for h in last if h['res'] == 'W')
     d = sum(1 for h in last if h['res'] == 'D')
     l = sum(1 for h in last if h['res'] == 'L')
     gf = sum(h['gf'] for h in last) if last else 0
     gc = sum(h['gc'] for h in last) if last else 0
-    return {'w': w, 'd': d, 'l': l, 'gf': gf, 'gc': gc, 'pts': w * 3 + d}
+    return {
+        'w': w, 'd': d, 'l': l, 'gf': gf, 'gc': gc, 'pts': w * 3 + d,
+        'exp_pts': _exp_form_pts(recientes),
+        'streak':  _win_streak(recientes),
+    }
 
 
 def resumen_h2h(h2h_log, e1, e2, window=H2H_WINDOW):
@@ -660,6 +751,9 @@ def select_columns(df):
         'xG_E1_rolling', 'xGA_E1_rolling', 'xG_E2_rolling', 'xGA_E2_rolling', 'Diff_xG_rolling',
         # Rating medio del once (rolling pre-partido, sin leakage)
         'media11_E1_rolling', 'media11_E2_rolling', 'Diff_media11_rolling',
+        # Forma con decaimiento exponencial + racha de victorias
+        'Forma_Exp_Pts_E1', 'Forma_Exp_Pts_E2', 'Diff_Forma_Exp_Pts',
+        'WinStreak_E1', 'WinStreak_E2',
         # Rolling pre-partido por mercado (compute_market_rolling_features)
         'Corners_E1_for_ult5', 'Corners_E1_against_ult5',
         'Corners_E2_for_ult5', 'Corners_E2_against_ult5',
@@ -1041,6 +1135,57 @@ def cross_validate_models(X, y, df_dc=None, n_splits=3, random_state=42):
 
 
 # ============================================================================
+# 10C-STACKER. Meta-learner OOF sobre predicciones de los modelos base
+# ============================================================================
+def train_stacker(X, y, n_splits=3, random_state=42):
+    """Entrena un meta-learner (LogisticRegression) sobre predicciones
+    out-of-fold (OOF) de todos los modelos base usando TimeSeriesSplit.
+
+    El stacker aprende la combinación óptima de los modelos base sin leakage:
+    para cada fold, los modelos se entrenan en el pasado y predicen el futuro.
+
+    Retorna (meta, model_names_ordered, n_classes) o None si hay muy pocos datos.
+    """
+    from sklearn.linear_model import LogisticRegression as _LRmeta
+    from sklearn.base import clone
+
+    cv = TimeSeriesSplit(n_splits=n_splits)
+    classifiers = build_classifiers(seed=random_state, n_features=X.shape[1])
+    model_names_stk = list(classifiers.keys())
+    n_classes = 3
+    n = len(X)
+
+    oof = np.full((n, len(model_names_stk) * n_classes), np.nan)
+
+    print("🧩 Entrenando stacker OOF...")
+    for mi, (name, clf) in enumerate(classifiers.items()):
+        for tr_idx, te_idx in cv.split(X):
+            c = clone(clf)
+            c.fit(X.iloc[tr_idx], y.iloc[tr_idx])
+            oof[te_idx, mi*n_classes:(mi+1)*n_classes] = c.predict_proba(X.iloc[te_idx])
+
+    valid = ~np.isnan(oof).any(axis=1)
+    if valid.sum() < 30:
+        print("   ⚠️  Pocos datos para stacker — saltando")
+        return None
+
+    meta = _LRmeta(max_iter=2000, C=0.5, multi_class='multinomial', random_state=random_state)
+    meta.fit(oof[valid], y.values[valid])
+
+    # Evaluar en el último fold (mejor proxy del rendimiento real)
+    splits = list(cv.split(X))
+    last_tr, last_te = splits[-1]
+    valid_te = ~np.isnan(oof[last_te]).any(axis=1)
+    if valid_te.any():
+        stk_pred = meta.predict(oof[last_te][valid_te])
+        stk_acc = accuracy_score(y.values[last_te[valid_te]], stk_pred)
+        stk_f1  = f1_score(y.values[last_te[valid_te]], stk_pred, average='macro', zero_division=0)
+        print(f"   ✓ Stacker último fold: acc {stk_acc:.2%}  F1 {stk_f1:.2%}  "
+              f"(entrenado sobre {valid.sum()}/{n} partidos OOF)")
+    return meta, model_names_stk, n_classes
+
+
+# ============================================================================
 # 10C. ENTRENAR REGRESORES — predice goles de cada equipo
 # ============================================================================
 def train_regressors(X_train, y1_train, y2_train, X_test, y1_test, y2_test):
@@ -1320,6 +1465,33 @@ def main(filepath, test_size=0.2, random_state=42, context_filepaths=None):
         full_regressors.setdefault('XGBoost',       []).append((r_xgb1, r_xgb2))
     print(f"   ✓ {N_PRED_SEEDS} semillas × {len(full_models)} clasificadores + {len(full_regressors)} regresores listos")
 
+    # Regresores de mercado: corners y amarillas totales
+    print("\n📐 Regresores de mercado (corners / amarillas)...")
+    full_market_regressors: dict = {}
+    for mkt_name, col1, col2, fallback in [
+        ('corners',   'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', 9.0),
+        ('amarillas', 'Tarjetas_amarillas_E1',         'Tarjetas_amarillas_E2',         3.6),
+    ]:
+        if col1 not in df_raw_stats.columns or col2 not in df_raw_stats.columns:
+            print(f"   ⚠️  {mkt_name}: columnas no encontradas, se usará Poisson")
+            continue
+        y_mkt = (pd.to_numeric(df_raw_stats.loc[X.index, col1], errors='coerce') +
+                 pd.to_numeric(df_raw_stats.loc[X.index, col2], errors='coerce')).fillna(fallback)
+        ytr, yte = y_mkt.iloc[:n_train], y_mkt.iloc[n_train:]
+        baseline_mae = float(np.abs(yte - ytr.mean()).mean())
+        rf_mkt = RandomForestRegressor(n_estimators=200, max_depth=6, random_state=42, n_jobs=-1)
+        rf_mkt.fit(X_train, ytr)
+        ml_mae = float(np.abs(yte - rf_mkt.predict(X_test)).mean())
+        symbol = '✅ ML mejor' if ml_mae < baseline_mae else '❌ Poisson mejor'
+        print(f"   {mkt_name:10s} → Poisson MAE: {baseline_mae:.2f}  |  ML MAE: {ml_mae:.2f}  {symbol}")
+        # Entrenar sobre dataset completo para predicciones
+        rf_full_mkt = RandomForestRegressor(n_estimators=200, max_depth=6, random_state=42, n_jobs=-1)
+        rf_full_mkt.fit(X, y_mkt)
+        full_market_regressors[mkt_name] = rf_full_mkt
+
+    # Stacker OOF — entrena sobre el dataset completo con walk-forward CV
+    stacker_info = train_stacker(X, y, n_splits=3, random_state=random_state)
+
     return {
         'df': df,
         'df_raw_stats': df_raw_stats,
@@ -1339,6 +1511,8 @@ def main(filepath, test_size=0.2, random_state=42, context_filepaths=None):
         'feature_importance': feature_importance,
         'full_models': full_models,
         'full_regressors': full_regressors,
+        'full_market_regressors': full_market_regressors,
+        'stacker_info': stacker_info,
     }
 
 
@@ -1648,8 +1822,9 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
     # Forma reciente y H2H usando los historiales acumulados durante main()
     historial = results.get('team_historial', {})
     h2h_log = results.get('h2h_log', {})
-    forma_e1 = resumen_forma(historial.get(equipo1, []))
-    forma_e2 = resumen_forma(historial.get(equipo2, []))
+    fecha_ref = pd.Timestamp.now()
+    forma_e1 = resumen_forma(historial.get(equipo1, []), fecha_ref=fecha_ref)
+    forma_e2 = resumen_forma(historial.get(equipo2, []), fecha_ref=fecha_ref)
     h2h = resumen_h2h(h2h_log, equipo1, equipo2)
     print(f"   Forma últ.{FORMA_WINDOW}: {equipo1} {forma_e1['w']}W-{forma_e1['d']}D-{forma_e1['l']}L  ·  {equipo2} {forma_e2['w']}W-{forma_e2['d']}D-{forma_e2['l']}L")
     if h2h['n'] > 0:
@@ -1678,6 +1853,9 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
     coef_e2 = UEFA_COEF.get(equipo2, UEFA_COEF_DEFAULT)
     print(f"   Coef UEFA: {equipo1} {coef_e1:.1f}  ·  {equipo2} {coef_e2:.1f}  (Δ {coef_e1 - coef_e2:+.1f})")
 
+    print(f"   Forma exp: {equipo1} {forma_e1['exp_pts']:.2f}pts  racha {forma_e1['streak']}W  ·  "
+          f"{equipo2} {forma_e2['exp_pts']:.2f}pts  racha {forma_e2['streak']}W")
+
     forma_features = {
         'Forma_W_E1': forma_e1['w'], 'Forma_D_E1': forma_e1['d'], 'Forma_L_E1': forma_e1['l'],
         'Forma_GF_E1': forma_e1['gf'], 'Forma_GC_E1': forma_e1['gc'], 'Forma_Pts_E1': forma_e1['pts'],
@@ -1695,6 +1873,37 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
         'Diff_media11_rolling': m11_e1 - m11_e2,
         'Coef_UEFA_E1': coef_e1, 'Coef_UEFA_E2': coef_e2,
         'Diff_Coef_UEFA': coef_e1 - coef_e2,
+        # Nuevas: forma con decaimiento exponencial + racha
+        'Forma_Exp_Pts_E1': forma_e1['exp_pts'], 'Forma_Exp_Pts_E2': forma_e2['exp_pts'],
+        'Diff_Forma_Exp_Pts': forma_e1['exp_pts'] - forma_e2['exp_pts'],
+        'WinStreak_E1': forma_e1['streak'], 'WinStreak_E2': forma_e2['streak'],
+    }
+
+    # Features de mercado rolling para el row de predicción (team-specific)
+    _dfr_pred = results.get('df_raw_stats')
+    def _pred_roll(eq, c_local, c_visita, fallback):
+        if _dfr_pred is None:
+            return fallback
+        try:
+            v1 = pd.to_numeric(_dfr_pred[_dfr_pred['Equipo1'] == eq][c_local],  errors='coerce').dropna().tail(MARKET_WINDOW)
+            v2 = pd.to_numeric(_dfr_pred[_dfr_pred['Equipo2'] == eq][c_visita], errors='coerce').dropna().tail(MARKET_WINDOW)
+            vals = list(v1) + list(v2)
+            return float(np.mean(vals)) if vals else fallback
+        except Exception:
+            return fallback
+    _gc_r = _pred_roll(equipo1, 'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', 4.5)
+    _ga_r = float(pd.to_numeric(_dfr_pred['Tarjetas_amarillas_E1'], errors='coerce').mean()) if _dfr_pred is not None else 1.8
+    market_features = {
+        'Corners_E1_for_ult5':     _pred_roll(equipo1, 'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', _gc_r),
+        'Corners_E1_against_ult5': _pred_roll(equipo1, 'Saques_de_esquina_sacados_E2', 'Saques_de_esquina_sacados_E1', _gc_r),
+        'Corners_E2_for_ult5':     _pred_roll(equipo2, 'Saques_de_esquina_sacados_E2', 'Saques_de_esquina_sacados_E1', _gc_r),
+        'Corners_E2_against_ult5': _pred_roll(equipo2, 'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', _gc_r),
+        'Tarjetas_E1_ult5':        _pred_roll(equipo1, 'Tarjetas_amarillas_E1', 'Tarjetas_amarillas_E2', _ga_r),
+        'Tarjetas_E2_ult5':        _pred_roll(equipo2, 'Tarjetas_amarillas_E2', 'Tarjetas_amarillas_E1', _ga_r),
+        'Diff_Corners_for':        _pred_roll(equipo1, 'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', _gc_r) -
+                                   _pred_roll(equipo2, 'Saques_de_esquina_sacados_E2', 'Saques_de_esquina_sacados_E1', _gc_r),
+        'Diff_Tarjetas':           _pred_roll(equipo1, 'Tarjetas_amarillas_E1', 'Tarjetas_amarillas_E2', _ga_r) -
+                                   _pred_roll(equipo2, 'Tarjetas_amarillas_E2', 'Tarjetas_amarillas_E1', _ga_r),
     }
 
     for col in feat_cols:
@@ -1706,6 +1915,8 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
             row[col] = elo_e1 - elo_e2
         elif col in forma_features:
             row[col] = forma_features[col]
+        elif col in market_features:
+            row[col] = market_features[col]
         elif col in stats_e1.index:
             row[col] = stats_e1[col]
         elif col in stats_e2.index:
@@ -1782,6 +1993,23 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
                 probas_acum[name].append(clf.predict_proba(X_pred)[0])
         print(" listo.")
 
+    # --- Stacker: añadir como modelo extra si está disponible ---
+    stacker_info = results.get('stacker_info')
+    if stacker_info is not None:
+        meta, stk_model_names, stk_n_classes = stacker_info
+        stk_input = []
+        for sname in stk_model_names:
+            if sname in probas_acum and probas_acum[sname]:
+                stk_input.extend(np.mean(probas_acum[sname], axis=0).tolist())
+            else:
+                stk_input.extend([1/3] * stk_n_classes)
+        try:
+            stk_proba = meta.predict_proba([stk_input])[0]
+            probas_acum['Stacker'] = [stk_proba]
+            model_names = model_names + ['Stacker']
+        except Exception:
+            pass
+
     # --- Resultados clasificadores ---
     win_idx  = classes.index('Win')  if 'Win'  in classes else None
     draw_idx = classes.index('Draw') if 'Draw' in classes else None
@@ -1799,14 +2027,33 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
         print(f"  {name:<22} → {pred:<6}  {w:>5.1%}  {d:>5.1%}  {l:>5.1%}")
         modelos_out.append({'modelo': name, 'pred': pred, 'win': w, 'draw': d, 'loss': l})
 
-    # --- Promedio global entre todos los modelos ---
-    todas = np.mean([np.mean(probas_acum[n], axis=0) for n in model_names], axis=0)
+    # --- CONSENSO: promedio ponderado por F1 del último fold CV ---
+    # Los modelos con mejor CV F1 (últimas splits, más cercanas al futuro) pesan más.
+    cv_df = results.get('cv_results')
+    if cv_df is not None:
+        f1_col = 'F1 Last' if 'F1 Last' in cv_df.columns else ('F1 Mean' if 'F1 Mean' in cv_df.columns else None)
+        if f1_col:
+            scores = cv_df.set_index('Model')[f1_col].to_dict()
+            # Stacker hereda la mediana de los modelos base (conservador: no infla su peso)
+            if 'Stacker' not in scores and model_names:
+                base_scores = [float(scores.get(n, 0.3)) for n in model_names if n != 'Stacker']
+                scores['Stacker'] = float(np.median(base_scores)) if base_scores else 0.3
+            w_arr = np.array([max(float(scores.get(n, 0.3)), 0.01) for n in model_names])
+            # Softmax suave (temperatura baja = pesos más uniformes, alta = favorece al mejor)
+            w_arr = np.exp((w_arr - w_arr.max()) * 8)
+            w_arr /= w_arr.sum()
+        else:
+            w_arr = np.ones(len(model_names)) / len(model_names)
+    else:
+        w_arr = np.ones(len(model_names)) / len(model_names)
+
+    todas = np.average([np.mean(probas_acum[n], axis=0) for n in model_names], axis=0, weights=w_arr)
     pred_global = classes[np.argmax(todas)]
     w_c = float(todas[win_idx])  if win_idx  is not None else 0.0
     d_c = float(todas[draw_idx]) if draw_idx is not None else 0.0
     l_c = float(todas[loss_idx]) if loss_idx is not None else 0.0
     print(f"  {'-'*55}")
-    print(f"  {'CONSENSO':<22} → {pred_global:<6}  {w_c:>5.1%}  {d_c:>5.1%}  {l_c:>5.1%}")
+    print(f"  {'CONSENSO (ponderado)':<22} → {pred_global:<6}  {w_c:>5.1%}  {d_c:>5.1%}  {l_c:>5.1%}")
 
     # --- Regresores de goles (ensemble) ---
     def make_regs(seed):
@@ -1882,10 +2129,30 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
     _gc = _global('Saques_de_esquina_sacados_E1', 4.5)
     _ga = _global('Tarjetas_amarillas_E1', 1.8)
 
-    lam_corners_e1   = _team_avg(equipo1, 'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', _gc)
-    lam_corners_e2   = _team_avg(equipo2, 'Saques_de_esquina_sacados_E2', 'Saques_de_esquina_sacados_E1', _gc)
-    lam_amarillas_e1 = _team_avg(equipo1, 'Tarjetas_amarillas_E1', 'Tarjetas_amarillas_E2', _ga)
-    lam_amarillas_e2 = _team_avg(equipo2, 'Tarjetas_amarillas_E2', 'Tarjetas_amarillas_E1', _ga)
+    # Lambdas base (Poisson histórico)
+    lam_c1_base = _team_avg(equipo1, 'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', _gc)
+    lam_c2_base = _team_avg(equipo2, 'Saques_de_esquina_sacados_E2', 'Saques_de_esquina_sacados_E1', _gc)
+    lam_a1_base = _team_avg(equipo1, 'Tarjetas_amarillas_E1', 'Tarjetas_amarillas_E2', _ga)
+    lam_a2_base = _team_avg(equipo2, 'Tarjetas_amarillas_E2', 'Tarjetas_amarillas_E1', _ga)
+
+    # Si hay regresores ML, usarlos para el total y repartir proporcionalmente
+    mkt_regs = results.get('full_market_regressors', {})
+    if mkt_regs and 'corners' in mkt_regs and 'amarillas' in mkt_regs:
+        try:
+            # Corners: ML mejor (MAE -0.14). Amarillas: Poisson mejor → se mantiene base
+            total_c_ml = max(float(mkt_regs['corners'].predict(X_pred)[0]), 1.0)
+            c_ratio = lam_c1_base / (lam_c1_base + lam_c2_base) if (lam_c1_base + lam_c2_base) > 0 else 0.5
+            lam_corners_e1 = total_c_ml * c_ratio
+            lam_corners_e2 = total_c_ml * (1 - c_ratio)
+            lam_amarillas_e1, lam_amarillas_e2 = lam_a1_base, lam_a2_base
+            print(f"   🤖 ML corners: {total_c_ml:.1f} ({lam_corners_e1:.1f}+{lam_corners_e2:.1f})  Poisson amarillas: {lam_amarillas_e1:.1f}+{lam_amarillas_e2:.1f}")
+        except Exception as e:
+            print(f"   ⚠️  ML mercados falló ({e}), usando Poisson base")
+            lam_corners_e1, lam_corners_e2   = lam_c1_base, lam_c2_base
+            lam_amarillas_e1, lam_amarillas_e2 = lam_a1_base, lam_a2_base
+    else:
+        lam_corners_e1, lam_corners_e2   = lam_c1_base, lam_c2_base
+        lam_amarillas_e1, lam_amarillas_e2 = lam_a1_base, lam_a2_base
 
     # ── Stats completos de cada equipo (para tabla comparativa) ─────
     def _team_full_stats(equipo):
