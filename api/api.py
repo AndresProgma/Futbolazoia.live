@@ -1114,7 +1114,8 @@ def stats_track_record(session: Session = Depends(get_session)):
 # Featured Pick del Día (admin lo configura, público lo ve)
 # ---------------------------------------------------------------------------
 
-FEATURED_PICK_FILE  = _PROJECT_ROOT / "data" / "featured_pick.json"
+FEATURED_PICK_FILE    = _PROJECT_ROOT / "data" / "featured_pick.json"
+PARTIDOS_HOY_FILE     = _PROJECT_ROOT / "data" / "partidos_hoy.json"
 RECORD_HISTORICO_FILE = _PROJECT_ROOT / "data" / "record_historico.json"
 
 # Estado del generador de record: "idle" | "running" | "done" | "error:<msg>"
@@ -1173,6 +1174,48 @@ def set_featured_pick(data: FeaturedPickBody):
         encoding="utf-8",
     )
     return data
+
+
+# ---------------------------------------------------------------------------
+# Partidos de hoy — lista admin-curada de partidos del día
+# ---------------------------------------------------------------------------
+
+@app.get("/api/partidos-hoy")
+def get_partidos_hoy():
+    """Lista de partidos de hoy configurada por el admin."""
+    if PARTIDOS_HOY_FILE.exists():
+        return json.loads(PARTIDOS_HOY_FILE.read_text(encoding="utf-8"))
+    return []
+
+
+@app.post("/api/admin/partidos-hoy", status_code=201)
+def agregar_partido_hoy(data: FeaturedPickBody):
+    """Agrega un partido a la lista de hoy."""
+    lista: list = []
+    if PARTIDOS_HOY_FILE.exists():
+        lista = json.loads(PARTIDOS_HOY_FILE.read_text(encoding="utf-8"))
+    lista.append(data.model_dump())
+    PARTIDOS_HOY_FILE.write_text(json.dumps(lista, ensure_ascii=False, indent=2), encoding="utf-8")
+    return {"ok": True, "total": len(lista)}
+
+
+@app.delete("/api/admin/partidos-hoy/{idx}", status_code=204)
+def eliminar_partido_hoy(idx: int):
+    """Elimina un partido de la lista por índice."""
+    if not PARTIDOS_HOY_FILE.exists():
+        raise HTTPException(status_code=404, detail="Lista vacía")
+    lista = json.loads(PARTIDOS_HOY_FILE.read_text(encoding="utf-8"))
+    if idx < 0 or idx >= len(lista):
+        raise HTTPException(status_code=404, detail="Índice fuera de rango")
+    lista.pop(idx)
+    PARTIDOS_HOY_FILE.write_text(json.dumps(lista, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+@app.delete("/api/admin/partidos-hoy", status_code=204)
+def limpiar_partidos_hoy():
+    """Vacía la lista de partidos de hoy."""
+    if PARTIDOS_HOY_FILE.exists():
+        PARTIDOS_HOY_FILE.unlink()
 
 
 # ---------------------------------------------------------------------------

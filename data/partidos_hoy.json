@@ -1,0 +1,789 @@
+[
+  {
+    "equipo1": "Brasil",
+    "equipo2": "Camerún",
+    "hora": "21:00",
+    "fase": "Cuartos",
+    "competencia": "Mundial",
+    "prob_win": 0.6716262650946713,
+    "prob_draw": 0.21597047613665565,
+    "prob_loss": 0.11240325876867303,
+    "valores": [
+      {
+        "nombre": "1X2 · Brasil",
+        "descripcion": "Victoria local",
+        "porcentaje": 67
+      },
+      {
+        "nombre": "Corners U12.5",
+        "descripcion": "Mejor under corners",
+        "porcentaje": 70
+      },
+      {
+        "nombre": "Amarillas U4.5",
+        "descripcion": "Mejor under amarillas",
+        "porcentaje": 73
+      }
+    ],
+    "mercados": {
+      "btts": {
+        "si": 0.3365,
+        "no": 0.6635
+      },
+      "resultado_correcto": [
+        {
+          "score": "2-0",
+          "g1": 2,
+          "g2": 0,
+          "prob": 0.1655
+        },
+        {
+          "score": "1-0",
+          "g1": 1,
+          "g2": 0,
+          "prob": 0.1629
+        },
+        {
+          "score": "3-0",
+          "g1": 3,
+          "g2": 0,
+          "prob": 0.1111
+        },
+        {
+          "score": "0-0",
+          "g1": 0,
+          "g2": 0,
+          "prob": 0.0816
+        },
+        {
+          "score": "1-1",
+          "g1": 1,
+          "g2": 1,
+          "prob": 0.0805
+        },
+        {
+          "score": "2-1",
+          "g1": 2,
+          "g2": 1,
+          "prob": 0.0805
+        },
+        {
+          "score": "4-0",
+          "g1": 4,
+          "g2": 0,
+          "prob": 0.0549
+        },
+        {
+          "score": "3-1",
+          "g1": 3,
+          "g2": 1,
+          "prob": 0.0532
+        },
+        {
+          "score": "0-1",
+          "g1": 0,
+          "g2": 1,
+          "prob": 0.0421
+        },
+        {
+          "score": "4-1",
+          "g1": 4,
+          "g2": 1,
+          "prob": 0.027
+        }
+      ],
+      "dnb": {
+        "Brasil": 0.8566,
+        "Camerún": 0.1434
+      },
+      "doble_oportunidad": {
+        "1X (gana Brasil o empate)": 0.8876,
+        "X2 (empate o gana Camerún)": 0.3284,
+        "12 (no empate)": 0.784
+      },
+      "goles_e1": {
+        "nombre": "Brasil",
+        "xg": 2,
+        "over_0_5": 0.8639,
+        "over_1_5": 0.5946,
+        "over_2_5": 0.3235
+      },
+      "goles_e2": {
+        "nombre": "Camerún",
+        "xg": 0.5,
+        "over_0_5": 0.3911,
+        "over_1_5": 0.0919,
+        "over_2_5": 0.0148
+      },
+      "total_goles": {
+        "xg": 2.5,
+        "over_0_5": 0.9184,
+        "over_1_5": 0.7134,
+        "over_2_5": 0.4567,
+        "over_3_5": 0.2422,
+        "over_4_5": 0.1085
+      },
+      "handicap": {
+        "Brasil -1": 0.4719,
+        "Brasil -1.5": 0.4719,
+        "Brasil -2": 0.246,
+        "+1 Camerún": 0.9828,
+        "+1.5 Camerún": 0.9828,
+        "Camerún -1": 0.0173,
+        "Camerún -1.5": 0.0173
+      },
+      "win_btts": {
+        "Brasil": 0.2023,
+        "Camerún": 0.0298
+      },
+      "gol_ambas_mitades": 0.5009,
+      "ht_ft": {
+        "W/W": 0.4799,
+        "W/D": 0.0262,
+        "W/L": 0.0034,
+        "D/W": 0.2261,
+        "D/D": 0.1336,
+        "D/L": 0.0365,
+        "L/W": 0.0213,
+        "L/D": 0.0291,
+        "L/L": 0.0438
+      },
+      "corners": {
+        "esperado": 10.9,
+        "mas_probable": 10,
+        "mas_probable_p": 0.1234,
+        "top5": [
+          {
+            "valor": 10,
+            "prob": 0.1234
+          },
+          {
+            "valor": 11,
+            "prob": 0.1225
+          },
+          {
+            "valor": 9,
+            "prob": 0.1091
+          },
+          {
+            "valor": 12,
+            "prob": 0.106
+          },
+          {
+            "valor": 8,
+            "prob": 0.093
+          }
+        ],
+        "rango_60": {
+          "lo": 8,
+          "hi": 13,
+          "prob": 0.6419
+        },
+        "rango_80": {
+          "lo": 7,
+          "hi": 15,
+          "prob": 0.8275
+        },
+        "over_0_5": 1,
+        "over_1_5": 1,
+        "over_2_5": 0.999,
+        "over_3_5": 0.9953,
+        "over_4_5": 0.9845,
+        "over_5_5": 0.9603,
+        "over_6_5": 0.9167,
+        "over_7_5": 0.8539,
+        "over_8_5": 0.761,
+        "over_9_5": 0.6518,
+        "over_10_5": 0.5284,
+        "over_11_5": 0.4059,
+        "over_12_5": 0.3,
+        "over_13_5": 0.2119,
+        "over_14_5": 0.1424,
+        "over_15_5": 0.0892,
+        "over_16_5": 0.0551,
+        "over_17_5": 0.0302,
+        "over_18_5": 0.0171,
+        "over_19_5": 0.0091,
+        "over_20_5": 0.0046,
+        "over_21_5": 0.0026,
+        "over_22_5": 0.0009,
+        "over_23_5": 0.0003,
+        "over_24_5": 0.0001,
+        "over_25_5": 0.0001,
+        "over_26_5": 0
+      },
+      "corners_e1": {
+        "esperado": 5.6,
+        "mas_probable": 5,
+        "mas_probable_p": 0.1691,
+        "top5": [
+          {
+            "valor": 5,
+            "prob": 0.1691
+          },
+          {
+            "valor": 4,
+            "prob": 0.1563
+          },
+          {
+            "valor": 6,
+            "prob": 0.1555
+          },
+          {
+            "valor": 7,
+            "prob": 0.1279
+          },
+          {
+            "valor": 3,
+            "prob": 0.1084
+          }
+        ],
+        "rango_60": {
+          "lo": 4,
+          "hi": 7,
+          "prob": 0.6089
+        },
+        "rango_80": {
+          "lo": 3,
+          "hi": 8,
+          "prob": 0.8023
+        },
+        "over_0_5": 0.9958,
+        "over_1_5": 0.9754,
+        "over_2_5": 0.9176,
+        "over_3_5": 0.8093,
+        "over_4_5": 0.653,
+        "over_5_5": 0.4839,
+        "over_6_5": 0.3283,
+        "over_7_5": 0.2004,
+        "over_8_5": 0.1154,
+        "over_9_5": 0.0583,
+        "over_10_5": 0.0278,
+        "over_11_5": 0.0118,
+        "over_12_5": 0.0051,
+        "over_13_5": 0.002,
+        "over_14_5": 0.001,
+        "over_15_5": 0.0004,
+        "over_16_5": 0.0002,
+        "over_17_5": 0.0001,
+        "over_18_5": 0
+      },
+      "corners_e2": {
+        "esperado": 5.3,
+        "mas_probable": 5,
+        "mas_probable_p": 0.1718,
+        "top5": [
+          {
+            "valor": 5,
+            "prob": 0.1718
+          },
+          {
+            "valor": 4,
+            "prob": 0.1641
+          },
+          {
+            "valor": 6,
+            "prob": 0.1558
+          },
+          {
+            "valor": 3,
+            "prob": 0.1211
+          },
+          {
+            "valor": 7,
+            "prob": 0.1211
+          }
+        ],
+        "rango_60": {
+          "lo": 3,
+          "hi": 6,
+          "prob": 0.6129
+        },
+        "rango_80": {
+          "lo": 3,
+          "hi": 8,
+          "prob": 0.8091
+        },
+        "over_0_5": 0.9953,
+        "over_1_5": 0.9689,
+        "over_2_5": 0.9008,
+        "over_3_5": 0.7796,
+        "over_4_5": 0.6156,
+        "over_5_5": 0.4437,
+        "over_6_5": 0.2879,
+        "over_7_5": 0.1668,
+        "over_8_5": 0.0916,
+        "over_9_5": 0.0476,
+        "over_10_5": 0.0215,
+        "over_11_5": 0.0092,
+        "over_12_5": 0.0038,
+        "over_13_5": 0.0013,
+        "over_14_5": 0.0004,
+        "over_15_5": 0.0002,
+        "over_16_5": 0.0001,
+        "over_17_5": 0.0001,
+        "over_18_5": 0.0001,
+        "over_19_5": 0
+      },
+      "amarillas": {
+        "esperado": 3.5,
+        "mas_probable": 3,
+        "mas_probable_p": 0.2168,
+        "top5": [
+          {
+            "valor": 3,
+            "prob": 0.2168
+          },
+          {
+            "valor": 4,
+            "prob": 0.1903
+          },
+          {
+            "valor": 2,
+            "prob": 0.1896
+          },
+          {
+            "valor": 5,
+            "prob": 0.1278
+          },
+          {
+            "valor": 1,
+            "prob": 0.1067
+          }
+        ],
+        "rango_60": {
+          "lo": 2,
+          "hi": 5,
+          "prob": 0.7244
+        },
+        "rango_80": {
+          "lo": 1,
+          "hi": 5,
+          "prob": 0.8312
+        },
+        "over_0_5": 0.9712,
+        "over_1_5": 0.8645,
+        "over_2_5": 0.6749,
+        "over_3_5": 0.4581,
+        "over_4_5": 0.2678,
+        "over_5_5": 0.1401,
+        "over_6_5": 0.0599,
+        "over_7_5": 0.0248,
+        "over_8_5": 0.0095,
+        "over_9_5": 0.0026,
+        "over_10_5": 0.001,
+        "over_11_5": 0.0003,
+        "over_12_5": 0
+      },
+      "amarillas_e1": {
+        "esperado": 1.9,
+        "mas_probable": 1,
+        "mas_probable_p": 0.2844,
+        "top5": [
+          {
+            "valor": 1,
+            "prob": 0.2844
+          },
+          {
+            "valor": 2,
+            "prob": 0.2712
+          },
+          {
+            "valor": 3,
+            "prob": 0.1681
+          },
+          {
+            "valor": 0,
+            "prob": 0.151
+          },
+          {
+            "valor": 4,
+            "prob": 0.0828
+          }
+        ],
+        "rango_60": {
+          "lo": 1,
+          "hi": 3,
+          "prob": 0.7238
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 3,
+          "prob": 0.8748
+        },
+        "over_0_5": 0.849,
+        "over_1_5": 0.5645,
+        "over_2_5": 0.2933,
+        "over_3_5": 0.1252,
+        "over_4_5": 0.0424,
+        "over_5_5": 0.0122,
+        "over_6_5": 0.0027,
+        "over_7_5": 0.0006,
+        "over_8_5": 0.0001,
+        "over_9_5": 0.0001,
+        "over_10_5": 0
+      },
+      "amarillas_e2": {
+        "esperado": 1.6,
+        "mas_probable": 1,
+        "mas_probable_p": 0.3306,
+        "top5": [
+          {
+            "valor": 1,
+            "prob": 0.3306
+          },
+          {
+            "valor": 2,
+            "prob": 0.2604
+          },
+          {
+            "valor": 0,
+            "prob": 0.1996
+          },
+          {
+            "valor": 3,
+            "prob": 0.1348
+          },
+          {
+            "valor": 4,
+            "prob": 0.0522
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.7904
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 3,
+          "prob": 0.9253
+        },
+        "over_0_5": 0.8004,
+        "over_1_5": 0.4699,
+        "over_2_5": 0.2095,
+        "over_3_5": 0.0747,
+        "over_4_5": 0.0226,
+        "over_5_5": 0.0062,
+        "over_6_5": 0.0009,
+        "over_7_5": 0.0001,
+        "over_8_5": 0.0001,
+        "over_9_5": 0.0001,
+        "over_10_5": 0
+      },
+      "goles_dist": {
+        "esperado": 2.5,
+        "mas_probable": 2,
+        "mas_probable_p": 0.2567,
+        "top5": [
+          {
+            "valor": 2,
+            "prob": 0.2567
+          },
+          {
+            "valor": 3,
+            "prob": 0.2145
+          },
+          {
+            "valor": 1,
+            "prob": 0.205
+          },
+          {
+            "valor": 4,
+            "prob": 0.1336
+          },
+          {
+            "valor": 0,
+            "prob": 0.0816
+          }
+        ],
+        "rango_60": {
+          "lo": 1,
+          "hi": 3,
+          "prob": 0.6762
+        },
+        "rango_80": {
+          "lo": 1,
+          "hi": 4,
+          "prob": 0.8099
+        },
+        "over_0_5": 0.9184,
+        "over_1_5": 0.7134,
+        "over_2_5": 0.4567,
+        "over_3_5": 0.2422,
+        "over_4_5": 0.1085,
+        "over_5_5": 0.0426,
+        "over_6_5": 0.014,
+        "over_7_5": 0.0032,
+        "over_8_5": 0.001,
+        "over_9_5": 0.0003,
+        "over_10_5": 0.0001,
+        "over_11_5": 0
+      },
+      "goles_e1_dist": {
+        "esperado": 2,
+        "mas_probable": 2,
+        "mas_probable_p": 0.2711,
+        "top5": [
+          {
+            "valor": 2,
+            "prob": 0.2711
+          },
+          {
+            "valor": 1,
+            "prob": 0.2693
+          },
+          {
+            "valor": 3,
+            "prob": 0.1797
+          },
+          {
+            "valor": 0,
+            "prob": 0.1361
+          },
+          {
+            "valor": 4,
+            "prob": 0.0903
+          }
+        ],
+        "rango_60": {
+          "lo": 1,
+          "hi": 3,
+          "prob": 0.7201
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 3,
+          "prob": 0.8562
+        },
+        "over_0_5": 0.8639,
+        "over_1_5": 0.5946,
+        "over_2_5": 0.3235,
+        "over_3_5": 0.1437,
+        "over_4_5": 0.0534,
+        "over_5_5": 0.0169,
+        "over_6_5": 0.004,
+        "over_7_5": 0.001,
+        "over_8_5": 0.0001,
+        "over_9_5": 0
+      },
+      "goles_e2_dist": {
+        "esperado": 0.5,
+        "mas_probable": 0,
+        "mas_probable_p": 0.6089,
+        "top5": [
+          {
+            "valor": 0,
+            "prob": 0.6089
+          },
+          {
+            "valor": 1,
+            "prob": 0.2992
+          },
+          {
+            "valor": 2,
+            "prob": 0.0771
+          },
+          {
+            "valor": 3,
+            "prob": 0.0134
+          },
+          {
+            "valor": 4,
+            "prob": 0.0014
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 0,
+          "prob": 0.6089
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 1,
+          "prob": 0.9081
+        },
+        "over_0_5": 0.3911,
+        "over_1_5": 0.0919,
+        "over_2_5": 0.0148,
+        "over_3_5": 0.0014,
+        "over_4_5": 0.0001,
+        "over_5_5": 0
+      }
+    },
+    "modelos": [
+      {
+        "modelo": "Dixon-Coles",
+        "pred": "Win",
+        "win": 0.7893878731992303,
+        "draw": 0.14608934555948844,
+        "loss": 0.0645227812412813,
+        "accuracy": 58
+      },
+      {
+        "modelo": "Logistic Regression",
+        "pred": "Win",
+        "win": 0.6337194917431365,
+        "draw": 0.2425459184497686,
+        "loss": 0.12373458980709492,
+        "accuracy": 55
+      },
+      {
+        "modelo": "SVM",
+        "pred": "Win",
+        "win": 0.7268742041874666,
+        "draw": 0.2004217896736349,
+        "loss": 0.07270400613889855,
+        "accuracy": 53
+      },
+      {
+        "modelo": "XGBoost",
+        "pred": "Win",
+        "win": 0.6769541097312785,
+        "draw": 0.25714828739677514,
+        "loss": 0.06589760287194642,
+        "accuracy": 46
+      },
+      {
+        "modelo": "Random Forest",
+        "pred": "Win",
+        "win": 0.6141518193723099,
+        "draw": 0.2182288142090779,
+        "loss": 0.16761936641861222,
+        "accuracy": 51
+      },
+      {
+        "modelo": "LightGBM",
+        "pred": "Win",
+        "win": 0.6238814243074643,
+        "draw": 0.2611363426005503,
+        "loss": 0.11498223309198545,
+        "accuracy": 49
+      },
+      {
+        "modelo": "Gradient Boosting",
+        "pred": "Win",
+        "win": 0.6506415608621896,
+        "draw": 0.23558531245064307,
+        "loss": 0.11377312668716733,
+        "accuracy": 48
+      },
+      {
+        "modelo": "KNN",
+        "pred": "Win",
+        "win": 0.6206416041482223,
+        "draw": 0.18367788339130184,
+        "loss": 0.19568051246047583,
+        "accuracy": 48
+      },
+      {
+        "modelo": "Stacker",
+        "pred": "Win",
+        "win": 0.690570802567056,
+        "draw": 0.2037892939289623,
+        "loss": 0.10563990350398163,
+        "accuracy": null
+      }
+    ],
+    "goles": [
+      {
+        "modelo": "Random Forest",
+        "g1": 2,
+        "g2": 0,
+        "std1": 0.06177378084592196,
+        "std2": 0.06529931086925805
+      },
+      {
+        "modelo": "XGBoost",
+        "g1": 2,
+        "g2": 1,
+        "std1": 0,
+        "std2": 0
+      }
+    ],
+    "ultimos_e1": [
+      {
+        "fecha": "—",
+        "rival": "Bolivia",
+        "gf": 0,
+        "gc": 1,
+        "res": "L",
+        "es_local": false
+      },
+      {
+        "fecha": "—",
+        "rival": "Chile",
+        "gf": 3,
+        "gc": 0,
+        "res": "W",
+        "es_local": true
+      },
+      {
+        "fecha": "—",
+        "rival": "Paraguay",
+        "gf": 1,
+        "gc": 0,
+        "res": "W",
+        "es_local": true
+      }
+    ],
+    "ultimos_e2": [
+      {
+        "fecha": "—",
+        "rival": "Mozambique",
+        "gf": 2,
+        "gc": 1,
+        "res": "W",
+        "es_local": false
+      },
+      {
+        "fecha": "—",
+        "rival": "Costa de Marfil",
+        "gf": 1,
+        "gc": 1,
+        "res": "D",
+        "es_local": false
+      },
+      {
+        "fecha": "—",
+        "rival": "Gabón",
+        "gf": 1,
+        "gc": 0,
+        "res": "W",
+        "es_local": true
+      }
+    ],
+    "stats_equipos": {
+      "e1": {
+        "nombre": "Brasil",
+        "partidos": 56,
+        "goles_for": 1.96,
+        "goles_against": 0.5,
+        "corners_for": 5.6,
+        "corners_against": 3.2,
+        "tiros": 14.6,
+        "tiros_puerta": 5.4,
+        "amarillas": 1.89,
+        "faltas": 12.6,
+        "posesion": 61.9,
+        "precision_pase": 88.1,
+        "oportunidades": 3.4
+      },
+      "e2": {
+        "nombre": "Camerún",
+        "partidos": 12,
+        "goles_for": 1.67,
+        "goles_against": 1.25,
+        "corners_for": 6.2,
+        "corners_against": 5.3,
+        "tiros": 12.3,
+        "tiros_puerta": 3.9,
+        "amarillas": 2.08,
+        "faltas": 13.4,
+        "posesion": 51.2,
+        "precision_pase": 80.9,
+        "oportunidades": 2
+      }
+    }
+  }
+]

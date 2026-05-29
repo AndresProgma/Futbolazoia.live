@@ -566,32 +566,31 @@
       &#x2605; Plan Pro
     </div>
 
-    <h2 class="text-2xl font-semibold tracking-tight mb-2">M&#xE1;s predicciones.<br>Mejor an&#xE1;lisis.</h2>
+    <h2 class="text-2xl font-semibold tracking-tight mb-2">Todos los picks.<br>Modelos m&#xE1;s precisos.</h2>
     <p class="text-[#97A0B5] text-sm leading-relaxed mb-6">
-      Accede a an&#xE1;lisis completos de cada partido, mercados de apuestas detallados, m&#xE1;s partidos diarios y estad&#xED;sticas avanzadas del modelo.
+      El plan gratuito muestra <strong style="color:#E6EAF2">1 pick del d&#xED;a</strong>. Con Pro accedes a todos los picks diarios con an&#xE1;lisis completo y modelos mejorados.
     </p>
 
-    <!-- Features -->
-    <div class="space-y-2.5 mb-7">
-      <div class="flex items-start gap-3">
-        <span style="color:var(--pos)" class="text-base flex-shrink-0">&#x2713;</span>
-        <span class="text-sm text-[#E6EAF2]">Dashboard completo con predictor interactivo para cualquier partido</span>
+    <!-- Free vs Pro -->
+    <div class="grid grid-cols-2 gap-3 mb-6 text-[12px]">
+      <div class="rounded-xl p-3" style="background:rgba(255,255,255,.03);border:1px solid var(--lb)">
+        <div class="font-mono font-bold mb-2 text-[#97A0B5]">Gratis</div>
+        <div class="space-y-1.5 text-[#5A6478]">
+          <div>&#x2713; 1 pick del d&#xED;a</div>
+          <div>&#x2713; Predicci&#xF3;n completa del pick</div>
+          <div>&#x2713; Stats de goles, corners, amarillas</div>
+          <div>&#x2713; Track record p&#xFA;blico</div>
+        </div>
       </div>
-      <div class="flex items-start gap-3">
-        <span style="color:var(--pos)" class="text-base flex-shrink-0">&#x2713;</span>
-        <span class="text-sm text-[#E6EAF2]">Todos los mercados de apuestas: BTTS, Over/Under, H&#xE1;ndicap, HT/FT, Resultado correcto</span>
-      </div>
-      <div class="flex items-start gap-3">
-        <span style="color:var(--pos)" class="text-base flex-shrink-0">&#x2713;</span>
-        <span class="text-sm text-[#E6EAF2]">M&#xE1;s predicciones diarias de todos los partidos UCL</span>
-      </div>
-      <div class="flex items-start gap-3">
-        <span style="color:var(--pos)" class="text-base flex-shrink-0">&#x2713;</span>
-        <span class="text-sm text-[#E6EAF2]">Ranking ELO de equipos, m&#xE9;tricas de los 6 modelos ML, historial completo</span>
-      </div>
-      <div class="flex items-start gap-3">
-        <span style="color:var(--pos)" class="text-base flex-shrink-0">&#x2713;</span>
-        <span class="text-sm text-[#E6EAF2]">Track record p&#xFA;blico auditado: cada predicci&#xF3;n documentada</span>
+      <div class="rounded-xl p-3" style="background:rgba(139,109,255,.07);border:1px solid rgba(139,109,255,.3)">
+        <div class="font-mono font-bold mb-2" style="color:var(--purple)">&#x2605; Pro</div>
+        <div class="space-y-1.5" style="color:#E6EAF2">
+          <div>&#x2713; <strong>Todos</strong> los picks del d&#xED;a</div>
+          <div>&#x2713; Modelos ML avanzados</div>
+          <div>&#x2713; Estad&#xED;sticas por partido ampliadas</div>
+          <div>&#x2713; Ranking ELO + historial completo</div>
+          <div>&#x2713; Acceso al predictor interactivo</div>
+        </div>
       </div>
     </div>
 
@@ -707,7 +706,7 @@
     <div id="hero-date" class="font-mono text-[11px] tracking-widest uppercase mb-3" style="color:var(--pos)"></div>
     <h1 class="text-4xl md:text-[50px] font-semibold tracking-tight leading-[1.08] mb-4">
       Hoy juegan <span id="hero-count" style="color:var(--pos)">&#x2014;</span> partidos<br>
-      de Champions. 💰<span class="money-text">Esto es lo que dice el <span class="model-green">modelo</span>.</span>💰
+      de Champions. <span class="money-text">Esto es lo que dice el <span class="model-green">modelo</span>.</span>💰
     </h1>
     <p class="text-[#97A0B5] text-base max-w-2xl leading-relaxed">
       El partido que hoy encontramos con valor y que nuestra IA predice mejor es:
@@ -863,21 +862,42 @@
           </div>
         </div>
 
-        <!-- Right: valores + CTA -->
-        <div style="padding:36px 36px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;">
+        <!-- Right: valores + stats card + CTA -->
+        <div style="padding:36px 36px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;">
           <div>
             <h4 class="font-mono text-[11px] tracking-widest uppercase mb-4 valor-section-title">Apuestas recomendadas</h4>
-            <div id="pk-valores" class="flex flex-col gap-3">
-              <!-- llenado por JS -->
+            <div id="pk-valores" class="flex flex-col gap-3"></div>
+
+            <!-- Carta de 10 stats con toggle Total/E1/E2 -->
+            <div id="pk-stats-wrap" class="hidden mt-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-[9px] uppercase tracking-widest" style="color:#5A6478">Estadísticas clave</span>
+                <button id="pk-stats-view-btn" onclick="cycleStatsView()"
+                  class="font-mono text-[9px] px-2 py-0.5 rounded transition-colors"
+                  style="background:rgba(255,255,255,.05);border:1px solid var(--lb);color:#97A0B5">
+                  Total
+                </button>
+              </div>
+              <div id="pk-stats-rows" class="space-y-1 rounded-lg p-3" style="background:rgba(255,255,255,.02);border:1px solid var(--lb)"></div>
             </div>
           </div>
-          <button onclick="document.getElementById('modal-pro').classList.remove('hidden')"
-            class="w-full py-3.5 rounded-lg font-bold text-[14px] tracking-wide hover:opacity-90 btn-pro-shimmer"
-            style="background:linear-gradient(135deg,#00E5A0,#00B27D);color:#00130C;box-shadow:0 8px 28px rgba(0,229,160,.3);transition:opacity .2s,box-shadow .2s;"
-            onmouseover="this.style.boxShadow='0 12px 40px rgba(0,229,160,.5)'" onmouseout="this.style.boxShadow='0 8px 28px rgba(0,229,160,.3)'">
-            ⚡ Ver predicci&oacute;n completa &rarr;
-          </button>
-          <p class="text-center text-[10px] mt-2 font-mono" style="color:var(--amber)">&#x2605; Plan Pro &middot; $5/mes &middot; Acceso inmediato</p>
+
+          <div>
+            <!-- Free: ver predicción completa gratis -->
+            <button onclick="verPrediccionCompleta()"
+              class="w-full py-3.5 rounded-lg font-bold text-[14px] tracking-wide hover:opacity-90 btn-pro-shimmer"
+              style="background:linear-gradient(135deg,#00E5A0,#00B27D);color:#00130C;box-shadow:0 8px 28px rgba(0,229,160,.3);transition:opacity .2s,box-shadow .2s;"
+              onmouseover="this.style.boxShadow='0 12px 40px rgba(0,229,160,.5)'" onmouseout="this.style.boxShadow='0 8px 28px rgba(0,229,160,.3)'">
+              Ver predicci&oacute;n completa &rarr;
+            </button>
+            <!-- Pro upsell -->
+            <button onclick="document.getElementById('modal-pro').classList.remove('hidden')"
+              class="w-full py-2 rounded-lg font-semibold text-[12px] tracking-wide border transition-colors mt-1"
+              style="border-color:rgba(139,109,255,.4);color:var(--purple);background:rgba(139,109,255,.06);"
+              onmouseover="this.style.background='rgba(139,109,255,.12)'" onmouseout="this.style.background='rgba(139,109,255,.06)'">
+              &#x2605; Plan Pro &mdash; m&aacute;s picks + mejores modelos
+            </button>
+          </div>
         </div>
 
       </div>
@@ -1035,142 +1055,6 @@
     <th id="th-rf"></th><th id="th-gb"></th><th id="th-lr"></th>
     <th id="th-svm"></th><th id="th-xgb"></th><th id="th-knn"></th>
   </div>
-
-
-  <!-- ════ MUNDIAL 2026 — PREDICTOR ════ -->
-  <section id="mundial" class="bg-surface-800 border rounded-2xl p-6" style="border-color:rgba(255,184,0,.25)">
-    <div class="flex items-center gap-3 mb-5 flex-wrap">
-      <span class="font-mono text-[11px] tracking-widest uppercase" style="color:rgba(255,184,0,.8)">&#x1F3C6; MUNDIAL 2026</span>
-      <span class="flex-1 h-px" style="background:rgba(255,184,0,.15)"></span>
-      <span id="mundial-status-badge" class="font-mono text-[10px] px-2 py-0.5 rounded-full border" style="color:#97A0B5;border-color:rgba(255,255,255,.1)">cargando...</span>
-    </div>
-
-    <!-- Formulario predictor -->
-    <div class="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto_auto] gap-3 items-end mb-5">
-      <div>
-        <label class="block text-[10px] text-[#5A6478] mb-1.5 font-mono uppercase tracking-widest">Equipo 1</label>
-        <select id="mun-e1" class="w-full bg-surface-700 border border-[var(--lb)] rounded-lg px-3 py-2.5 text-sm font-mono transition-colors">
-          <option value="">-- cargando --</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-[10px] text-[#5A6478] mb-1.5 font-mono uppercase tracking-widest">Equipo 2</label>
-        <select id="mun-e2" class="w-full bg-surface-700 border border-[var(--lb)] rounded-lg px-3 py-2.5 text-sm font-mono transition-colors">
-          <option value="">-- cargando --</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-[10px] text-[#5A6478] mb-1.5 font-mono uppercase tracking-widest">Fase</label>
-        <select id="mun-fase" class="bg-surface-700 border border-[var(--lb)] rounded-lg px-3 py-2.5 text-sm font-mono transition-colors">
-          <option value="Ronda 1">Fase de Grupos</option>
-          <option value="Ronda 2">Ronda 16</option>
-          <option value="Quarterfinals">Cuartos de Final</option>
-          <option value="Semifinals">Semifinal</option>
-          <option value="Final">Final</option>
-        </select>
-      </div>
-      <button id="mun-btn" onclick="mundialPredecir()"
-        class="px-5 py-2.5 rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity"
-        style="background:rgba(255,184,0,.9);color:#1a1200;">
-        Predecir &rarr;
-      </button>
-    </div>
-
-    <!-- Estado / spinner -->
-    <div id="mun-loading" class="hidden flex items-center gap-2 text-xs text-[#97A0B5] mb-4">
-      <div class="w-4 h-4 border-2 border-[rgba(255,184,0,.7)] border-t-transparent rounded-full animate-spin"></div>
-      <span>Ejecutando ensemble de modelos...</span>
-    </div>
-
-    <!-- Resultado -->
-    <div id="mun-result" class="hidden space-y-5">
-
-      <!-- Encabezado del partido -->
-      <div class="flex items-center gap-4 flex-wrap">
-        <div class="text-lg font-semibold font-mono" id="mun-r-header"></div>
-        <div class="font-mono text-[11px] text-[#5A6478]" id="mun-r-elo"></div>
-      </div>
-
-      <!-- Barras de probabilidad W/D/L -->
-      <div class="grid grid-cols-3 gap-3">
-        <div class="rounded-xl p-4 text-center" style="background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.25)">
-          <div class="font-mono text-[10px] text-[#97A0B5] uppercase tracking-widest mb-1" id="mun-label-win">Victoria E1</div>
-          <div class="text-3xl font-bold font-mono" style="color:var(--pos)" id="mun-pct-win">—</div>
-        </div>
-        <div class="rounded-xl p-4 text-center" style="background:rgba(255,184,0,.08);border:1px solid rgba(255,184,0,.2)">
-          <div class="font-mono text-[10px] text-[#97A0B5] uppercase tracking-widest mb-1">Empate</div>
-          <div class="text-3xl font-bold font-mono" style="color:rgba(255,184,0,.9)" id="mun-pct-draw">—</div>
-        </div>
-        <div class="rounded-xl p-4 text-center" style="background:rgba(255,77,94,.08);border:1px solid rgba(255,77,94,.2)">
-          <div class="font-mono text-[10px] text-[#97A0B5] uppercase tracking-widest mb-1" id="mun-label-loss">Victoria E2</div>
-          <div class="text-3xl font-bold font-mono" style="color:var(--red)" id="mun-pct-loss">—</div>
-        </div>
-      </div>
-
-      <!-- Cuotas justas -->
-      <div class="flex gap-4 text-xs font-mono text-[#5A6478]">
-        <span>Cuota justa: <span id="mun-cuota-win" class="text-[#E6EAF2]">—</span></span>
-        <span>/ Empate: <span id="mun-cuota-draw" class="text-[#E6EAF2]">—</span></span>
-        <span>/ <span id="mun-cuota-loss-lbl">E2</span>: <span id="mun-cuota-loss" class="text-[#E6EAF2]">—</span></span>
-      </div>
-
-      <!-- Tabla modelos -->
-      <div class="overflow-x-auto">
-        <table class="w-full text-sm">
-          <thead>
-            <tr class="text-[10px] text-[#5A6478] uppercase font-mono tracking-widest border-b border-[var(--line)]">
-              <th class="text-left py-2 pr-4">Modelo</th>
-              <th class="text-center py-2 px-3">Pred.</th>
-              <th class="text-center py-2 px-3" style="color:var(--pos)">Win</th>
-              <th class="text-center py-2 px-3" style="color:rgba(255,184,0,.9)">Draw</th>
-              <th class="text-center py-2 px-3" style="color:var(--red)">Loss</th>
-            </tr>
-          </thead>
-          <tbody id="mun-tbl-modelos"></tbody>
-        </table>
-      </div>
-
-      <!-- Goles esperados -->
-      <div id="mun-goles" class="font-mono text-sm text-[#97A0B5]"></div>
-
-      <!-- Forma reciente -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <div class="text-[10px] font-mono text-[#5A6478] uppercase tracking-widest mb-2" id="mun-forma1-lbl">Forma E1</div>
-          <div class="text-xs text-[#97A0B5]" id="mun-forma1-val"></div>
-        </div>
-        <div>
-          <div class="text-[10px] font-mono text-[#5A6478] uppercase tracking-widest mb-2" id="mun-forma2-lbl">Forma E2</div>
-          <div class="text-xs text-[#97A0B5]" id="mun-forma2-val"></div>
-        </div>
-      </div>
-
-      <!-- H2H -->
-      <div id="mun-h2h" class="text-xs text-[#5A6478] font-mono"></div>
-
-    </div>
-
-    <!-- ELO ranking (colapsable) -->
-    <div class="mt-6 border-t border-[var(--line)] pt-4">
-      <button onclick="toggleMundialElo()" class="flex items-center gap-2 text-[11px] font-mono text-[#5A6478] hover:text-[#97A0B5] transition-colors">
-        <span id="mun-elo-icon">&#x25B6;</span>
-        <span>Ver ranking ELO de selecciones</span>
-      </button>
-      <div id="mun-elo-table" class="hidden mt-3 overflow-x-auto">
-        <table class="w-full text-xs">
-          <thead>
-            <tr class="text-[10px] text-[#5A6478] uppercase font-mono tracking-widest border-b border-[var(--line)]">
-              <th class="text-left py-1.5 pr-3">#</th>
-              <th class="text-left py-1.5">Selección</th>
-              <th class="text-right py-1.5">ELO</th>
-            </tr>
-          </thead>
-          <tbody id="mun-tbl-elo"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
   <!-- ════ RECORD DE PARTIDOS (público) ════ -->
   <section id="record" class="bg-surface-800 border border-[var(--lb)] rounded-2xl p-6">
     <div class="flex items-baseline gap-3 mb-2">
@@ -1520,8 +1404,8 @@ function renderFeaturedPick(pick) {
   document.getElementById('pk-cuota-draw').textContent = cuotaJusta(pick.prob_draw || 0);
   document.getElementById('pk-cuota-loss').textContent = cuotaJusta(pick.prob_loss || 0);
 
-  // Cuotas reales de The Odds API (async, no bloquea el render)
   _cargarCuotasReales(pick);
+  renderStatsCard(pick);
 
   const bar = document.getElementById('pk-wdl-bar');
   bar.innerHTML = `
@@ -1728,107 +1612,37 @@ function showPkStatus(msg, color) {
   document.getElementById('pk-status-spinner').classList.add('hidden');
 }
 
-// ═══ CUOTAS REALES (The Odds API) ════════════════════════════════════
-async function _cargarCuotasReales(pick) {
-  // Reset to hidden while loading
-  const wrap = document.getElementById('pk-cuotas-reales');
-  if (!wrap) return;
-  wrap.classList.add('hidden');
-  document.getElementById('pk-ev-badge').textContent  = '';
-  document.getElementById('pk-odds-src').textContent  = '';
-  ['pk-real-win','pk-real-draw','pk-real-loss'].forEach(id => {
-    document.getElementById(id).textContent = '—';
-    document.getElementById(id).style.color = '';
-  });
+async function _cargarCuotasReales(pick) {}
 
-  const e1   = encodeURIComponent(pick.equipo1  || '');
-  const e2   = encodeURIComponent(pick.equipo2  || '');
-  const comp = encodeURIComponent(pick.competencia || 'UCL');
-  if (!e1 || !e2) return;
-
-  let data;
-  try {
-    const r = await fetch(`/api/odds?equipo1=${e1}&equipo2=${e2}&competencia=${comp}`);
-    if (!r.ok) return;          // sin API key o sin partido → silencio
-    data = await r.json();
-  } catch { return; }
-
-  if (!data.disponible) {
-    if (data.motivo) {
-      document.getElementById('pk-odds-src').textContent = data.motivo;
-      wrap.classList.remove('hidden');
-    }
-    return;
-  }
-
-  // Cuotas reales
-  const rWin  = data.cuota_win  ?? null;
-  const rDraw = data.cuota_draw ?? null;
-  const rLoss = data.cuota_loss ?? null;
-
-  const fmt = v => v != null ? v.toFixed(2) : '—';
-  document.getElementById('pk-real-win').textContent  = fmt(rWin);
-  document.getElementById('pk-real-draw').textContent = fmt(rDraw);
-  document.getElementById('pk-real-loss').textContent = fmt(rLoss);
-
-  // Determinar cuál resultado predice el modelo (mayor prob)
-  const probs = [
-    { key: 'win',  prob: pick.prob_win  || 0, cuota: rWin  },
-    { key: 'draw', prob: pick.prob_draw || 0, cuota: rDraw },
-    { key: 'loss', prob: pick.prob_loss || 0, cuota: rLoss },
-  ];
-  const best = probs.reduce((a, b) => a.prob > b.prob ? a : b);
-
-  // EV = (prob_modelo × cuota_real) - 1
-  let evText = '', evColor = '#5A6478';
-  if (best.cuota != null && best.prob > 0) {
-    const ev = (best.prob * best.cuota) - 1;
-    const sign = ev >= 0 ? '+' : '';
-    evText  = `EV ${sign}${(ev * 100).toFixed(1)}%`;
-    evColor = ev >= 0.03 ? '#00E5A0' : ev >= 0 ? '#FFB627' : '#FF4D5E';
-
-    // Resaltar la cuota del resultado predicho
-    const idMap = { win: 'pk-real-win', draw: 'pk-real-draw', loss: 'pk-real-loss' };
-    const el = document.getElementById(idMap[best.key]);
-    if (el) el.style.color = evColor;
-  }
-
-  const badge = document.getElementById('pk-ev-badge');
-  badge.textContent  = evText;
-  badge.style.color  = evColor;
-
-  const n = data.bookmakers ?? 0;
-  document.getElementById('pk-odds-src').textContent =
-    `Promedio ${n} casa${n !== 1 ? 's' : ''} · The Odds API`;
-
-  wrap.classList.remove('hidden');
-}
-
-// ═══ PARTIDOS DE HOY (track record pendientes) ═══════════════════════
-let _allPendientes = [];
+// ═══ PARTIDOS DE HOY (admin-curada) ═════════════════════════════════
+let _partidosHoyCache = [];
 
 async function renderPicksGrid(filter = 'all') {
   const grid    = document.getElementById('picks-grid');
   const countEl = document.getElementById('picks-count');
   try {
-    if (_allPendientes.length === 0) {
-      const lista = await api.trackList();
-      _allPendientes = lista.filter(t => !t.resultado_real);
-    }
-    let filtered = _allPendientes;
+    const lista = await fetch(`${typeof API_BASE!=='undefined'?API_BASE:''}/api/partidos-hoy`).then(r=>r.json());
+    _partidosHoyCache = lista;
+
+    let filtered = lista;
     if (filter === 'alta') {
-      filtered = _allPendientes.filter(t => Math.max(t.prob_win, t.prob_draw, t.prob_loss) >= 0.60);
+      filtered = lista.filter(t => Math.max(t.prob_win||0, t.prob_draw||0, t.prob_loss||0) >= 0.60);
     } else if (filter === 'ucl') {
-      filtered = _allPendientes.filter(t => (t.competencia || 'UCL') === 'UCL');
+      filtered = lista.filter(t => (t.competencia||'UCL').toUpperCase() === 'UCL');
     } else if (filter === 'pl') {
-      filtered = _allPendientes.filter(t => (t.competencia || '').toLowerCase().includes('premier'));
+      filtered = lista.filter(t => (t.competencia||'').toLowerCase().includes('premier'));
     }
-    const comps = [...new Set(_allPendientes.map(t => t.competencia || 'UCL'))];
-    countEl.textContent = `${filtered.length} partidos · ${comps.join(', ')}`;
+
+    if (lista.length > 0) {
+      const comps = [...new Set(lista.map(t => t.competencia||'UCL'))];
+      countEl.textContent = `${filtered.length} partidos · ${comps.join(', ')}`;
+    } else {
+      countEl.textContent = '';
+    }
 
     if (filtered.length === 0) {
       grid.innerHTML = `<div class="col-span-3 py-10 text-center text-[#5A6478] text-sm">
-        Sin predicciones${filter !== 'all' ? ' con ese filtro' : ' pendientes'} por ahora.</div>`;
+        Sin partidos${filter !== 'all' ? ' con ese filtro' : ''} por ahora.</div>`;
       return;
     }
 
@@ -1837,32 +1651,36 @@ async function renderPicksGrid(filter = 'all') {
     const lbl  = { Win:'Gana local', Draw:'Empate', Loss:'Gana visitante' };
 
     grid.innerHTML = filtered.map(t => {
-      const maxP = Math.max(t.prob_win, t.prob_draw, t.prob_loss);
+      const maxP = Math.max(t.prob_win||0, t.prob_draw||0, t.prob_loss||0);
+      const pred = maxP === (t.prob_win||0) ? 'Win' : maxP === (t.prob_draw||0) ? 'Draw' : 'Loss';
       const conf = maxP >= .60 ? 'alta' : maxP >= .50 ? 'media' : 'baja';
       const confStyle = {
         alta:  'background:rgba(0,229,160,.1);color:var(--pos)',
         media: 'background:rgba(255,182,39,.1);color:var(--amber)',
         baja:  'background:rgba(255,77,94,.1);color:var(--red)',
       }[conf];
-      const dateStr = t.fecha_partido
-        ? new Date(t.fecha_partido).toLocaleDateString('es-ES',{day:'numeric',month:'short'})
-        : 'Próximo';
+
+      const valoresHtml = (t.valores||[]).slice(0,3).map(v => `
+        <div class="flex justify-between items-center py-1 border-b border-[var(--line)] last:border-0">
+          <span class="text-[11px] text-[#97A0B5]">${v.nombre}</span>
+          <span class="font-mono text-[11px] font-bold" style="color:var(--pos)">${v.porcentaje}%</span>
+        </div>`).join('');
 
       return `
         <div class="match-card bg-surface-800 border border-[var(--lb)] rounded-2xl p-5">
           <div class="flex items-center justify-between mb-3">
-            <div class="font-mono text-[10px] text-[#5A6478] uppercase tracking-wider">${t.competencia||'UCL'}</div>
-            <div class="font-mono text-[10px] text-[#5A6478] uppercase tracking-wider">${t.fase||''}</div>
+            <span class="font-mono text-[10px] text-[#5A6478] uppercase tracking-wider">${t.competencia||'UCL'} · ${t.fase||''}</span>
+            <span class="font-mono text-[10px] text-[#5A6478]">${t.hora||''}</span>
             <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold" style="${confStyle}">${conf.toUpperCase()}</span>
           </div>
           <div class="flex flex-col gap-2.5 mb-4">
-            <div class="flex items-center gap-2.5 ${t.pred_consenso==='Win'?'':'opacity-60'}">
+            <div class="flex items-center gap-2.5 ${pred==='Win'?'':'opacity-60'}">
               <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold font-mono flex-shrink-0"
                 style="background:rgba(19,24,38,.8);border:1px solid var(--line)">${init(t.equipo1)}</div>
               <span class="text-[15px] font-medium flex-1 leading-tight">${t.equipo1}</span>
               <span class="font-mono text-[9px] text-[#5A6478]">LOCAL</span>
             </div>
-            <div class="flex items-center gap-2.5 ${t.pred_consenso==='Loss'?'':'opacity-60'}">
+            <div class="flex items-center gap-2.5 ${pred==='Loss'?'':'opacity-60'}">
               <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold font-mono flex-shrink-0"
                 style="background:rgba(19,24,38,.8);border:1px solid var(--line)">${init(t.equipo2)}</div>
               <span class="text-[15px] font-medium flex-1 leading-tight">${t.equipo2}</span>
@@ -1871,23 +1689,21 @@ async function renderPicksGrid(filter = 'all') {
           </div>
           <div class="grid grid-cols-3 gap-1.5 mb-3">
             ${['Win','Draw','Loss'].map((p,i) => {
-              const pct = [t.prob_win,t.prob_draw,t.prob_loss][i];
-              const active = t.pred_consenso === p;
+              const pct = [t.prob_win||0, t.prob_draw||0, t.prob_loss||0][i];
+              const active = pred === p;
               const c = col[p];
-              return `<div class="rounded-lg p-2 text-center border ${active?'border-current':''}" style="background:${active?'rgba(0,0,0,.15)':'rgba(19,24,38,.6)'};border-color:${active?c:'var(--line)'}">
+              return `<div class="rounded-lg p-2 text-center border" style="background:${active?'rgba(0,0,0,.15)':'rgba(19,24,38,.6)'};border-color:${active?c:'var(--line)'}">
                 <div class="font-mono text-[15px] font-bold" style="color:${active?c:'#97A0B5'}">${Math.round(pct*100)}%</div>
                 <div class="font-mono text-[8px] text-[#5A6478] uppercase tracking-wide mt-0.5">${['Gana loc','Empate','Gana vis'][i]}</div>
               </div>`;
             }).join('')}
           </div>
           <div class="wdl-bar">
-            <div class="w" style="width:${Math.round(t.prob_win*100)}%"></div>
-            <div class="d" style="width:${Math.round(t.prob_draw*100)}%"></div>
-            <div class="l" style="width:${Math.round(t.prob_loss*100)}%"></div>
+            <div class="w" style="width:${Math.round((t.prob_win||0)*100)}%"></div>
+            <div class="d" style="width:${Math.round((t.prob_draw||0)*100)}%"></div>
+            <div class="l" style="width:${Math.round((t.prob_loss||0)*100)}%"></div>
           </div>
-          <div class="text-[11px] font-mono font-semibold text-center mt-2" style="color:${col[t.pred_consenso]}">
-            &#x2192; ${lbl[t.pred_consenso]} &middot; ${Math.round(maxP*100)}%
-          </div>
+          ${(t.valores||[]).length > 0 ? `<div class="mt-3">${valoresHtml}</div>` : ''}
         </div>`;
     }).join('');
   } catch(err) {
@@ -1895,12 +1711,11 @@ async function renderPicksGrid(filter = 'all') {
   }
 }
 
-// Hero count
+// Hero count — partidos de hoy
 async function updateHeroCount() {
   try {
-    const lista = await api.trackList();
-    const n = lista.filter(t => !t.resultado_real).length;
-    document.getElementById('hero-count').textContent = n || '—';
+    const lista = await fetch(`${typeof API_BASE!=='undefined'?API_BASE:''}/api/partidos-hoy`).then(r=>r.json());
+    document.getElementById('hero-count').textContent = lista.length || '—';
   } catch(_) {}
 }
 
@@ -2040,9 +1855,72 @@ function renderMercados(m, e1, e2) {
 }
 
 // Flip toggle
+function verPrediccionCompleta() {
+  const wrap = document.getElementById('mercados-wrap');
+  if (wrap) {
+    wrap.classList.remove('hidden');
+    setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
+}
+
 function flipCard(id) {
   const el = document.getElementById(id);
   if (el) el.classList.toggle('flipped');
+}
+
+// ── Carta de 10 estadísticas clave (toggle Total / E1 / E2) ───────────
+let _statsViews = ['total', 'e1', 'e2'];
+let _statsViewIdx = 0;
+let _statsViewLabels = ['Total', '—', '—'];
+
+function cycleStatsView() {
+  _statsViewIdx = (_statsViewIdx + 1) % 3;
+  const view = _statsViews[_statsViewIdx];
+  const btn = document.getElementById('pk-stats-view-btn');
+  if (btn) btn.textContent = _statsViewLabels[_statsViewIdx];
+  document.querySelectorAll('#pk-stats-rows .stat-row').forEach(row => {
+    row.querySelector('.stat-val').textContent = row.dataset[view] ?? '—';
+  });
+}
+
+function renderStatsCard(pick) {
+  const wrap = document.getElementById('pk-stats-wrap');
+  if (!wrap) return;
+  const m = pick.mercados;
+  if (!m) return;
+
+  const e1 = pick.equipo1 || 'E1';
+  const e2 = pick.equipo2 || 'E2';
+  _statsViewLabels = ['Total', e1.split(' ')[0], e2.split(' ')[0]];
+  _statsViewIdx = 0;
+  const btn = document.getElementById('pk-stats-view-btn');
+  if (btn) btn.textContent = 'Total';
+
+  const se1 = pick.stats_equipos?.e1 || {};
+  const se2 = pick.stats_equipos?.e2 || {};
+
+  const n  = v => (v != null && !isNaN(v)) ? (+v).toFixed(1) : '—';
+  const pct = v => (v != null && !isNaN(v)) ? Math.round(v * 100) + '%' : '—';
+  const sum = (a, b) => (a != null && b != null) ? n(+a + +b) : '—';
+
+  const rows = [
+    { icon:'⚽', label:'Goles esp.',   total: n(m.goles_dist?.esperado),             v1: n(m.goles_e1_dist?.esperado),  v2: n(m.goles_e2_dist?.esperado) },
+    { icon:'📈', label:'Over 2.5',     total: pct(m.total_goles?.over_2_5),          v1: pct(m.goles_e1?.over_1_5),     v2: pct(m.goles_e2?.over_1_5) },
+    { icon:'🤝', label:'Ambos marcan', total: pct(m.btts?.si),                       v1: pct(m.goles_e1?.over_0_5),     v2: pct(m.goles_e2?.over_0_5) },
+    { icon:'👟', label:'Disparos',     total: sum(se1.tiros, se2.tiros),             v1: n(se1.tiros),                  v2: n(se2.tiros) },
+    { icon:'🎯', label:'T. a puerta',  total: sum(se1.tiros_puerta, se2.tiros_puerta), v1: n(se1.tiros_puerta),         v2: n(se2.tiros_puerta) },
+    { icon:'🔄', label:'Posesión',     total: se1.posesion && se2.posesion ? n(se1.posesion)+'% / '+n(se2.posesion)+'%' : '50/50',
+                                       v1: se1.posesion ? n(se1.posesion)+'%' : '—', v2: se2.posesion ? n(se2.posesion)+'%' : '—' },
+  ];
+
+  document.getElementById('pk-stats-rows').innerHTML = rows.map(r => `
+    <div class="stat-row flex items-center justify-between py-0.5"
+         data-total="${r.total}" data-e1="${r.v1}" data-e2="${r.v2}">
+      <span class="text-[11px] text-[#97A0B5]">${r.icon} ${r.label}</span>
+      <span class="stat-val font-mono text-[12px] font-semibold" style="color:#E6EAF2">${r.total}</span>
+    </div>`).join('');
+
+  wrap.classList.remove('hidden');
 }
 
 // ── Tabla de stats de los equipos ──────────────────────────────────
@@ -2385,160 +2263,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   ]);
 });
 
-// ═══ MUNDIAL 2026 ════════════════════════════════════════════════════
-const _mundialBase = `${typeof API_BASE !== 'undefined' ? API_BASE : ''}/api/mundial`;
-
-async function mundialInit() {
-  // Pollear estado hasta que esté listo
-  const badge = document.getElementById('mundial-status-badge');
-  const tryLoad = async () => {
-    try {
-      const r = await fetch(`${_mundialBase}/estado`);
-      const d = await r.json();
-      if (d.status === 'ready') {
-        badge.textContent = 'listo';
-        badge.style.color = 'var(--pos)';
-        badge.style.borderColor = 'rgba(0,229,160,.3)';
-        await mundialCargarEquipos();
-        await mundialCargarElo();
-      } else if (d.status === 'training') {
-        badge.textContent = 'entrenando...';
-        badge.style.color = 'rgba(255,184,0,.9)';
-        setTimeout(tryLoad, 4000);
-      } else {
-        badge.textContent = d.status;
-      }
-    } catch(e) {
-      badge.textContent = 'error';
-    }
-  };
-  tryLoad();
-}
-
-async function mundialCargarEquipos() {
-  try {
-    const d = await fetch(`${_mundialBase}/equipos`).then(r => r.json());
-    const equipos = d.equipos || [];
-    ['mun-e1', 'mun-e2'].forEach((id, idx) => {
-      const sel = document.getElementById(id);
-      sel.innerHTML = equipos.map(e => `<option value="${e}">${e}</option>`).join('');
-      // Default: Argentina vs Francia
-      if (id === 'mun-e1') sel.value = equipos.includes('Argentina') ? 'Argentina' : equipos[0];
-      if (id === 'mun-e2') sel.value = equipos.includes('Francia')   ? 'Francia'   : equipos[1];
-    });
-  } catch(e) {}
-}
-
-async function mundialCargarElo() {
-  try {
-    const d = await fetch(`${_mundialBase}/elos`).then(r => r.json());
-    const ranking = d.ranking || [];
-    const tbody = document.getElementById('mun-tbl-elo');
-    tbody.innerHTML = ranking.slice(0, 30).map((t, i) => `
-      <tr class="border-b border-[var(--line)] last:border-0">
-        <td class="py-1.5 pr-3 font-mono text-[#5A6478]">${i+1}</td>
-        <td class="py-1.5 font-medium">${t.equipo}</td>
-        <td class="py-1.5 text-right font-mono" style="color:var(--pos)">${t.elo.toFixed(0)}</td>
-      </tr>`).join('');
-  } catch(e) {}
-}
-
-function toggleMundialElo() {
-  const tbl  = document.getElementById('mun-elo-table');
-  const icon = document.getElementById('mun-elo-icon');
-  const hidden = tbl.classList.toggle('hidden');
-  icon.textContent = hidden ? '▶' : '▼';
-}
-
-async function mundialPredecir() {
-  const e1   = document.getElementById('mun-e1').value;
-  const e2   = document.getElementById('mun-e2').value;
-  const fase = document.getElementById('mun-fase').value;
-  if (!e1 || !e2 || e1 === e2) { alert('Elige dos selecciones distintas.'); return; }
-
-  const btn  = document.getElementById('mun-btn');
-  const load = document.getElementById('mun-loading');
-  const res  = document.getElementById('mun-result');
-  btn.disabled = true; btn.style.opacity = '.5';
-  load.classList.remove('hidden');
-  res.classList.add('hidden');
-
-  try {
-    const r = await fetch(`${_mundialBase}/predecir`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ equipo1: e1, equipo2: e2, n_runs: 20, fase }),
-    }).then(async rr => {
-      if (!rr.ok) throw new Error(await rr.text());
-      return rr.json();
-    });
-
-    // Mostrar resultado
-    const pct = v => `${Math.round((v||0)*100)}%`;
-    const cuota = p => p > 0 ? (1/p).toFixed(2) : '—';
-    const c = r.consenso || {};
-
-    document.getElementById('mun-r-header').textContent = `${e1}  vs  ${e2}`;
-    document.getElementById('mun-r-elo').textContent =
-      `ELO: ${Math.round(r.elo_e1||0)}  vs  ${Math.round(r.elo_e2||0)}  (Δ${(r.diff_elo||0)>0?'+':''}${Math.round(r.diff_elo||0)})`;
-
-    document.getElementById('mun-label-win').textContent  = `Gana ${e1.split(' ')[0]}`;
-    document.getElementById('mun-label-loss').textContent = `Gana ${e2.split(' ')[0]}`;
-    document.getElementById('mun-pct-win').textContent    = pct(c.win);
-    document.getElementById('mun-pct-draw').textContent   = pct(c.draw);
-    document.getElementById('mun-pct-loss').textContent   = pct(c.loss);
-
-    document.getElementById('mun-cuota-win').textContent  = cuota(c.win);
-    document.getElementById('mun-cuota-draw').textContent = cuota(c.draw);
-    document.getElementById('mun-cuota-loss-lbl').textContent = e2.split(' ')[0];
-    document.getElementById('mun-cuota-loss').textContent = cuota(c.loss);
-
-    // Tabla modelos
-    const colorPred = p => p==='Win'?'var(--pos)': p==='Loss'?'var(--red)':'rgba(255,184,0,.9)';
-    const tbody = document.getElementById('mun-tbl-modelos');
-    tbody.innerHTML = (r.modelos||[]).map(m => `
-      <tr class="border-b border-[var(--line)] last:border-0 text-xs">
-        <td class="py-1.5 pr-4 font-mono text-[#97A0B5]">${m.modelo}</td>
-        <td class="py-1.5 px-3 font-bold text-center" style="color:${colorPred(m.pred)}">${m.pred}</td>
-        <td class="py-1.5 px-3 text-center font-mono" style="color:var(--pos)">${pct(m.win)}</td>
-        <td class="py-1.5 px-3 text-center font-mono" style="color:rgba(255,184,0,.9)">${pct(m.draw)}</td>
-        <td class="py-1.5 px-3 text-center font-mono" style="color:var(--red)">${pct(m.loss)}</td>
-      </tr>`).join('');
-
-    // Goles esperados
-    const golesDiv = document.getElementById('mun-goles');
-    if (r.goles && r.goles.length > 0) {
-      golesDiv.innerHTML = (r.goles||[]).map(g =>
-        `<span>${g.modelo}: <b>${e1} ${g.g1}–${g.g2} ${e2}</b></span>`).join(' &nbsp;|&nbsp; ');
-    }
-
-    // Forma reciente
-    const forma = (f, lbl, valId) => {
-      document.getElementById(lbl).textContent = `Últ.5 ${f._label||''}`;
-      document.getElementById(valId).textContent =
-        f ? `${f.w}W ${f.d}D ${f.l}L | GF ${f.gf} GC ${f.gc} (${f.pts} pts)` : '—';
-    };
-    if (r.forma_e1) { document.getElementById('mun-forma1-lbl').textContent = `Forma últ.5 — ${e1}`; document.getElementById('mun-forma1-val').textContent = `${r.forma_e1.w}W ${r.forma_e1.d}D ${r.forma_e1.l}L · GF ${r.forma_e1.gf} GC ${r.forma_e1.gc}`; }
-    if (r.forma_e2) { document.getElementById('mun-forma2-lbl').textContent = `Forma últ.5 — ${e2}`; document.getElementById('mun-forma2-val').textContent = `${r.forma_e2.w}W ${r.forma_e2.d}D ${r.forma_e2.l}L · GF ${r.forma_e2.gf} GC ${r.forma_e2.gc}`; }
-
-    // H2H
-    const h2h = r.h2h || {};
-    if (h2h.n > 0) {
-      document.getElementById('mun-h2h').textContent =
-        `H2H últimos ${h2h.n}: ${e1} ${h2h.w}W-${h2h.d}D-${h2h.l}L · GF ${h2h.gf} GC ${h2h.gc}`;
-    }
-
-    res.classList.remove('hidden');
-  } catch(err) {
-    alert(`Error: ${err.message}`);
-  } finally {
-    btn.disabled = false; btn.style.opacity = '';
-    load.classList.add('hidden');
-  }
-}
-
-// Iniciar mundial al cargar
-mundialInit();
 </script>
 </body>
 </html>

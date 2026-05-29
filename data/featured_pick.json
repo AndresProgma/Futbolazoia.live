@@ -6,7 +6,7 @@
   "competencia": "Mundial",
   "prob_win": 0.7062891641426212,
   "prob_draw": 0.18941115311848228,
-  "prob_loss": 0.10429968273889657,
+  "prob_loss": 0.10429968273889645,
   "valores": [
     {
       "nombre": "1X2 · Colombia",
@@ -650,9 +650,9 @@
     {
       "modelo": "Random Forest",
       "pred": "Win",
-      "win": 0.7154719529971356,
-      "draw": 0.15117898573682578,
-      "loss": 0.13334906126603854,
+      "win": 0.7154719529971365,
+      "draw": 0.15117898573682573,
+      "loss": 0.13334906126603774,
       "accuracy": 51
     },
     {
@@ -682,9 +682,9 @@
     {
       "modelo": "Stacker",
       "pred": "Win",
-      "win": 0.756919372653538,
-      "draw": 0.1485890189872559,
-      "loss": 0.09449160835920607,
+      "win": 0.7569193726535381,
+      "draw": 0.1485890189872558,
+      "loss": 0.094491608359206,
       "accuracy": null
     }
   ],
@@ -756,5 +756,36 @@
       "es_local": true
     }
   ],
-  "stats_equipos": null
+  "stats_equipos": {
+    "e1": {
+      "nombre": "Colombia",
+      "partidos": 55,
+      "goles_for": 1.31,
+      "goles_against": 0.85,
+      "corners_for": 4.7,
+      "corners_against": 4.2,
+      "tiros": 12.7,
+      "tiros_puerta": 4.4,
+      "amarillas": 2.15,
+      "faltas": 14.5,
+      "posesion": 54.5,
+      "precision_pase": 83.1,
+      "oportunidades": 2.2
+    },
+    "e2": {
+      "nombre": "Costa Rica",
+      "partidos": 30,
+      "goles_for": 1.37,
+      "goles_against": 1.33,
+      "corners_for": 3.5,
+      "corners_against": 5,
+      "tiros": 9.8,
+      "tiros_puerta": 3.4,
+      "amarillas": 1.96,
+      "faltas": 12.3,
+      "posesion": 44.2,
+      "precision_pase": 78.9,
+      "oportunidades": 1.8
+    }
+  }
 }

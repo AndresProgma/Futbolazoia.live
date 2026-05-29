@@ -1465,29 +1465,57 @@ def main(filepath, test_size=0.2, random_state=42, context_filepaths=None):
         full_regressors.setdefault('XGBoost',       []).append((r_xgb1, r_xgb2))
     print(f"   ✓ {N_PRED_SEEDS} semillas × {len(full_models)} clasificadores + {len(full_regressors)} regresores listos")
 
-    # Regresores de mercado: corners y amarillas totales
-    print("\n📐 Regresores de mercado (corners / amarillas)...")
+    # Regresores de mercado: corners, amarillas + stats por equipo
+    print("\n📐 Regresores de mercado...")
     full_market_regressors: dict = {}
-    for mkt_name, col1, col2, fallback in [
-        ('corners',   'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', 9.0),
-        ('amarillas', 'Tarjetas_amarillas_E1',         'Tarjetas_amarillas_E2',         3.6),
+
+    def _train_market_reg(key, y_ser, label):
+        """Entrena RF, evalúa accuracy (% test donde ML < baseline) y guarda si >55%."""
+        ytr_, yte_ = y_ser.iloc[:n_train], y_ser.iloc[n_train:]
+        if len(yte_) == 0:
+            return
+        baseline_pred = np.full(len(yte_), ytr_.mean())
+        rf_ = RandomForestRegressor(n_estimators=200, max_depth=6, random_state=42, n_jobs=-1)
+        rf_.fit(X_train, ytr_)
+        ml_pred = rf_.predict(X_test)
+        acc = float((np.abs(yte_.values - ml_pred) < np.abs(yte_.values - baseline_pred)).mean())
+        mae_b = float(np.abs(yte_.values - baseline_pred).mean())
+        mae_ml = float(np.abs(yte_.values - ml_pred).mean())
+        ok = acc > 0.55
+        print(f"   {label:25s} → Acc {acc*100:.1f}%  MAE base {mae_b:.2f} → ML {mae_ml:.2f}  {'✅ usar ML' if ok else '❌ usar media'}")
+        if ok:
+            rf_full_ = RandomForestRegressor(n_estimators=200, max_depth=6, random_state=42, n_jobs=-1)
+            rf_full_.fit(X, y_ser)
+            full_market_regressors[key] = rf_full_
+
+    def _col(c):
+        if c not in df_raw_stats.columns:
+            return None
+        return pd.to_numeric(df_raw_stats.loc[X.index, c], errors='coerce')
+
+    # Totales (corners + amarillas) — para Poisson Monte Carlo
+    for key, c1, c2, fb, lbl in [
+        ('corners',   'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', 9.0, 'corners total'),
+        ('amarillas', 'Tarjetas_amarillas_E1',         'Tarjetas_amarillas_E2',         3.6, 'amarillas total'),
     ]:
-        if col1 not in df_raw_stats.columns or col2 not in df_raw_stats.columns:
-            print(f"   ⚠️  {mkt_name}: columnas no encontradas, se usará Poisson")
+        s1, s2 = _col(c1), _col(c2)
+        if s1 is None or s2 is None:
+            print(f"   ⚠️  {key}: columnas no encontradas")
             continue
-        y_mkt = (pd.to_numeric(df_raw_stats.loc[X.index, col1], errors='coerce') +
-                 pd.to_numeric(df_raw_stats.loc[X.index, col2], errors='coerce')).fillna(fallback)
-        ytr, yte = y_mkt.iloc[:n_train], y_mkt.iloc[n_train:]
-        baseline_mae = float(np.abs(yte - ytr.mean()).mean())
-        rf_mkt = RandomForestRegressor(n_estimators=200, max_depth=6, random_state=42, n_jobs=-1)
-        rf_mkt.fit(X_train, ytr)
-        ml_mae = float(np.abs(yte - rf_mkt.predict(X_test)).mean())
-        symbol = '✅ ML mejor' if ml_mae < baseline_mae else '❌ Poisson mejor'
-        print(f"   {mkt_name:10s} → Poisson MAE: {baseline_mae:.2f}  |  ML MAE: {ml_mae:.2f}  {symbol}")
-        # Entrenar sobre dataset completo para predicciones
-        rf_full_mkt = RandomForestRegressor(n_estimators=200, max_depth=6, random_state=42, n_jobs=-1)
-        rf_full_mkt.fit(X, y_mkt)
-        full_market_regressors[mkt_name] = rf_full_mkt
+        _train_market_reg(key, (s1 + s2).fillna(fb), lbl)
+
+    # Por equipo (disparos, tiros a puerta, posesión) — para stats card
+    for key_e1, key_e2, c1, c2, fb, lbl in [
+        ('disparos_e1',     'disparos_e2',     'Disparos_totales_E1',  'Disparos_totales_E2',  12.0, 'disparos'),
+        ('tiros_puerta_e1', 'tiros_puerta_e2', 'Disparos_a_puerta_E1', 'Disparos_a_puerta_E2',  4.0, 'tiros a puerta'),
+        ('posesion_e1',     'posesion_e2',     'Posesion_E1',          'Posesion_E2',           50.0, 'posesión'),
+    ]:
+        s1, s2 = _col(c1), _col(c2)
+        if s1 is None or s2 is None:
+            print(f"   ⚠️  {lbl}: columnas no encontradas")
+            continue
+        _train_market_reg(key_e1, s1.fillna(fb), f'{lbl} E1')
+        _train_market_reg(key_e2, s2.fillna(fb), f'{lbl} E2')
 
     # Stacker OOF — entrena sobre el dataset completo con walk-forward CV
     stacker_info = train_stacker(X, y, n_splits=3, random_state=random_state)
@@ -2179,6 +2207,23 @@ def predecir_partido(equipo1, equipo2, results, n_runs=20, fase='Liga'):
         'e1': _team_full_stats(equipo1),
         'e2': _team_full_stats(equipo2),
     }
+
+    # Sobreescribir stats con ML si el regresor superó 55% de accuracy
+    for se_key, ml_key_e1, ml_key_e2 in [
+        ('tiros',        'disparos_e1',     'disparos_e2'),
+        ('tiros_puerta', 'tiros_puerta_e1', 'tiros_puerta_e2'),
+        ('posesion',     'posesion_e1',     'posesion_e2'),
+    ]:
+        if ml_key_e1 in mkt_regs:
+            try:
+                stats_equipos['e1'][se_key] = round(float(mkt_regs[ml_key_e1].predict(X_pred)[0]), 1)
+            except Exception:
+                pass
+        if ml_key_e2 in mkt_regs:
+            try:
+                stats_equipos['e2'][se_key] = round(float(mkt_regs[ml_key_e2].predict(X_pred)[0]), 1)
+            except Exception:
+                pass
 
     mercados = simular_mercados(
         g1_exp=float(g1_exp), g2_exp=float(g2_exp),

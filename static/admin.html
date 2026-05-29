@@ -157,6 +157,7 @@
           </div>
         </div>
 
+
         <div id="pk-estado" class="hidden rounded-lg p-3 border border-[var(--lb)]" style="background:#131826">
           <div id="pk-spinner" class="flex items-center gap-2">
             <div class="w-4 h-4 border-2 border-[var(--pos)] border-t-transparent rounded-full animate-spin"></div>
@@ -165,9 +166,14 @@
           <p id="pk-msg" class="hidden text-xs font-mono"></p>
         </div>
 
-        <button onclick="guardarPick()" class="btn-pos w-full py-2.5">
-          Correr predicci&#xF3;n y publicar &#x2192;
-        </button>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="guardarPick()" class="btn-pos py-2.5">
+            Publicar como Pick del D&#xED;a &#x2192;
+          </button>
+          <button onclick="agregarPartidoHoy()" class="btn-outline py-2.5">
+            &#xFF0B; Agregar a Partidos de Hoy
+          </button>
+        </div>
       </div>
 
       <!-- Preview del pick actual -->
@@ -179,6 +185,18 @@
       </div>
 
     </div>
+
+    <!-- Partidos de Hoy — lista -->
+    <div class="card mt-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-sm font-semibold">Partidos de Hoy publicados</h2>
+        <button onclick="limpiarPartidosHoy()" class="btn-danger text-[11px]">&#x2715; Limpiar todos</button>
+      </div>
+      <div id="partidos-hoy-list">
+        <p class="text-sm text-[#5A6478]">No hay partidos agregados.</p>
+      </div>
+    </div>
+
   </div>
 
   <!-- ════ TAB: PREDICTOR ════ -->
@@ -500,92 +518,20 @@ function showTab(name) {
 
 // ═══ PICK DEL DÍA ════════════════════════════════════════
 async function guardarPick() {
-  const e1 = document.getElementById('pk-e1').value;
-  const e2 = document.getElementById('pk-e2').value;
-  if (!e1 || !e2 || e1 === e2) { alert('Elige dos equipos distintos'); return; }
-
-  const hora        = document.getElementById('pk-hora').value || '21:00';
-  const fase        = document.getElementById('pk-fase').value;
-  const nRuns       = parseInt(document.getElementById('pk-nruns').value) || 20;
-  const competencia = document.getElementById('pk-competencia').value || 'UCL';
-
-  const estadoEl = document.getElementById('pk-estado');
-  const spinnerEl = document.getElementById('pk-spinner');
   const msgEl = document.getElementById('pk-msg');
-  estadoEl.classList.remove('hidden');
-  spinnerEl.classList.remove('hidden');
-  msgEl.classList.add('hidden');
-
+  const body = await _buildPickBody();
+  if (!body) return;
   try {
-    const pred = await api.predecir({ equipo1:e1, equipo2:e2, fase, n_runs:nRuns, competencia, evaluacion_id: state?.evaluacionId||null });
-
-    // Auto-valores
-    const m = pred.mercados;
-
-    // Resultado más probable (1X2)
-    const c = pred.consenso;
-    let resultLabel, resultDesc, resultPct;
-    if (c.win >= c.draw && c.win >= c.loss) {
-      resultLabel = `1X2 · ${e1}`; resultDesc = 'Victoria local'; resultPct = Math.round(c.win * 100);
-    } else if (c.loss >= c.win && c.loss >= c.draw) {
-      resultLabel = `1X2 · ${e2}`; resultDesc = 'Victoria visitante'; resultPct = Math.round(c.loss * 100);
-    } else {
-      resultLabel = '1X2 · Empate'; resultDesc = 'Partido igualado'; resultPct = Math.round(c.draw * 100);
-    }
-
-    // Mejor línea Under para un mercado discreto
-    function bestUnder(d) {
-      if (!d) return null;
-      const overLines = Object.entries(d)
-        .filter(([k]) => k.startsWith('over_'))
-        .map(([k,v]) => ({ line: parseFloat(k.replace('over_','').replace('_','.')), prob: v }))
-        .filter(x => !isNaN(x.line));
-      const candidates = overLines.map(x => ({ line: x.line, prob: 1 - x.prob }))
-        .filter(x => x.prob >= 0.62 && x.prob <= 0.75).sort((a,b) => b.prob - a.prob);
-      return candidates[0] || null;
-    }
-
-    const cornersUnder   = bestUnder(m?.corners);
-    const amarillasUnder = bestUnder(m?.amarillas);
-
-    const valores = [
-      { nombre: resultLabel, descripcion: resultDesc, porcentaje: resultPct },
-      cornersUnder   ? { nombre: `Corners U${cornersUnder.line}`,   descripcion: 'Mejor under corners',   porcentaje: Math.round(cornersUnder.prob * 100)   } : null,
-      amarillasUnder ? { nombre: `Amarillas U${amarillasUnder.line}`, descripcion: 'Mejor under amarillas', porcentaje: Math.round(amarillasUnder.prob * 100) } : null,
-    ].filter(Boolean);
-
-    // Métricas de accuracy (Acc Last — último fold, más representativo)
-    let accMap = state?.accMap || {};
-    try {
-      if (!Object.keys(accMap).length) {
-        const met = await api.metricas(state?.evaluacionId);
-        for (const r of met.cv||[]) if (r['Acc Last']!=null) accMap[r.Model] = Math.round(r['Acc Last']*100);
-      }
-    } catch(_) {}
-    const modelos = (pred.modelos||[]).map(m2 => ({...m2, accuracy: accMap[m2.modelo]??null}));
-
-    const body = {
-      equipo1:e1, equipo2:e2, hora, fase, competencia,
-      prob_win:pred.consenso.win, prob_draw:pred.consenso.draw, prob_loss:pred.consenso.loss,
-      valores, mercados:pred.mercados||null, modelos,
-      goles: pred.goles||[],
-      ultimos_e1:pred.ultimos_e1||[], ultimos_e2:pred.ultimos_e2||[],
-    };
-
     const res = await fetch(`${API_BASE}/api/admin/featured-pick`, {
       method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
     });
     if (!res.ok) throw new Error(await res.text());
-
-    spinnerEl.classList.add('hidden');
     msgEl.textContent = '✓ Pick publicado correctamente.';
     msgEl.style.color = 'var(--pos)';
     msgEl.classList.remove('hidden');
     renderPickPreview(body);
     document.getElementById('btn-eliminar-pick').classList.remove('hidden');
-
   } catch(err) {
-    spinnerEl.classList.add('hidden');
     msgEl.textContent = `Error: ${err.message}`;
     msgEl.style.color = 'var(--red)';
     msgEl.classList.remove('hidden');
@@ -618,6 +564,148 @@ async function eliminarPick() {
   document.getElementById('btn-eliminar-pick').classList.add('hidden');
   document.getElementById('pk-msg').classList.add('hidden');
   document.getElementById('pk-estado').classList.add('hidden');
+}
+
+// ═══ PARTIDOS DE HOY ════════════════════════════════════
+async function _buildPickBody() {
+  const e1 = document.getElementById('pk-e1').value;
+  const e2 = document.getElementById('pk-e2').value;
+  if (!e1 || !e2 || e1 === e2) { alert('Elige dos equipos distintos'); return null; }
+
+  const hora        = document.getElementById('pk-hora').value || '21:00';
+  const fase        = document.getElementById('pk-fase').value;
+  const nRuns       = parseInt(document.getElementById('pk-nruns').value) || 20;
+  const competencia = document.getElementById('pk-competencia').value || 'UCL';
+
+  const estadoEl  = document.getElementById('pk-estado');
+  const spinnerEl = document.getElementById('pk-spinner');
+  const msgEl     = document.getElementById('pk-msg');
+  estadoEl.classList.remove('hidden');
+  spinnerEl.classList.remove('hidden');
+  msgEl.classList.add('hidden');
+
+  try {
+    const pred = await api.predecir({ equipo1:e1, equipo2:e2, fase, n_runs:nRuns, competencia, evaluacion_id: state?.evaluacionId||null });
+    const m = pred.mercados;
+    const c = pred.consenso;
+
+    let resultLabel, resultDesc, resultPct;
+    if (c.win >= c.draw && c.win >= c.loss) {
+      resultLabel = `1X2 · ${e1}`; resultDesc = 'Victoria local'; resultPct = Math.round(c.win*100);
+    } else if (c.loss >= c.win && c.loss >= c.draw) {
+      resultLabel = `1X2 · ${e2}`; resultDesc = 'Victoria visitante'; resultPct = Math.round(c.loss*100);
+    } else {
+      resultLabel = '1X2 · Empate'; resultDesc = 'Partido igualado'; resultPct = Math.round(c.draw*100);
+    }
+
+    function bestUnder(d) {
+      if (!d) return null;
+      const overLines = Object.entries(d)
+        .filter(([k]) => k.startsWith('over_'))
+        .map(([k,v]) => ({ line: parseFloat(k.replace('over_','').replace('_','.')), prob: v }))
+        .filter(x => !isNaN(x.line));
+      const candidates = overLines.map(x => ({ line: x.line, prob: 1-x.prob }))
+        .filter(x => x.prob >= 0.62 && x.prob <= 0.75).sort((a,b) => b.prob-a.prob);
+      return candidates[0] || null;
+    }
+
+    const cornersUnder   = bestUnder(m?.corners);
+    const amarillasUnder = bestUnder(m?.amarillas);
+    const valores = [
+      { nombre: resultLabel, descripcion: resultDesc, porcentaje: resultPct },
+      cornersUnder   ? { nombre:`Corners U${cornersUnder.line}`,    descripcion:'Mejor under corners',   porcentaje:Math.round(cornersUnder.prob*100)   } : null,
+      amarillasUnder ? { nombre:`Amarillas U${amarillasUnder.line}`, descripcion:'Mejor under amarillas', porcentaje:Math.round(amarillasUnder.prob*100) } : null,
+    ].filter(Boolean);
+
+    let accMap = state?.accMap || {};
+    try {
+      if (!Object.keys(accMap).length) {
+        const met = await api.metricas(state?.evaluacionId);
+        for (const r of met.cv||[]) if (r['Acc Last']!=null) accMap[r.Model] = Math.round(r['Acc Last']*100);
+      }
+    } catch(_) {}
+    const modelos = (pred.modelos||[]).map(m2 => ({...m2, accuracy: accMap[m2.modelo]??null}));
+
+    spinnerEl.classList.add('hidden');
+    return {
+      equipo1:e1, equipo2:e2, hora, fase, competencia,
+      prob_win:c.win, prob_draw:c.draw, prob_loss:c.loss,
+      valores, mercados:pred.mercados||null, modelos,
+      goles:pred.goles||[], ultimos_e1:pred.ultimos_e1||[], ultimos_e2:pred.ultimos_e2||[],
+      stats_equipos:pred.stats_equipos||null,
+    };
+  } catch(err) {
+    spinnerEl.classList.add('hidden');
+    const msgEl2 = document.getElementById('pk-msg');
+    msgEl2.textContent = `Error: ${err.message}`;
+    msgEl2.style.color = 'var(--red)';
+    msgEl2.classList.remove('hidden');
+    return null;
+  }
+}
+
+async function agregarPartidoHoy() {
+  const body = await _buildPickBody();
+  if (!body) return;
+  const msgEl = document.getElementById('pk-msg');
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/partidos-hoy`, {
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    msgEl.textContent = `✓ Partido agregado a Partidos de Hoy (${body.equipo1} vs ${body.equipo2}).`;
+    msgEl.style.color = 'var(--pos)';
+    msgEl.classList.remove('hidden');
+    await cargarPartidosHoy();
+  } catch(err) {
+    msgEl.textContent = `Error: ${err.message}`;
+    msgEl.style.color = 'var(--red)';
+    msgEl.classList.remove('hidden');
+  }
+}
+
+async function cargarPartidosHoy() {
+  try {
+    const lista = await fetch(`${API_BASE}/api/partidos-hoy`).then(r => r.json());
+    renderPartidosHoyAdmin(lista);
+  } catch(_) {}
+}
+
+function renderPartidosHoyAdmin(lista) {
+  const el = document.getElementById('partidos-hoy-list');
+  if (!lista || lista.length === 0) {
+    el.innerHTML = '<p class="text-sm text-[#5A6478]">No hay partidos agregados.</p>';
+    return;
+  }
+  el.innerHTML = lista.map((p, i) => {
+    const win  = Math.round((p.prob_win||0)*100);
+    const draw = Math.round((p.prob_draw||0)*100);
+    const loss = Math.round((p.prob_loss||0)*100);
+    return `
+      <div class="flex items-center justify-between py-2.5 border-b border-[var(--line)] last:border-0">
+        <div class="flex-1 min-w-0">
+          <span class="font-medium text-sm">${p.equipo1} <span class="text-[#5A6478]">vs</span> ${p.equipo2}</span>
+          <span class="font-mono text-[10px] text-[#5A6478] ml-2">${p.hora||''} · ${p.competencia||''}</span>
+        </div>
+        <div class="flex items-center gap-3 ml-3 flex-shrink-0">
+          <span class="font-mono text-[11px]" style="color:var(--pos)">${win}%</span>
+          <span class="font-mono text-[11px]" style="color:var(--amber)">${draw}%</span>
+          <span class="font-mono text-[11px]" style="color:var(--red)">${loss}%</span>
+          <button onclick="eliminarPartidoHoy(${i})" class="btn-danger py-1 px-2 text-[11px]">&#x2715;</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+async function eliminarPartidoHoy(idx) {
+  const res = await fetch(`${API_BASE}/api/admin/partidos-hoy/${idx}`, { method:'DELETE' });
+  if (res.ok) await cargarPartidosHoy();
+}
+
+async function limpiarPartidosHoy() {
+  if (!confirm('¿Eliminar todos los partidos de hoy?')) return;
+  await fetch(`${API_BASE}/api/admin/partidos-hoy`, { method:'DELETE' });
+  await cargarPartidosHoy();
 }
 
 // ═══ ACCIONES ADMIN ══════════════════════════════════════
@@ -878,6 +966,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('pk-fase').value = pick.fase||'Cuartos';
       }
     } catch(_) {}
+
+    // Cargar partidos de hoy
+    await cargarPartidosHoy();
 
   } catch(err) {
     document.getElementById('health').style.color = 'var(--red)';
