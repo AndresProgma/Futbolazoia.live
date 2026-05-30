@@ -343,30 +343,34 @@ def _reload_last_ucl_pipeline() -> None:
     if _ucl_training:
         print("⚠ UCL ya está entrenando, reload cancelado")
         return
-    # Intentar cargar desde caché primero
+    cached = _load_cache(_UCL_CACHE)
+    if cached is None:
+        print("ℹ Sin caché UCL — usa el botón Reentrenar UCL en el admin")
+        return
+    # Cache existe: asociarlo a la última eval de la DB, o crearla si no hay ninguna
     with Session(engine) as s:
         evals = s.exec(select(Evaluacion).where(Evaluacion.activo == True)).all()
         if not evals:
-            return
-        ev = max(evals, key=lambda e: e.id)
-    cached = _load_cache(_UCL_CACHE)
-    if cached is not None:
-        _resultados_pipeline[ev.id] = cached
-        _training_status[ev.id] = "ready"
-        return
-    # Sin caché: entrenar desde cero
-    _ucl_training = True
-    try:
-        _training_status[ev.id] = "training"
-        results = run_pipeline(ev.filepath, context_filepaths=_PL_CONTEXT)
-        _resultados_pipeline[ev.id] = results
-        _training_status[ev.id] = "ready"
-        _save_cache(_UCL_CACHE, results)
-        print(f"✓ Modelo UCL entrenado y cacheado (eval #{ev.id})")
-    except Exception as exc:
-        print(f"⚠ Error cargando modelo UCL: {exc}")
-    finally:
-        _ucl_training = False
+            # DB vacía tras deploy/reset — crear fila sentinel para que el frontend
+            # no dispare un reentrenamiento al ver evaluaciones=[].
+            try:
+                res_json = cached["results"].to_json(orient="records")
+            except Exception:
+                res_json = "[]"
+            try:
+                cv_json = cached["cv_results"].to_json(orient="records")
+            except Exception:
+                cv_json = "[]"
+            ev = Evaluacion(filepath=DATASET, resultados=res_json, cv_resultados=cv_json)
+            s.add(ev)
+            s.commit()
+            s.refresh(ev)
+            print(f"✓ Evaluación #{ev.id} restaurada desde caché UCL")
+        else:
+            ev = max(evals, key=lambda e: e.id)
+    _resultados_pipeline[ev.id] = cached
+    _training_status[ev.id] = "ready"
+    print(f"✓ Modelo UCL cargado desde caché (eval #{ev.id})")
 
 
 def _run_pipeline_background(evaluacion_id: int, filepath: str) -> None:
