@@ -61,9 +61,21 @@ _UCL_CACHE    = _PROJECT_ROOT / "data" / "_ucl_model_cache.pkl"
 _MUNDIAL_CACHE = _PROJECT_ROOT / "data" / "_mundial_model_cache.pkl"
 _PL_CACHE     = _PROJECT_ROOT / "data" / "_pl_model_cache.pkl"
 
+# Claves que solo se usan durante el entrenamiento/CV (modelos por-fold del
+# walk-forward) y NUNCA al servir predicciones — al servir se usan full_models /
+# full_regressors. Quitarlas baja ~50MB de RAM residente, clave en Render (512MB).
+_CV_ONLY_KEYS = ("models", "regressors")
+
+def _strip_cv_only(obj: dict) -> dict:
+    """Elimina in-place los modelos por-fold del CV que no se usan al servir."""
+    if isinstance(obj, dict):
+        for k in _CV_ONLY_KEYS:
+            obj.pop(k, None)
+    return obj
+
 def _save_cache(path: Path, obj: dict) -> None:
     try:
-        joblib.dump(obj, path, compress=3)
+        joblib.dump(_strip_cv_only(obj), path, compress=3)
         print(f"✓ Caché guardado: {path.name}")
     except Exception as exc:
         print(f"⚠ No se pudo guardar caché {path.name}: {exc}")
@@ -71,7 +83,7 @@ def _save_cache(path: Path, obj: dict) -> None:
 def _load_cache(path: Path) -> dict | None:
     try:
         if path.exists():
-            obj = joblib.load(path)
+            obj = _strip_cv_only(joblib.load(path))
             print(f"✓ Caché cargado: {path.name}")
             return obj
     except Exception as exc:
@@ -241,9 +253,14 @@ async def lifespan(app: FastAPI):
     with Session(engine) as session:
         _cargar_excel(session)
     import threading
-    threading.Thread(target=_reload_last_ucl_pipeline, daemon=True).start()
-    threading.Thread(target=_run_mundial_pipeline_background, daemon=True).start()
-    threading.Thread(target=_run_pl_pipeline_background, daemon=True).start()
+    # Cargar los 3 cachés SECUENCIALMENTE en un solo thread. Hacerlo en paralelo
+    # descomprime los 3 pickles a la vez y dispara un pico de RAM que revienta el
+    # límite de 512MB de Render (OOM). Secuencial = el pico es el de un caché.
+    def _cargar_modelos_secuencial():
+        _reload_last_ucl_pipeline()
+        _run_pl_pipeline_background()
+        _run_mundial_pipeline_background()
+    threading.Thread(target=_cargar_modelos_secuencial, daemon=True).start()
     yield
 
 
