@@ -17,9 +17,11 @@ Arrancar:
 from __future__ import annotations
 
 import contextlib
+import gc
 import io
 import json
 import os
+import threading
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
@@ -93,21 +95,88 @@ def _load_cache(path: Path) -> dict | None:
 
 engine = create_engine(DATABASE_URL)
 
-# Pipeline results guardados en memoria (demasiado pesados para DB)
-_resultados_pipeline: dict[int, dict] = {}
-# Estado de entrenamiento: "training" | "ready" | "error:<msg>"
+# --- Registro de modelos: UN SOLO modelo residente a la vez (slot único) ------
+# Los 3 modelos (UCL+PL+Mundial) NO caben juntos en los 512MB de RAM de Render
+# (~525MB). Cada competencia se carga bajo demanda desde su caché en disco y
+# DESALOJA a la anterior, de modo que en RAM solo vive un modelo (~400MB).
+_PL_KEY = -1          # sentinel: evaluacion_id=-1 → modelo Premier League
+_MUNDIAL_KEY = -2     # sentinel: evaluacion_id=-2 → modelo Mundial
+
+_model_lock = threading.RLock()
+_active_key: Optional[int] = None     # competencia actualmente en RAM
+_active_obj: Optional[dict] = None    # sus resultados (modelos + dataframes)
+
+
+def _malloc_trim() -> None:
+    """En Linux (glibc, como Render) devuelve al SO la memoria ya liberada por
+    Python. Sin esto el RSS queda en el high-water mark y al desalojar un modelo
+    para cargar otro el pico sumaría ambos → OOM. No-op en otras plataformas."""
+    try:
+        import ctypes
+        ctypes.CDLL("libc.so.6").malloc_trim(0)
+    except Exception:
+        pass
+
+# Estado de entrenamiento en curso: "idle" | "training" | "error:<msg>".
+# La disponibilidad para servir se deriva de si el caché existe (_model_available).
 _training_status: dict[int, str] = {}
-# Lock para evitar dos entrenamientos UCL simultáneos
 _ucl_training = False
+_pl_status: str = "idle"
+_mundial_status: str = "idle"
 
-# Modelo PL separado (entrenado solo con datos de Premier League, sin contexto UCL)
-_PL_KEY = -1          # sentinel: evaluacion_id=-1 → modelo PL
-_pl_status: str = "idle"   # "idle" | "training" | "ready" | "error:<msg>"
 
-# Modelo Mundial (selecciones nacionales — todos los torneos FIFA/UEFA)
-_MUNDIAL_KEY = -2     # sentinel
-_mundial_results: dict = {}
-_mundial_status: str = "idle"   # "idle" | "training" | "ready" | "error:<msg>"
+def _cache_path_for(key: int) -> Path:
+    if key == _PL_KEY:
+        return _PL_CACHE
+    if key == _MUNDIAL_KEY:
+        return _MUNDIAL_CACHE
+    return _UCL_CACHE                  # cualquier evaluacion_id positivo → UCL
+
+
+def _model_available(key: int) -> bool:
+    """True si el caché en disco existe (servible sin reentrenar)."""
+    return _cache_path_for(key).exists()
+
+
+def _get_model(key: int) -> Optional[dict]:
+    """Devuelve el modelo de la competencia `key`, cargándolo del caché si hace
+    falta y DESALOJANDO cualquier otro modelo residente (1 a la vez)."""
+    global _active_key, _active_obj
+    with _model_lock:
+        if _active_key == key and _active_obj is not None:
+            return _active_obj
+        if _active_obj is not None:        # desalojar el modelo previo
+            _active_obj = None
+            _active_key = None
+            gc.collect()
+            _malloc_trim()                 # devolver RAM al SO ANTES de cargar otro
+        obj = _load_cache(_cache_path_for(key))
+        if obj is not None:
+            _active_obj = obj
+            _active_key = key
+        return obj
+
+
+def _set_active_model(key: int, obj: dict) -> None:
+    """Tras (re)entrenar/cargar, deja ese modelo como el residente."""
+    global _active_key, _active_obj
+    with _model_lock:
+        if _active_obj is not None and _active_key != key:
+            _active_obj = None
+            gc.collect()
+            _malloc_trim()
+        _active_obj = obj
+        _active_key = key
+
+
+def _evict_model() -> None:
+    """Libera el modelo residente (p.ej. antes de entrenar, para dejar RAM)."""
+    global _active_key, _active_obj
+    with _model_lock:
+        _active_obj = None
+        _active_key = None
+        gc.collect()
+        _malloc_trim()
 
 
 # ---------------------------------------------------------------------------
@@ -252,15 +321,9 @@ async def lifespan(app: FastAPI):
             pass
     with Session(engine) as session:
         _cargar_excel(session)
-    import threading
-    # Cargar los 3 cachés SECUENCIALMENTE en un solo thread. Hacerlo en paralelo
-    # descomprime los 3 pickles a la vez y dispara un pico de RAM que revienta el
-    # límite de 512MB de Render (OOM). Secuencial = el pico es el de un caché.
-    def _cargar_modelos_secuencial():
-        _reload_last_ucl_pipeline()
-        _run_pl_pipeline_background()
-        _run_mundial_pipeline_background()
-    threading.Thread(target=_cargar_modelos_secuencial, daemon=True).start()
+    # Precargar SOLO UCL (es el homepage). PL y Mundial se cargan bajo demanda y
+    # desalojan a UCL cuando se piden, para no tener nunca >1 modelo en RAM.
+    threading.Thread(target=_reload_last_ucl_pipeline, daemon=True).start()
     yield
 
 
@@ -294,14 +357,13 @@ def get_session():
 
 
 def _run_mundial_pipeline_background(force_retrain: bool = False) -> None:
-    """Carga Mundial desde caché si existe; solo reentrena si force_retrain=True o no hay caché."""
-    global _mundial_status, _mundial_results
+    """Entrena Mundial (force_retrain=True). Sin force solo marca disponibilidad;
+    el modelo se carga a RAM bajo demanda, no en el arranque."""
+    global _mundial_status
     if not force_retrain:
-        cached = _load_cache(_MUNDIAL_CACHE)
-        if cached is not None:
-            _mundial_results = cached
-            _mundial_status = "ready"
-            return
+        _mundial_status = "ready" if _MUNDIAL_CACHE.exists() else "idle"
+        return
+    _evict_model()            # liberar RAM antes de entrenar (solo 1 modelo cabe)
     _mundial_status = "training"
     try:
         csv_path = DEFAULT_MUNDIAL_DATASET
@@ -309,9 +371,9 @@ def _run_mundial_pipeline_background(force_retrain: bool = False) -> None:
             _mundial_status = "error:no se encuentra selecciones_combinado.csv"
             return
         results = run_pipeline_mundial(str(csv_path))
-        _mundial_results = results
-        _mundial_status = "ready"
         _save_cache(_MUNDIAL_CACHE, results)
+        _set_active_model(_MUNDIAL_KEY, results)
+        _mundial_status = "ready"
         print("✓ Modelo Mundial entrenado y cacheado")
     except Exception as exc:
         _mundial_status = f"error:{exc}"
@@ -322,11 +384,9 @@ def _run_pl_pipeline_background(force_retrain: bool = False) -> None:
     """Carga PL desde caché si existe; solo reentrena si force_retrain=True o no hay caché."""
     global _pl_status
     if not force_retrain:
-        cached = _load_cache(_PL_CACHE)
-        if cached is not None:
-            _resultados_pipeline[_PL_KEY] = cached
-            _pl_status = "ready"
-            return
+        _pl_status = "ready" if _PL_CACHE.exists() else "idle"
+        return
+    _evict_model()            # liberar RAM antes de entrenar (solo 1 modelo cabe)
     _pl_status = "training"
     try:
         pl_files = [
@@ -345,9 +405,9 @@ def _run_pl_pipeline_background(force_retrain: bool = False) -> None:
         tmp_path = _PROJECT_ROOT / "data" / "_pl_combined.csv"
         combined.to_csv(tmp_path, index=False)
         results = run_pipeline(str(tmp_path), context_filepaths=None)
-        _resultados_pipeline[_PL_KEY] = results
-        _pl_status = "ready"
         _save_cache(_PL_CACHE, results)
+        _set_active_model(_PL_KEY, results)
+        _pl_status = "ready"
         print("✓ Modelo Premier League entrenado y cacheado")
     except Exception as exc:
         _pl_status = f"error:{exc}"
@@ -385,7 +445,7 @@ def _reload_last_ucl_pipeline() -> None:
             print(f"✓ Evaluación #{ev.id} restaurada desde caché UCL")
         else:
             ev = max(evals, key=lambda e: e.id)
-    _resultados_pipeline[ev.id] = cached
+    _set_active_model(ev.id, cached)
     _training_status[ev.id] = "ready"
     print(f"✓ Modelo UCL cargado desde caché (eval #{ev.id})")
 
@@ -398,6 +458,7 @@ def _run_pipeline_background(evaluacion_id: int, filepath: str) -> None:
         _training_status[evaluacion_id] = "error:ya hay un entrenamiento UCL en curso"
         return
     _ucl_training = True
+    _evict_model()            # liberar RAM antes de entrenar (solo 1 modelo cabe)
     try:
         results = run_pipeline(filepath, context_filepaths=_PL_CONTEXT)
         with Session(engine) as s:
@@ -407,9 +468,9 @@ def _run_pipeline_background(evaluacion_id: int, filepath: str) -> None:
                 ev.cv_resultados = results["cv_results"].to_json(orient="records")
                 s.add(ev)
                 s.commit()
-        _resultados_pipeline[evaluacion_id] = results
-        _training_status[evaluacion_id] = "ready"
         _save_cache(_UCL_CACHE, results)
+        _set_active_model(evaluacion_id, results)
+        _training_status[evaluacion_id] = "ready"
     except Exception as exc:
         _training_status[evaluacion_id] = f"error:{exc}"
         _ucl_training = False
@@ -422,21 +483,23 @@ def _run_pipeline_background(evaluacion_id: int, filepath: str) -> None:
 
 
 def _get_or_run_pipeline(evaluacion_id: int, session: Session) -> dict:
-    """Devuelve los resultados en memoria, o reejecuta el pipeline si se reinició el server.
-    evaluacion_id == _PL_KEY (-1) → usa el modelo Premier League."""
+    """Devuelve el modelo de la competencia, cargándolo del caché bajo demanda
+    (desaloja cualquier otro modelo residente). evaluacion_id == _PL_KEY (-1) →
+    modelo Premier League."""
     if evaluacion_id == _PL_KEY:
-        if _PL_KEY not in _resultados_pipeline:
-            if _pl_status == "training":
-                raise HTTPException(status_code=503, detail="Modelo Premier League aún entrenando, intenta en unos minutos")
+        if _pl_status == "training":
+            raise HTTPException(status_code=503, detail="Modelo Premier League aún entrenando, intenta en unos minutos")
+        obj = _get_model(_PL_KEY)
+        if obj is None:
             raise HTTPException(status_code=503, detail=f"Modelo Premier League no disponible: {_pl_status}")
-        return _resultados_pipeline[_PL_KEY]
-    if evaluacion_id in _resultados_pipeline:
-        return _resultados_pipeline[evaluacion_id]
-    # Modelo no está en memoria — no entrenar automáticamente, el admin lo hace con el botón.
-    status = _training_status.get(evaluacion_id, "idle")
-    if status == "training":
+        return obj
+    # UCL — no entrenar automáticamente, el admin lo hace con el botón.
+    if _ucl_training:
         raise HTTPException(status_code=503, detail="Modelo UCL aún entrenando")
-    raise HTTPException(status_code=503, detail="Modelo UCL no cargado — usa Reentrenar UCL en el admin")
+    obj = _get_model(evaluacion_id)
+    if obj is None:
+        raise HTTPException(status_code=503, detail="Modelo UCL no cargado — usa Reentrenar UCL en el admin")
+    return obj
 
 
 def _resolve_evaluacion_id(competencia: Optional[str], evaluacion_id: Optional[int], session: Session) -> int:
@@ -608,7 +671,8 @@ def actualizar_evaluacion(evaluacion_id: int, data: EvaluacionUpdate, session: S
     session.add(ev)
     session.commit()
     session.refresh(ev)
-    _resultados_pipeline[evaluacion_id] = results
+    _save_cache(_UCL_CACHE, results)
+    _set_active_model(evaluacion_id, results)
     return ev
 
 
@@ -621,7 +685,8 @@ def desactivar_evaluacion(evaluacion_id: int, session: Session = Depends(get_ses
     ev.activo = False
     session.add(ev)
     session.commit()
-    _resultados_pipeline.pop(evaluacion_id, None)
+    if _active_key == evaluacion_id:
+        _evict_model()
 
 
 # ---------------------------------------------------------------------------
@@ -673,7 +738,8 @@ def actualizar_prediccion(prediccion_id: int, data: PrediccionUpdate, session: S
     pred = session.get(Prediccion, prediccion_id)
     if not pred or not pred.activo:
         raise HTTPException(status_code=404, detail="Predicción no encontrada")
-    if pred.evaluacion_id not in _resultados_pipeline:
+    results = _get_model(pred.evaluacion_id)
+    if results is None:
         raise HTTPException(
             status_code=409,
             detail="El pipeline no está en memoria — vuelve a ejecutar POST /evaluaciones",
@@ -686,7 +752,7 @@ def actualizar_prediccion(prediccion_id: int, data: PrediccionUpdate, session: S
         pred.n_runs = data.n_runs
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
-        predecir_partido(pred.equipo1, pred.equipo2, _resultados_pipeline[pred.evaluacion_id], n_runs=pred.n_runs)
+        predecir_partido(pred.equipo1, pred.equipo2, results, n_runs=pred.n_runs)
     pred.output = buf.getvalue()
     session.add(pred)
     session.commit()
@@ -803,12 +869,15 @@ def predecir_rapido(data: PrediccionRapida, session: Session = Depends(get_sessi
     es_mundial = data.competencia and "mundial" in data.competencia.lower()
 
     if es_mundial:
-        if _mundial_status != "ready" or not _mundial_results:
+        if _mundial_status == "training":
+            raise HTTPException(status_code=503, detail="Modelo Mundial aún entrenando")
+        mundial = _get_model(_MUNDIAL_KEY)
+        if mundial is None:
             raise HTTPException(status_code=503, detail=f"Modelo Mundial no disponible: {_mundial_status}. Usa Reentrenar Mundial.")
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf):
             salida = predecir_partido_mundial(
-                data.equipo1, data.equipo2, _mundial_results,
+                data.equipo1, data.equipo2, mundial,
                 n_runs=data.n_runs, fase=data.fase,
             )
         if salida is None:
@@ -832,7 +901,7 @@ def predecir_rapido(data: PrediccionRapida, session: Session = Depends(get_sessi
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok", "evaluaciones_en_memoria": list(_resultados_pipeline.keys())}
+    return {"status": "ok", "modelo_residente": _active_key}
 
 
 # ---------------------------------------------------------------------------
@@ -960,15 +1029,18 @@ def get_odds(equipo1: str, equipo2: str, competencia: str = "UCL"):
 @app.get("/api/pl/status")
 def pl_status():
     """Estado del modelo Premier League."""
-    return {"status": _pl_status, "listo": _PL_KEY in _resultados_pipeline}
+    listo = _pl_status != "training" and _model_available(_PL_KEY)
+    return {"status": "ready" if listo else _pl_status, "listo": listo}
 
 
 @app.get("/api/pl/metricas")
 def pl_metricas():
     """Métricas CV del pipeline Premier League."""
-    if _pl_status != "ready" or _PL_KEY not in _resultados_pipeline:
+    if _pl_status == "training":
+        raise HTTPException(status_code=503, detail="pipeline PL: training")
+    res = _get_model(_PL_KEY)
+    if res is None:
         raise HTTPException(status_code=503, detail=f"pipeline PL: {_pl_status}")
-    res = _resultados_pipeline[_PL_KEY]
     cv_df = res.get("cv_results")
     test_df = res.get("results")
     df = res.get("df")
@@ -1336,8 +1408,10 @@ class PrediccionMundial(SQLModel):
 
 @app.get("/api/mundial/estado")
 def mundial_estado():
-    """Estado del entrenamiento del pipeline mundial."""
-    return {"status": _mundial_status}
+    """Estado del pipeline mundial: 'training', 'ready' (caché disponible) o error/idle."""
+    if _mundial_status == "training":
+        return {"status": "training"}
+    return {"status": "ready" if _model_available(_MUNDIAL_KEY) else _mundial_status}
 
 
 @app.post("/api/mundial/entrenar")
@@ -1353,13 +1427,8 @@ def mundial_entrenar(background_tasks: BackgroundTasks):
 
 @app.get("/api/mundial/equipos")
 def mundial_equipos():
-    """Lista de selecciones disponibles. Lee del modelo si está listo, sino del CSV directamente."""
-    if _mundial_status == "ready" and _mundial_results:
-        df = _mundial_results.get("df")
-        if df is not None:
-            equipos = sorted(set(df["Equipo1"].tolist() + df["Equipo2"].tolist()))
-            return {"equipos": equipos, "total": len(equipos)}
-    # Fallback: leer del CSV sin necesitar el modelo cargado
+    """Lista de selecciones. Se lee del CSV para NO cargar el modelo pesado a RAM
+    (el modelo solo se carga al predecir/ver métricas, no para poblar selects)."""
     csv_path = DEFAULT_MUNDIAL_DATASET
     if not csv_path.exists():
         raise HTTPException(status_code=503, detail="CSV de selecciones no encontrado")
@@ -1371,12 +1440,15 @@ def mundial_equipos():
 @app.post("/api/mundial/predecir")
 def mundial_predecir(data: PrediccionMundial):
     """Predicción completa de un partido de selecciones."""
-    if _mundial_status != "ready" or not _mundial_results:
+    if _mundial_status == "training":
+        raise HTTPException(status_code=503, detail="pipeline mundial: training")
+    mundial = _get_model(_MUNDIAL_KEY)
+    if mundial is None:
         raise HTTPException(status_code=503, detail=f"pipeline mundial: {_mundial_status}")
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         salida = predecir_partido_mundial(
-            data.equipo1, data.equipo2, _mundial_results,
+            data.equipo1, data.equipo2, mundial,
             n_runs=data.n_runs, fase=data.fase,
         )
     if salida is None:
@@ -1388,9 +1460,12 @@ def mundial_predecir(data: PrediccionMundial):
 @app.get("/api/mundial/elos")
 def mundial_elos():
     """Ranking ELO de selecciones nacionales."""
-    if _mundial_status != "ready" or not _mundial_results:
+    if _mundial_status == "training":
+        raise HTTPException(status_code=503, detail="pipeline mundial: training")
+    mundial = _get_model(_MUNDIAL_KEY)
+    if mundial is None:
         raise HTTPException(status_code=503, detail=f"pipeline mundial: {_mundial_status}")
-    team_elos = _mundial_results.get("team_elos", {})
+    team_elos = mundial.get("team_elos", {})
     ranking = sorted(
         ({"equipo": t, "elo": round(float(e), 1)} for t, e in team_elos.items()),
         key=lambda x: -x["elo"],
@@ -1401,11 +1476,14 @@ def mundial_elos():
 @app.get("/api/mundial/metricas")
 def mundial_metricas():
     """Métricas CV del pipeline mundial."""
-    if _mundial_status != "ready" or not _mundial_results:
+    if _mundial_status == "training":
+        raise HTTPException(status_code=503, detail="pipeline mundial: training")
+    mundial = _get_model(_MUNDIAL_KEY)
+    if mundial is None:
         raise HTTPException(status_code=503, detail=f"pipeline mundial: {_mundial_status}")
-    cv_df = _mundial_results.get("cv_results")
-    test_df = _mundial_results.get("model_results")
-    df = _mundial_results.get("df")
+    cv_df = mundial.get("cv_results")
+    test_df = mundial.get("model_results")
+    df = mundial.get("df")
     return {
         "n_partidos": len(df) if df is not None else 0,
         "cv":   json.loads(cv_df.to_json(orient="records"))   if cv_df   is not None else [],
