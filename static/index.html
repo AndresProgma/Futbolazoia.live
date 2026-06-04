@@ -641,6 +641,7 @@
     <!-- Nav -->
     <nav class="hidden md:flex gap-5 text-[13.5px]">
       <a href="#como-funciona" class="text-[#97A0B5] hover:text-[#E6EAF2] transition-colors">C&#xF3;mo funciona</a>
+      <a id="nav-combinadas" href="COMBINADAS_URL" target="_blank" rel="noopener" class="text-[#97A0B5] hover:text-[#E6EAF2] transition-colors">Combinadas</a>
     </nav>
     <!-- Right -->
     <div class="ml-auto flex items-center gap-2.5">
@@ -649,6 +650,16 @@
         <span class="dot-live"></span> Datos en vivo
       </span>
       <span class="hidden sm:inline-flex px-2.5 py-1 rounded-full font-mono text-[11px] bg-surface-800 border border-[var(--lb)] text-[#97A0B5]">UCL &middot; 25/26</span>
+      <!-- Combinadas (servicio aparte: abre la app de combinadas en una pesta&ntilde;a nueva) -->
+      <a id="btn-combinadas" href="COMBINADAS_URL" target="_blank" rel="noopener"
+        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[13px] font-semibold transition-opacity hover:opacity-90"
+        style="background:var(--pos);color:#00130C">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        Combinadas
+      </a>
       <!-- BG Picker -->
       <div class="relative">
         <button id="btn-bg-picker" onclick="toggleBgPicker()" title="Cambiar fondo"
@@ -1139,6 +1150,14 @@
 </main>
 
 <!-- ════════════════════ SCRIPTS ════════════════════ -->
+<!-- ═══ COMBINADAS: URL del servicio aparte ════════════════════════════
+     La app de combinadas (repo agregacion-furbolazoia) se despliega como
+     servicio independiente. Cuando la despliegues, pon aqui su URL UNA sola
+     vez y se aplica a todos los botones "Combinadas" de la pagina. -->
+<script>
+  const COMBINADAS_URL = "https://agregacion-furbolazoia.onrender.com"; // servicio aparte (repo agregacion-furbolazoia)
+  document.querySelectorAll('a[href="COMBINADAS_URL"]').forEach(a => { a.href = COMBINADAS_URL; });
+</script>
 <script src="/static/js/api.js"></script>
 <script>
 // ═══ LOADING (minimal, sin app.js) ═══════════════════════════════════

@@ -68,6 +68,13 @@ _PL_CACHE     = _PROJECT_ROOT / "data" / "_pl_model_cache.pkl"
 # full_regressors. Quitarlas baja ~50MB de RAM residente, clave en Render (512MB).
 _CV_ONLY_KEYS = ("models", "regressors")
 
+# Nº de semillas a conservar en los ensembles al SERVIR. El pipeline entrena con
+# más (p.ej. 5) para estabilidad del CV, pero al servir basta promediar 2 y así
+# cada modelo entra en los 512MB de Render. Aplicado en _save_cache → cualquier
+# reentrenamiento (local o botón) genera un caché ya liviano, sin recortar a mano.
+_SERVE_SEEDS = 2
+_ENSEMBLE_KEYS = ("full_models", "full_regressors", "full_market_regressors")
+
 def _strip_cv_only(obj: dict) -> dict:
     """Elimina in-place los modelos por-fold del CV que no se usan al servir."""
     if isinstance(obj, dict):
@@ -75,9 +82,21 @@ def _strip_cv_only(obj: dict) -> dict:
             obj.pop(k, None)
     return obj
 
+def _limit_seeds(obj: dict, n: int = _SERVE_SEEDS) -> dict:
+    """Recorta in-place cada ensemble a `n` semillas para que el caché quepa en
+    los 512MB de Render. No toca cv_results (las métricas CV ya están calculadas)."""
+    if isinstance(obj, dict):
+        for key in _ENSEMBLE_KEYS:
+            d = obj.get(key)
+            if isinstance(d, dict):
+                for name, v in list(d.items()):
+                    if isinstance(v, list) and len(v) > n:
+                        d[name] = v[:n]
+    return obj
+
 def _save_cache(path: Path, obj: dict) -> None:
     try:
-        joblib.dump(_strip_cv_only(obj), path, compress=3)
+        joblib.dump(_limit_seeds(_strip_cv_only(obj)), path, compress=3)
         print(f"✓ Caché guardado: {path.name}")
     except Exception as exc:
         print(f"⚠ No se pudo guardar caché {path.name}: {exc}")
