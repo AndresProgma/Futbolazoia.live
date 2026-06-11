@@ -107,6 +107,11 @@ def _load_cache(path: Path) -> dict | None:
             obj = _strip_cv_only(joblib.load(path))
             print(f"✓ Caché cargado: {path.name}")
             return obj
+    except MemoryError as exc:
+        # OOM al cargar (Render free 512MB): NO borrar el caché — el modelo está
+        # bien, solo no entró en RAM. Borrarlo lo destruiría y forzaría reentrenar
+        # (que también revienta). Se conserva y se reporta el fallo transitorio.
+        print(f"⚠ Sin RAM para cargar {path.name} (se conserva el caché): {exc}")
     except Exception as exc:
         print(f"⚠ Caché corrupto {path.name}, se ignorará: {exc}")
         path.unlink(missing_ok=True)
@@ -359,6 +364,12 @@ async def lifespan(app: FastAPI):
     # Precargar SOLO UCL (es el homepage). PL y Mundial se cargan bajo demanda y
     # desalojan a UCL cuando se piden, para no tener nunca >1 modelo en RAM.
     threading.Thread(target=_reload_last_ucl_pipeline, daemon=True).start()
+    # Inicializar el estado de PL/Mundial según exista su caché en disco (sin
+    # cargar el modelo a RAM). Si no se hace, el estado queda "idle" para siempre
+    # y la UI dice "no disponible, usa Reentrenar" aunque el caché exista.
+    global _mundial_status, _pl_status
+    _mundial_status = "ready" if _MUNDIAL_CACHE.exists() else "idle"
+    _pl_status = "ready" if _PL_CACHE.exists() else "idle"
     yield
 
 
