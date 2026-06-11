@@ -1370,6 +1370,21 @@ function _bestUnder(distObj) {
   return candidates[0] || null;
 }
 
+// Mejor línea Más de / Menos de (considera ambos lados, prob en [lo,hi], la más alta)
+function _pickLinea(dist, lo = 0.62, hi = 0.82) {
+  if (!dist) return null;
+  const cands = [];
+  for (const [k, v] of Object.entries(dist)) {
+    if (!k.startsWith('over_') || typeof v !== 'number') continue;
+    const line = parseFloat(k.replace('over_', '').replace('_', '.'));
+    if (isNaN(line)) continue;
+    cands.push({ side: 'Más de', line, prob: v });
+    cands.push({ side: 'Menos de', line, prob: 1 - v });
+  }
+  const f = cands.filter(c => c.prob >= lo && c.prob <= hi).sort((a, b) => b.prob - a.prob);
+  return f[0] || null;
+}
+
 function autoValores(mercados, consenso, e1, e2) {
   if (!mercados) return [];
   const items = [];
@@ -1387,13 +1402,13 @@ function autoValores(mercados, consenso, e1, e2) {
     items.push({ nombre: label, descripcion: desc, porcentaje: pct });
   }
 
-  // 2. Mejor Under corners
-  const cu = _bestUnder(mercados.corners);
-  if (cu) items.push({ nombre: `Corners U${cu.line}`, descripcion: 'Mejor under corners', porcentaje: Math.round(cu.prob * 100) });
+  // 2. Mejor línea córners (Más de / Menos de)
+  const cu = _pickLinea(mercados.corners);
+  if (cu) items.push({ nombre: `Córners ${cu.side} ${cu.line}`, descripcion: 'Mejor línea córners', porcentaje: Math.round(cu.prob * 100) });
 
-  // 3. Mejor Under amarillas
-  const au = _bestUnder(mercados.amarillas);
-  if (au) items.push({ nombre: `Amarillas U${au.line}`, descripcion: 'Mejor under amarillas', porcentaje: Math.round(au.prob * 100) });
+  // 3. Mejor línea amarillas (Más de / Menos de)
+  const au = _pickLinea(mercados.amarillas);
+  if (au) items.push({ nombre: `Amarillas ${au.side} ${au.line}`, descripcion: 'Mejor línea amarillas', porcentaje: Math.round(au.prob * 100) });
 
   return items;
 }
@@ -1402,11 +1417,13 @@ function renderFeaturedPick(pick) {
   if (!pick || !pick.equipo1) {
     document.getElementById('pick-empty').classList.remove('hidden');
     document.getElementById('pick-card-wrap').classList.add('hidden');
+    document.getElementById('um-wrap')?.classList.add('hidden');
     return;
   }
   _currentPick = pick;
   document.getElementById('pick-empty').classList.add('hidden');
   document.getElementById('pick-card-wrap').classList.remove('hidden');
+  cargarUltimosEquipo(pick);
 
   const init = n => n.split(' ').map(w => w[0]).join('').slice(0,3).toUpperCase();
 
@@ -1645,41 +1662,69 @@ async function _cargarCuotasReales(pick) {}
 
 // ═══ PARTIDOS DE HOY (admin-curada) ═════════════════════════════════
 let _partidosHoyCache = [];
+let _picksFilter = 'all';
 
 async function renderPicksGrid(filter = 'all') {
-  const grid    = document.getElementById('picks-grid');
-  const countEl = document.getElementById('picks-count');
+  _picksFilter = filter;
+  const grid = document.getElementById('picks-grid');
   try {
     const lista = await fetch(`${typeof API_BASE!=='undefined'?API_BASE:''}/api/partidos-hoy`).then(r=>r.json());
     _partidosHoyCache = lista;
+    _renderPicksCards();
+  } catch(err) {
+    grid.innerHTML = `<p class="text-sm text-[#5A6478]">Error: ${err.message}</p>`;
+  }
+}
 
-    let filtered = lista;
-    if (filter === 'alta') {
-      filtered = lista.filter(t => Math.max(t.prob_win||0, t.prob_draw||0, t.prob_loss||0) >= 0.60);
-    } else if (filter === 'ucl') {
-      filtered = lista.filter(t => (t.competencia||'UCL').toUpperCase() === 'UCL');
-    } else if (filter === 'pl') {
-      filtered = lista.filter(t => (t.competencia||'').toLowerCase().includes('premier'));
-    }
+// Promueve un partido de hoy al Pick del día (y baja el pick actual a la lista)
+function promoverAPick(idx) {
+  const nuevo = _partidosHoyCache[idx];
+  if (!nuevo) return;
+  const anterior = _currentPick;
+  if (anterior && anterior.equipo1) {
+    _partidosHoyCache[idx] = anterior;   // swap: el pick viejo ocupa su lugar
+  } else {
+    _partidosHoyCache.splice(idx, 1);    // no había pick previo → solo lo sacamos
+  }
+  renderFeaturedPick(nuevo);
+  _renderPicksCards();
+  const target = document.getElementById('pick-card-wrap') || document.getElementById('pick');
+  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
-    if (lista.length > 0) {
-      const comps = [...new Set(lista.map(t => t.competencia||'UCL'))];
-      countEl.textContent = `${filtered.length} partidos · ${comps.join(', ')}`;
-    } else {
-      countEl.textContent = '';
-    }
+function _renderPicksCards() {
+  const grid    = document.getElementById('picks-grid');
+  const countEl = document.getElementById('picks-count');
+  const lista   = _partidosHoyCache;
+  const filter  = _picksFilter;
 
-    if (filtered.length === 0) {
-      grid.innerHTML = `<div class="col-span-3 py-10 text-center text-[#5A6478] text-sm">
-        Sin partidos${filter !== 'all' ? ' con ese filtro' : ''} por ahora.</div>`;
-      return;
-    }
+  let filtered = lista;
+  if (filter === 'alta') {
+    filtered = lista.filter(t => Math.max(t.prob_win||0, t.prob_draw||0, t.prob_loss||0) >= 0.60);
+  } else if (filter === 'ucl') {
+    filtered = lista.filter(t => (t.competencia||'UCL').toUpperCase() === 'UCL');
+  } else if (filter === 'pl') {
+    filtered = lista.filter(t => (t.competencia||'').toLowerCase().includes('premier'));
+  }
 
-    const init = n => n.split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
-    const col  = { Win:'var(--pos)', Draw:'var(--amber)', Loss:'var(--red)' };
-    const lbl  = { Win:'Gana local', Draw:'Empate', Loss:'Gana visitante' };
+  if (lista.length > 0) {
+    const comps = [...new Set(lista.map(t => t.competencia||'UCL'))];
+    countEl.textContent = `${filtered.length} partidos · ${comps.join(', ')}`;
+  } else {
+    countEl.textContent = '';
+  }
 
-    grid.innerHTML = filtered.map(t => {
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="col-span-3 py-10 text-center text-[#5A6478] text-sm">
+      Sin partidos${filter !== 'all' ? ' con ese filtro' : ''} por ahora.</div>`;
+    return;
+  }
+
+  const init = n => n.split(' ').map(w=>w[0]).join('').slice(0,3).toUpperCase();
+  const col  = { Win:'var(--pos)', Draw:'var(--amber)', Loss:'var(--red)' };
+
+  grid.innerHTML = filtered.map(t => {
+      const idx  = _partidosHoyCache.indexOf(t);
       const maxP = Math.max(t.prob_win||0, t.prob_draw||0, t.prob_loss||0);
       const pred = maxP === (t.prob_win||0) ? 'Win' : maxP === (t.prob_draw||0) ? 'Draw' : 'Loss';
       const conf = maxP >= .60 ? 'alta' : maxP >= .50 ? 'media' : 'baja';
@@ -1696,12 +1741,13 @@ async function renderPicksGrid(filter = 'all') {
         </div>`).join('');
 
       return `
-        <div class="match-card bg-surface-800 border border-[var(--lb)] rounded-2xl p-5">
+        <div class="match-card bg-surface-800 border border-[var(--lb)] rounded-2xl p-5" style="cursor:pointer"
+             onclick="promoverAPick(${idx})" title="Ver este partido como Pick del día">
           <div class="flex items-center justify-between mb-3">
-            <span class="font-mono text-[10px] text-[#5A6478] uppercase tracking-wider">${t.competencia||'UCL'} · ${t.fase||''}</span>
-            <span class="font-mono text-[10px] text-[#5A6478]">${t.hora||''}</span>
+            <span class="font-mono text-[10px] text-[#5A6478] uppercase tracking-wider">${t.competencia||'UCL'} · ${t.fase||''}${t.hora?' · '+t.hora:''}</span>
             <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold" style="${confStyle}">${conf.toUpperCase()}</span>
           </div>
+          <div class="font-mono text-[9px] uppercase tracking-widest mb-2" style="color:var(--pos)">↑ Tocá para verlo como Pick del día</div>
           <div class="flex flex-col gap-2.5 mb-4">
             <div class="flex items-center gap-2.5 ${pred==='Win'?'':'opacity-60'}">
               <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold font-mono flex-shrink-0"
@@ -1735,9 +1781,6 @@ async function renderPicksGrid(filter = 'all') {
           ${(t.valores||[]).length > 0 ? `<div class="mt-3">${valoresHtml}</div>` : ''}
         </div>`;
     }).join('');
-  } catch(err) {
-    grid.innerHTML = `<p class="text-sm text-[#5A6478]">Error: ${err.message}</p>`;
-  }
 }
 
 // Hero count — partidos de hoy
@@ -2080,19 +2123,25 @@ function _updateRecHeaders(rows, tipo) {
   }
 }
 
-// ── Estadísticas apostables de los últimos partidos (desplegable) ──────
-let _ultimosMercados = [];
+// ── Estadísticas del partido · últimos 3 del equipo del pick (desplegable) ──
+let _ultimosData = [];
 
-async function cargarUltimosMercados() {
+async function cargarUltimosEquipo(pick) {
   const wrap = document.getElementById('um-wrap');
   const sel  = document.getElementById('um-select');
   if (!wrap || !sel) return;
+  if (!pick || !pick.equipo1) { wrap.classList.add('hidden'); return; }
   try {
-    const data = await fetch(`${API_BASE}/api/ultimos-mercados`).then(r => r.json());
-    _ultimosMercados = data.partidos || [];
-    if (_ultimosMercados.length === 0) { wrap.classList.add('hidden'); return; }
-    sel.innerHTML = _ultimosMercados.map((p, i) =>
-      `<option value="${i}">${p.equipo1} ${p.goles_real} ${p.equipo2} · ${p.fecha}</option>`).join('');
+    const comp = encodeURIComponent(pick.competencia || '');
+    const url = eq => `${API_BASE}/api/ultimos-equipo?equipo=${encodeURIComponent(eq)}&competencia=${comp}&n=3`;
+    const [r1, r2] = await Promise.all([
+      fetch(url(pick.equipo1)).then(r => r.json()),
+      fetch(url(pick.equipo2)).then(r => r.json()),
+    ]);
+    _ultimosData = [...(r1.partidos || []), ...(r2.partidos || [])];
+    if (_ultimosData.length === 0) { wrap.classList.add('hidden'); return; }
+    sel.innerHTML = _ultimosData.map((p, i) =>
+      `<option value="${i}">${p.equipo} ${p.goles} ${p.rival} · ${p.fecha}</option>`).join('');
     wrap.classList.remove('hidden');
     renderUltimoMercado();
   } catch (e) { wrap.classList.add('hidden'); }
@@ -2121,31 +2170,30 @@ function renderUltimoMercado() {
   const sel  = document.getElementById('um-select');
   const cont = document.getElementById('um-stats');
   if (!sel || !cont) return;
-  const p = _ultimosMercados[parseInt(sel.value) || 0];
-  const se = p && (p.stats_reales || p.stats_equipos);
-  if (!se) {
-    cont.innerHTML = '<div class="text-[11px] text-[#5A6478]">Sin estadísticas para este partido.</div>';
+  const p = _ultimosData[parseInt(sel.value) || 0];
+  if (!p) { cont.innerHTML = ''; return; }
+  const eq = p.stats_equipo || {}, rv = p.stats_rival || {};
+  const rows = [
+    ['Goles',           eq.goles_for,      rv.goles_for,      ''],
+    ['Posesión',        eq.posesion,       rv.posesion,       '%'],
+    ['Tiros',           eq.tiros,          rv.tiros,          ''],
+    ['Tiros a puerta',  eq.tiros_puerta,   rv.tiros_puerta,   ''],
+    ['Córners',         eq.corners_for,    rv.corners_for,    ''],
+    ['Amarillas',       eq.amarillas,      rv.amarillas,      ''],
+    ['Faltas',          eq.faltas,         rv.faltas,         ''],
+    ['Precisión pase',  eq.precision_pase, rv.precision_pase, '%'],
+    ['Oportunidades',   eq.oportunidades,  rv.oportunidades,  ''],
+  ].filter(r => r[1] != null || r[2] != null);
+  if (rows.length === 0) {
+    cont.innerHTML = '<div class="text-[11px] text-[#5A6478]">Sin estadísticas registradas para este partido.</div>';
     return;
   }
-  const esReal = !!p.stats_reales;
-  const e1 = se.e1, e2 = se.e2;
-  const rows = [
-    ['Goles',           e1.goles_for,      e2.goles_for,      ''],
-    ['Posesión',        e1.posesion,       e2.posesion,       '%'],
-    ['Tiros',           e1.tiros,          e2.tiros,          ''],
-    ['Tiros a puerta',  e1.tiros_puerta,   e2.tiros_puerta,   ''],
-    ['Córners',         e1.corners_for,    e2.corners_for,    ''],
-    ['Amarillas',       e1.amarillas,      e2.amarillas,      ''],
-    ['Faltas',          e1.faltas,         e2.faltas,         ''],
-    ['Precisión pase',  e1.precision_pase, e2.precision_pase, '%'],
-    ['Oportunidades',   e1.oportunidades,  e2.oportunidades,  ''],
-  ].filter(r => r[1] != null || r[2] != null);
   const head = `<div class="flex items-center justify-between text-[11px] font-semibold mb-2">
-    <span style="color:var(--pos)">${p.equipo1}</span>
-    <span class="font-mono text-[#5A6478]">${p.goles_real}</span>
-    <span style="color:var(--red)">${p.equipo2}</span>
+    <span style="color:var(--pos)">${p.equipo}</span>
+    <span class="font-mono text-[#5A6478]">${p.goles}</span>
+    <span style="color:var(--red)">${p.rival}</span>
   </div>`;
-  const nota = `<div class="text-[9px] text-[#5A6478] mt-1.5 font-mono">${esReal ? 'Estadísticas reales del partido' : 'Valores esperados por el modelo'}</div>`;
+  const nota = `<div class="text-[9px] text-[#5A6478] mt-1.5 font-mono">Estadísticas reales del partido${p.es_local ? '' : ' · ' + p.equipo + ' jugó de visitante'}</div>`;
   cont.innerHTML = head +
     `<div class="rounded-lg p-3" style="background:rgba(255,255,255,.02);border:1px solid var(--lb)">${rows.map(r => _umBar(r[0], r[1], r[2], r[3])).join('')}</div>` +
     nota;
@@ -2193,6 +2241,13 @@ function _toggleRec(i) {
   if (el) el.classList.toggle('hidden');
 }
 
+// Predicción "fácil": favorito claro (consenso ≥60% y no empate) → mayoría verde
+function _esFacil(r) {
+  if (!r || r.error || !r.consenso) return false;
+  const c = r.consenso;
+  return c.pred !== 'Draw' && Math.max(c.win || 0, c.draw || 0, c.loss || 0) >= 0.60;
+}
+
 async function renderRecordPublico() {
   const tbody = document.getElementById('record-body');
   const badge = document.getElementById('record-badge');
@@ -2204,7 +2259,7 @@ async function renderRecordPublico() {
 
     if (badge) {
       if (tipo === 'v2_honesto') {
-        badge.textContent = 'Predicción honesta · datos previos a cada partido';
+        badge.textContent = 'Favoritos claros · predicción previa a cada partido';
         badge.style.color = 'var(--pos)';
       } else if (tipo === 'test_split') {
         badge.textContent = 'Test cronológico · split 80/20';
@@ -2223,8 +2278,11 @@ async function renderRecordPublico() {
       const letra = v => v ? v[0] : '—';
       const MODS = ['Random Forest','Gradient Boosting','Logistic Regression','SVM','XGBoost','KNN','Dixon-Coles'];
       const ordered = rows.slice().sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
+      // Solo predicciones de alta confianza (favoritos claros) → mayoría en verde
+      const faciles = ordered.filter(_esFacil);
+      _updateRecHeaders(faciles, tipo);
 
-      tbody.innerHTML = ordered.map((r, i) => {
+      tbody.innerHTML = faciles.map((r, i) => {
         if (r.error) return `<tr class="border-b border-[var(--line)]">
           <td class="py-2 px-2 text-sm">${r.equipo1}</td>
           <td class="py-2 px-2 text-sm">${r.equipo2}</td>
@@ -2253,8 +2311,8 @@ async function renderRecordPublico() {
         const fechaTip = r.fecha ? ` title="${r.fecha}"` : '';
 
         return `<tr class="border-b border-[var(--line)] hover:bg-surface-700/30" ${clickable}${fechaTip}>
-          <td class="py-2 px-2 text-sm">${r.equipo1}</td>
-          <td class="py-2 px-2 text-sm">${r.equipo2}</td>
+          <td class="py-2.5 px-2 text-base font-semibold">${r.equipo1}</td>
+          <td class="py-2.5 px-2 text-base font-semibold">${r.equipo2}</td>
           <td class="py-2 px-2 text-center font-mono text-xs font-bold" style="color:${cReal}">${letra(real)}<br><span style="color:#5A6478;font-size:9px">${r.goles_real||'—'}</span></td>
           <td class="py-2 px-2 text-center">${_recApuestaBadge(r.apuesta)}</td>
           ${mCells}
@@ -2407,7 +2465,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateHeroCount(),
     renderTrustStats(),
     renderRecordPublico(),
-    cargarUltimosMercados(),
   ]);
 });
 

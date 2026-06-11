@@ -598,23 +598,26 @@ async function _buildPickBody() {
       resultLabel = '1X2 · Empate'; resultDesc = 'Partido igualado'; resultPct = Math.round(c.draw*100);
     }
 
-    function bestUnder(d) {
+    function pickLinea(d, lo=0.62, hi=0.82) {
       if (!d) return null;
-      const overLines = Object.entries(d)
-        .filter(([k]) => k.startsWith('over_'))
-        .map(([k,v]) => ({ line: parseFloat(k.replace('over_','').replace('_','.')), prob: v }))
-        .filter(x => !isNaN(x.line));
-      const candidates = overLines.map(x => ({ line: x.line, prob: 1-x.prob }))
-        .filter(x => x.prob >= 0.62 && x.prob <= 0.75).sort((a,b) => b.prob-a.prob);
-      return candidates[0] || null;
+      const cands = [];
+      for (const [k,v] of Object.entries(d)) {
+        if (!k.startsWith('over_') || typeof v !== 'number') continue;
+        const line = parseFloat(k.replace('over_','').replace('_','.'));
+        if (isNaN(line)) continue;
+        cands.push({ side:'Más de', line, prob:v });
+        cands.push({ side:'Menos de', line, prob:1-v });
+      }
+      const f = cands.filter(c => c.prob >= lo && c.prob <= hi).sort((a,b) => b.prob-a.prob);
+      return f[0] || null;
     }
 
-    const cornersUnder   = bestUnder(m?.corners);
-    const amarillasUnder = bestUnder(m?.amarillas);
+    const cornersLn   = pickLinea(m?.corners);
+    const amarillasLn = pickLinea(m?.amarillas);
     const valores = [
       { nombre: resultLabel, descripcion: resultDesc, porcentaje: resultPct },
-      cornersUnder   ? { nombre:`Corners U${cornersUnder.line}`,    descripcion:'Mejor under corners',   porcentaje:Math.round(cornersUnder.prob*100)   } : null,
-      amarillasUnder ? { nombre:`Amarillas U${amarillasUnder.line}`, descripcion:'Mejor under amarillas', porcentaje:Math.round(amarillasUnder.prob*100) } : null,
+      cornersLn   ? { nombre:`Córners ${cornersLn.side} ${cornersLn.line}`,     descripcion:'Mejor línea córners',   porcentaje:Math.round(cornersLn.prob*100)   } : null,
+      amarillasLn ? { nombre:`Amarillas ${amarillasLn.side} ${amarillasLn.line}`, descripcion:'Mejor línea amarillas', porcentaje:Math.round(amarillasLn.prob*100) } : null,
     ].filter(Boolean);
 
     let accMap = state?.accMap || {};

@@ -1478,6 +1478,84 @@ def ultimos_mercados():
     return {"partidos": []}
 
 
+# Caché de datasets para el endpoint de últimos partidos del equipo
+_ULTIMOS_DF: dict = {}
+
+
+def _dataset_ultimos(competencia: str | None):
+    """DataFrame con stats reales según la competencia del pick (cacheado)."""
+    comp = (competencia or "").lower()
+    if "mundial" in comp or "selec" in comp:
+        key, path, reader = "mundial", Path(str(DEFAULT_MUNDIAL_DATASET)), pd.read_csv
+    else:
+        key, path, reader = "ucl", Path(DATASET), pd.read_excel
+    if key not in _ULTIMOS_DF:
+        try:
+            _ULTIMOS_DF[key] = reader(path) if path.exists() else None
+        except Exception:
+            _ULTIMOS_DF[key] = None
+    return _ULTIMOS_DF[key]
+
+
+def _num_or_none(v):
+    try:
+        f = float(v)
+        return None if pd.isna(f) else (int(f) if f == int(f) else round(f, 1))
+    except (TypeError, ValueError):
+        return None
+
+
+def _stats_lado(row, sfx: str) -> dict:
+    """Stats reales de un lado del partido (sfx = 'E1' local o 'E2' visitante)."""
+    comp = _num_or_none(row.get(f"Pases_completados_{sfx}"))
+    real = _num_or_none(row.get(f"Pases_realizados_{sfx}"))
+    prec = _num_or_none(row.get(f"Precision_pase_{sfx}"))
+    if prec is None and comp and real:
+        prec = round(comp / real * 100, 1)
+    return {
+        "goles_for":      _num_or_none(row.get(f"EQUIPO{'1' if sfx == 'E1' else '2'}_GOLES")),
+        "posesion":       _num_or_none(row.get(f"Posesion_{sfx}")),
+        "tiros":          _num_or_none(row.get(f"Disparos_totales_{sfx}")),
+        "tiros_puerta":   _num_or_none(row.get(f"Disparos_a_puerta_{sfx}")),
+        "corners_for":    _num_or_none(row.get(f"Saques_de_esquina_sacados_{sfx}")),
+        "amarillas":      _num_or_none(row.get(f"Tarjetas_amarillas_{sfx}")),
+        "faltas":         _num_or_none(row.get(f"Faltas_cometidas_{sfx}")),
+        "precision_pase": prec,
+        "oportunidades":  _num_or_none(row.get(f"Oportunidades_claras_{sfx}")),
+    }
+
+
+@app.get("/api/ultimos-equipo")
+def ultimos_equipo(equipo: str, competencia: str | None = None, n: int = 3):
+    """Últimos N partidos del equipo (con estadísticas reales del dataset),
+    para el desplegable de la tarjeta del pick."""
+    df = _dataset_ultimos(competencia)
+    if df is None or "Equipo1" not in df.columns:
+        return {"equipo": equipo, "partidos": []}
+    d = df.copy()
+    d["_f"] = pd.to_datetime(d.get("Fecha"), errors="coerce")
+    mask = ((d["Equipo1"] == equipo) | (d["Equipo2"] == equipo)) & \
+           d["EQUIPO1_GOLES"].notna() & d["EQUIPO2_GOLES"].notna()
+    d = d[mask].sort_values("_f", ascending=False).head(n)
+
+    out = []
+    for _, row in d.iterrows():
+        es_local = (row["Equipo1"] == equipo)
+        sfx_eq, sfx_riv = ("E1", "E2") if es_local else ("E2", "E1")
+        g_eq = _num_or_none(row.get("EQUIPO1_GOLES" if es_local else "EQUIPO2_GOLES"))
+        g_riv = _num_or_none(row.get("EQUIPO2_GOLES" if es_local else "EQUIPO1_GOLES"))
+        out.append({
+            "fecha":    str(row.get("Fecha", ""))[:10],
+            "equipo":   equipo,
+            "rival":    str(row["Equipo2"] if es_local else row["Equipo1"]),
+            "es_local": bool(es_local),
+            "goles":    f"{g_eq}–{g_riv}" if g_eq is not None else "—",
+            "stats_equipo": _stats_lado(row, sfx_eq),
+            "stats_rival":  _stats_lado(row, sfx_riv),
+        })
+    return {"equipo": equipo, "partidos": out}
+
+
 # ===========================================================================
 # MUNDIAL — endpoints para selecciones nacionales / FIFA World Cup
 # ===========================================================================

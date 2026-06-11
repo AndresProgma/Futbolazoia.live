@@ -48,6 +48,52 @@ def _best_under(dist: dict):
     return cands[0]
 
 
+def _pick_linea(dist, lo=0.62, hi=0.82):
+    """Mejor línea Más de / Menos de con prob en [lo,hi] (la más alta = más
+    segura). Considera ambos lados y devuelve el de mayor probabilidad apostable."""
+    if not dist:
+        return None
+    cands = []
+    for k, v in dist.items():
+        if not k.startswith('over_') or not isinstance(v, (int, float)):
+            continue
+        try:
+            line = float(k.replace('over_', '').replace('_', '.'))
+        except ValueError:
+            continue
+        cands.append(('Más de', line, v))        # Over
+        cands.append(('Menos de', line, 1 - v))  # Under
+    cands = [c for c in cands if lo <= c[2] <= hi]
+    if not cands:
+        return None
+    cands.sort(key=lambda c: -c[2])
+    side, line, prob = cands[0]
+    return {'side': side, 'line': line, 'prob': prob}
+
+
+def _pata_mercado(tipo, nombre_mercado, dist, real, unidad):
+    """Construye una pata Over/Under evaluada contra el valor real."""
+    pick = _pick_linea(dist)
+    if not pick:
+        return None
+    side, line, prob = pick['side'], pick['line'], pick['prob']
+    if real is None:
+        res = 'sin_dato'
+    elif side == 'Más de':
+        res = 'acierto' if real > line else 'fallo'
+    else:
+        res = 'acierto' if real < line else 'fallo'
+    return {
+        'tipo': tipo,
+        'nombre': f'{nombre_mercado} {side} {line}',
+        'descripcion': f'Mejor línea {unidad}',
+        'prob': round(prob, 4), 'linea': line, 'side': side, 'real': real,
+        'resultado': res,
+        'detalle': (f"{side} {line} {unidad} · reales {real}"
+                    if real is not None else f"{side} {line} {unidad} · sin dato real"),
+    }
+
+
 def construir_apuesta(pred, e1, e2, goles_real, corners_real, amarillas_real):
     """Arma la apuesta combinada y evalúa cada pata contra lo real."""
     cons = pred['consenso']
@@ -71,37 +117,15 @@ def construir_apuesta(pred, e1, e2, goles_real, corners_real, amarillas_real):
         'detalle': f"Predijo {desc.lower()} · resultado real {goles_real['str']}",
     })
 
-    # ── Pata Under córners ───────────────────────────────────────────────
-    cu = _best_under(mercados.get('corners'))
-    if cu:
-        line, p = cu
-        if corners_real is None:
-            res = 'sin_dato'
-        else:
-            res = 'acierto' if corners_real < line else 'fallo'
-        patas.append({
-            'tipo': 'corners', 'nombre': f'Córners U{line}', 'descripcion': 'Mejor under córners',
-            'prob': round(p, 4), 'linea': line, 'real': corners_real,
-            'resultado': res,
-            'detalle': (f"Menos de {line} córners · reales {corners_real}"
-                        if corners_real is not None else f"Menos de {line} córners · sin dato real"),
-        })
+    # ── Pata córners (mejor Más de / Menos de) ───────────────────────────
+    pc = _pata_mercado('corners', 'Córners', mercados.get('corners'), corners_real, 'córners')
+    if pc:
+        patas.append(pc)
 
-    # ── Pata Under amarillas ─────────────────────────────────────────────
-    au = _best_under(mercados.get('amarillas'))
-    if au:
-        line, p = au
-        if amarillas_real is None:
-            res = 'sin_dato'
-        else:
-            res = 'acierto' if amarillas_real < line else 'fallo'
-        patas.append({
-            'tipo': 'amarillas', 'nombre': f'Amarillas U{line}', 'descripcion': 'Mejor under amarillas',
-            'prob': round(p, 4), 'linea': line, 'real': amarillas_real,
-            'resultado': res,
-            'detalle': (f"Menos de {line} amarillas · reales {amarillas_real}"
-                        if amarillas_real is not None else f"Menos de {line} amarillas · sin dato real"),
-        })
+    # ── Pata amarillas (mejor Más de / Menos de) ─────────────────────────
+    pa = _pata_mercado('amarillas', 'Amarillas', mercados.get('amarillas'), amarillas_real, 'amarillas')
+    if pa:
+        patas.append(pa)
 
     evaluables = [x for x in patas if x['resultado'] in ('acierto', 'fallo')]
     n_acierto  = sum(1 for x in evaluables if x['resultado'] == 'acierto')

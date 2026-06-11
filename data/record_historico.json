@@ -93,20 +93,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7347,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8181,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 5,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 5"
+          "detalle": "Menos de 13.5 córners · reales 5"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 3.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7368,
           "linea": 3.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "fallo",
           "detalle": "Menos de 3.5 amarillas · reales 4"
@@ -117,7 +119,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Amarillas U3.5"
+        "Amarillas Menos de 3.5"
       ]
     },
     "acierto": true
@@ -216,32 +218,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.723,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8077,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 12,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 12"
+          "detalle": "Menos de 13.5 córners · reales 12"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6235,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8181,
+          "linea": 1.5,
+          "side": "Más de",
           "real": 4,
-          "resultado": "fallo",
-          "detalle": "Menos de 3.5 amarillas · reales 4"
+          "resultado": "acierto",
+          "detalle": "Más de 1.5 amarillas · reales 4"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
-      "completa": false,
-      "que_fallo": [
-        "Amarillas U3.5"
-      ]
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -339,20 +341,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.744,
           "linea": 12.5,
+          "side": "Menos de",
           "real": 12,
           "resultado": "acierto",
           "detalle": "Menos de 12.5 córners · reales 12"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U2.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 2.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7229,
           "linea": 2.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
           "detalle": "Menos de 2.5 amarillas · reales 2"
@@ -462,20 +466,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6759,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7828,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Menos de 10.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7267,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -585,23 +591,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6849,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8099,
+          "linea": 6.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 10.5 córners · sin dato real"
+          "detalle": "Más de 6.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6951,
-          "linea": 4.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7063,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -708,23 +716,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U15.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.736,
-          "linea": 15.5,
+          "nombre": "Córners Menos de 16.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8104,
+          "linea": 16.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 15.5 córners · sin dato real"
+          "detalle": "Menos de 16.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6573,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8049,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -831,20 +841,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7254,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8166,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 9,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 9"
+          "detalle": "Menos de 11.5 córners · reales 9"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7384,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 4"
@@ -954,23 +966,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7202,
-          "linea": 9.5,
+          "nombre": "Córners Más de 5.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8011,
+          "linea": 5.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Más de 5.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6473,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7987,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -1077,23 +1091,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.747,
           "linea": 11.5,
+          "side": "Menos de",
           "real": 12,
           "resultado": "fallo",
           "detalle": "Menos de 11.5 córners · reales 12"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7038,
-          "linea": 4.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7048,
+          "linea": 2.5,
+          "side": "Más de",
           "real": 3,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 3"
+          "detalle": "Más de 2.5 amarillas · reales 3"
         }
       ],
       "n_patas": 3,
@@ -1101,7 +1117,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Córners U11.5"
+        "Córners Menos de 11.5"
       ]
     },
     "acierto": true
@@ -1200,32 +1216,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.7401,
           "linea": 12.5,
+          "side": "Menos de",
           "real": 8,
           "resultado": "acierto",
           "detalle": "Menos de 12.5 córners · reales 8"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6848,
-          "linea": 4.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7134,
+          "linea": 2.5,
+          "side": "Más de",
           "real": 9,
-          "resultado": "fallo",
-          "detalle": "Menos de 4.5 amarillas · reales 9"
+          "resultado": "acierto",
+          "detalle": "Más de 2.5 amarillas · reales 9"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
-      "completa": false,
-      "que_fallo": [
-        "Amarillas U4.5"
-      ]
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -1323,20 +1339,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7127,
-          "linea": 8.5,
+          "nombre": "Córners Menos de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8181,
+          "linea": 9.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 8.5 córners · sin dato real"
+          "detalle": "Menos de 9.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.6935,
           "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 5.5 amarillas · sin dato real"
@@ -1444,20 +1462,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7203,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8113,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 4"
+          "detalle": "Menos de 12.5 córners · reales 4"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7232,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 6,
           "resultado": "fallo",
           "detalle": "Menos de 4.5 amarillas · reales 6"
@@ -1469,7 +1489,7 @@
       "completa": false,
       "que_fallo": [
         "1X2 · Senegal",
-        "Amarillas U4.5"
+        "Amarillas Menos de 4.5"
       ]
     },
     "acierto": false
@@ -1568,23 +1588,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7021,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8056,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Menos de 10.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7072,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7594,
+          "linea": 1.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 3.5 amarillas · sin dato real"
+          "detalle": "Más de 1.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -1689,23 +1711,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7246,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8118,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 4"
+          "detalle": "Menos de 13.5 córners · reales 4"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6576,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8084,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 8,
           "resultado": "fallo",
-          "detalle": "Menos de 4.5 amarillas · reales 8"
+          "detalle": "Menos de 5.5 amarillas · reales 8"
         }
       ],
       "n_patas": 3,
@@ -1713,7 +1737,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Amarillas U4.5"
+        "Amarillas Menos de 5.5"
       ]
     },
     "acierto": true
@@ -1812,20 +1836,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6743,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7811,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Menos de 10.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7082,
           "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 5.5 amarillas · sin dato real"
@@ -1935,20 +1961,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7254,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8125,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 6,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 6"
+          "detalle": "Menos de 12.5 córners · reales 6"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U2.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 2.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.6424,
           "linea": 2.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
           "detalle": "Menos de 2.5 amarillas · reales 2"
@@ -2056,30 +2084,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7309,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7768,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 6,
-          "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 6"
+          "resultado": "fallo",
+          "detalle": "Más de 6.5 córners · reales 6"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6264,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8143,
+          "linea": 1.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 3.5 amarillas · sin dato real"
+          "detalle": "Más de 1.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 2,
-      "n_acierto": 2,
-      "completa": true,
-      "que_fallo": []
+      "n_acierto": 1,
+      "completa": false,
+      "que_fallo": [
+        "Córners Más de 6.5"
+      ]
     },
     "acierto": true
   },
@@ -2177,18 +2209,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7051,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7944,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 10"
+          "detalle": "Menos de 13.5 córners · reales 10"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.787,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": 1,
+          "resultado": "acierto",
+          "detalle": "Menos de 4.5 amarillas · reales 1"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 2,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 3,
       "completa": true,
       "que_fallo": []
     },
@@ -2288,23 +2332,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U7.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6749,
-          "linea": 7.5,
+          "nombre": "Córners Menos de 8.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.792,
+          "linea": 8.5,
+          "side": "Menos de",
           "real": 11,
           "resultado": "fallo",
-          "detalle": "Menos de 7.5 córners · reales 11"
+          "detalle": "Menos de 8.5 córners · reales 11"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6682,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8069,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 2"
+          "detalle": "Menos de 6.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
@@ -2312,7 +2358,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Córners U7.5"
+        "Córners Menos de 8.5"
       ]
     },
     "acierto": true
@@ -2411,20 +2457,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U14.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.678,
-          "linea": 14.5,
+          "nombre": "Córners Menos de 15.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7659,
+          "linea": 15.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 14.5 córners · sin dato real"
+          "detalle": "Menos de 15.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7283,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -2534,23 +2582,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6925,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8028,
+          "linea": 6.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 10.5 córners · sin dato real"
+          "detalle": "Más de 6.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.648,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7931,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Menos de 6.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -2655,32 +2705,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7298,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8171,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 12,
-          "resultado": "fallo",
-          "detalle": "Menos de 11.5 córners · reales 12"
+          "resultado": "acierto",
+          "detalle": "Menos de 12.5 córners · reales 12"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6284,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7857,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 2,
-      "n_acierto": 1,
-      "completa": false,
-      "que_fallo": [
-        "Córners U11.5"
-      ]
+      "n_acierto": 2,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -2778,20 +2828,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6739,
-          "linea": 8.5,
+          "nombre": "Córners Menos de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7839,
+          "linea": 9.5,
+          "side": "Menos de",
           "real": 14,
           "resultado": "fallo",
-          "detalle": "Menos de 8.5 córners · reales 14"
+          "detalle": "Menos de 9.5 córners · reales 14"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.708,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 2"
@@ -2803,7 +2855,7 @@
       "completa": false,
       "que_fallo": [
         "1X2 · Marruecos",
-        "Córners U8.5"
+        "Córners Menos de 9.5"
       ]
     },
     "acierto": false
@@ -2902,18 +2954,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6533,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7657,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 5,
           "resultado": "acierto",
-          "detalle": "Menos de 9.5 córners · reales 5"
+          "detalle": "Menos de 10.5 córners · reales 5"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7884,
+          "linea": 2.5,
+          "side": "Más de",
+          "real": 3,
+          "resultado": "acierto",
+          "detalle": "Más de 2.5 amarillas · reales 3"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 2,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 3,
       "completa": true,
       "que_fallo": []
     },
@@ -3013,23 +3077,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7243,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8135,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 6,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 6"
+          "detalle": "Menos de 12.5 córners · reales 6"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6457,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7999,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 4"
+          "detalle": "Menos de 5.5 amarillas · reales 4"
         }
       ],
       "n_patas": 3,
@@ -3134,20 +3200,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7323,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7776,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 4,
-          "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 4"
+          "resultado": "fallo",
+          "detalle": "Más de 6.5 córners · reales 4"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7287,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 2"
@@ -3155,9 +3223,11 @@
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 3,
-      "completa": true,
-      "que_fallo": []
+      "n_acierto": 2,
+      "completa": false,
+      "que_fallo": [
+        "Córners Más de 6.5"
+      ]
     },
     "acierto": true
   },
@@ -3255,16 +3325,28 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.7381,
           "linea": 12.5,
+          "side": "Menos de",
           "real": 9,
           "resultado": "acierto",
           "detalle": "Menos de 12.5 córners · reales 9"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7755,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": null,
+          "resultado": "sin_dato",
+          "detalle": "Menos de 4.5 amarillas · sin dato real"
         }
       ],
-      "n_patas": 2,
+      "n_patas": 3,
       "n_evaluables": 2,
       "n_acierto": 2,
       "completa": true,
@@ -3366,20 +3448,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6759,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7828,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Menos de 10.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7267,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -3489,18 +3573,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6859,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8048,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 7,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 7"
+          "detalle": "Más de 6.5 córners · reales 7"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7863,
+          "linea": 2.5,
+          "side": "Más de",
+          "real": 5,
+          "resultado": "acierto",
+          "detalle": "Más de 2.5 amarillas · reales 5"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 2,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 3,
       "completa": true,
       "que_fallo": []
     },
@@ -3600,20 +3696,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6946,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7905,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 8,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 8"
+          "detalle": "Menos de 12.5 córners · reales 8"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7374,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 2"
@@ -3721,20 +3819,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.725,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8188,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 14,
           "resultado": "fallo",
-          "detalle": "Menos de 10.5 córners · reales 14"
+          "detalle": "Menos de 11.5 córners · reales 14"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.6836,
           "linea": 5.5,
+          "side": "Menos de",
           "real": 3,
           "resultado": "acierto",
           "detalle": "Menos de 5.5 amarillas · reales 3"
@@ -3745,7 +3845,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Córners U10.5"
+        "Córners Menos de 11.5"
       ]
     },
     "acierto": true
@@ -3844,20 +3944,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7067,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8053,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 10.5 córners · sin dato real"
+          "detalle": "Menos de 11.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7258,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -3967,20 +4069,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7147,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8027,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 12.5 córners · sin dato real"
+          "detalle": "Menos de 13.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.721,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -4090,32 +4194,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6366,
-          "linea": 8.5,
+          "nombre": "Córners Más de 5.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7764,
+          "linea": 5.5,
+          "side": "Más de",
           "real": 9,
-          "resultado": "fallo",
-          "detalle": "Menos de 8.5 córners · reales 9"
+          "resultado": "acierto",
+          "detalle": "Más de 5.5 córners · reales 9"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6513,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7893,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 4"
+          "detalle": "Menos de 6.5 amarillas · reales 4"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
-      "completa": false,
-      "que_fallo": [
-        "Córners U8.5"
-      ]
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -4213,23 +4317,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6517,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7563,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 10.5 córners · sin dato real"
+          "detalle": "Menos de 11.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6764,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.814,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Menos de 6.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -4336,18 +4442,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7068,
-          "linea": 8.5,
+          "nombre": "Córners Menos de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.812,
+          "linea": 9.5,
+          "side": "Menos de",
           "real": 7,
           "resultado": "acierto",
-          "detalle": "Menos de 8.5 córners · reales 7"
+          "detalle": "Menos de 9.5 córners · reales 7"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7523,
+          "linea": 6.5,
+          "side": "Menos de",
+          "real": 2,
+          "resultado": "acierto",
+          "detalle": "Menos de 6.5 amarillas · reales 2"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
         "1X2 · Catar"
@@ -4449,23 +4567,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.709,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7984,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 12,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 12"
+          "detalle": "Menos de 13.5 córners · reales 12"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6225,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7835,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -4570,23 +4690,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7172,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8069,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 14,
           "resultado": "fallo",
-          "detalle": "Menos de 12.5 córners · reales 14"
+          "detalle": "Menos de 13.5 córners · reales 14"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6944,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7636,
+          "linea": 1.5,
+          "side": "Más de",
           "real": 3,
           "resultado": "acierto",
-          "detalle": "Menos de 3.5 amarillas · reales 3"
+          "detalle": "Más de 1.5 amarillas · reales 3"
         }
       ],
       "n_patas": 3,
@@ -4594,7 +4716,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Córners U12.5"
+        "Córners Menos de 13.5"
       ]
     },
     "acierto": true
@@ -4693,20 +4815,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6455,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7549,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 9,
           "resultado": "acierto",
-          "detalle": "Menos de 9.5 córners · reales 9"
+          "detalle": "Menos de 10.5 córners · reales 9"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7442,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 5,
           "resultado": "fallo",
           "detalle": "Menos de 4.5 amarillas · reales 5"
@@ -4718,7 +4842,7 @@
       "completa": false,
       "que_fallo": [
         "1X2 · Suiza",
-        "Amarillas U4.5"
+        "Amarillas Menos de 4.5"
       ]
     },
     "acierto": false
@@ -4817,23 +4941,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7041,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7949,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 11.5 córners · sin dato real"
+          "detalle": "Menos de 12.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6764,
-          "linea": 4.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7269,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -4940,21 +5066,33 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7268,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.818,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 12,
           "resultado": "fallo",
-          "detalle": "Menos de 10.5 córners · reales 12"
+          "detalle": "Menos de 11.5 córners · reales 12"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7802,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": 4,
+          "resultado": "acierto",
+          "detalle": "Menos de 4.5 amarillas · reales 4"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Córners U10.5"
+        "Córners Menos de 11.5"
       ]
     },
     "acierto": true
@@ -5053,20 +5191,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7198,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8167,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 11,
           "resultado": "fallo",
-          "detalle": "Menos de 9.5 córners · reales 11"
+          "detalle": "Menos de 10.5 córners · reales 11"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7324,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 3,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 3"
@@ -5077,7 +5217,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Córners U9.5"
+        "Córners Menos de 10.5"
       ]
     },
     "acierto": true
@@ -5176,21 +5316,35 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6883,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.787,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 6,
-          "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 6"
+          "resultado": "fallo",
+          "detalle": "Más de 7.5 córners · reales 6"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7642,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": 5,
+          "resultado": "fallo",
+          "detalle": "Menos de 4.5 amarillas · reales 5"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 0,
       "completa": false,
       "que_fallo": [
-        "1X2 · Haití"
+        "1X2 · Haití",
+        "Córners Más de 7.5",
+        "Amarillas Menos de 4.5"
       ]
     },
     "acierto": false
@@ -5289,32 +5443,33 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6997,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7995,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 16,
-          "resultado": "fallo",
-          "detalle": "Menos de 10.5 córners · reales 16"
+          "resultado": "acierto",
+          "detalle": "Más de 6.5 córners · reales 16"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6884,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8195,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": 3,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 3"
+          "detalle": "Menos de 6.5 amarillas · reales 3"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 1,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "1X2 · Canadá",
-        "Córners U10.5"
+        "1X2 · Canadá"
       ]
     },
     "acierto": false
@@ -5413,20 +5568,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.689,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7926,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Menos de 10.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7058,
           "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 5.5 amarillas · sin dato real"
@@ -5534,23 +5691,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6485,
-          "linea": 8.5,
+          "nombre": "Córners Más de 5.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7659,
+          "linea": 5.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 8.5 córners · sin dato real"
+          "detalle": "Más de 5.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6708,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8188,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -5657,22 +5816,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7028,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8001,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 11,
-          "resultado": "fallo",
-          "detalle": "Menos de 10.5 córners · reales 11"
+          "resultado": "acierto",
+          "detalle": "Menos de 11.5 córners · reales 11"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7791,
+          "linea": 2.5,
+          "side": "Más de",
+          "real": 4,
+          "resultado": "acierto",
+          "detalle": "Más de 2.5 amarillas · reales 4"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
-      "completa": false,
-      "que_fallo": [
-        "Córners U10.5"
-      ]
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -5770,23 +5939,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.7449,
           "linea": 11.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 11.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6747,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.809,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Menos de 6.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -5893,23 +6064,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7062,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8037,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 10.5 córners · sin dato real"
+          "detalle": "Menos de 11.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7327,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8121,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -6016,20 +6189,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6989,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8044,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Menos de 10.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7003,
           "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 5.5 amarillas · sin dato real"
@@ -6139,23 +6314,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U15.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.736,
-          "linea": 15.5,
+          "nombre": "Córners Menos de 16.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8104,
+          "linea": 16.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 15.5 córners · sin dato real"
+          "detalle": "Menos de 16.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6573,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8049,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -6260,23 +6437,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 8.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.7335,
           "linea": 8.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 8.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7339,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8044,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -6383,30 +6562,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7409,
-          "linea": 12.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.82,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 7,
-          "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 7"
+          "resultado": "fallo",
+          "detalle": "Más de 7.5 córners · reales 7"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.664,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8103,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 4"
+          "detalle": "Menos de 5.5 amarillas · reales 4"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 3,
-      "completa": true,
-      "que_fallo": []
+      "n_acierto": 2,
+      "completa": false,
+      "que_fallo": [
+        "Córners Más de 7.5"
+      ]
     },
     "acierto": true
   },
@@ -6504,23 +6687,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6949,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7886,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 12.5 córners · sin dato real"
+          "detalle": "Menos de 13.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6619,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8109,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -6625,31 +6810,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7105,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8057,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 10"
+          "detalle": "Menos de 11.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6399,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8078,
+          "linea": 1.5,
+          "side": "Más de",
           "real": 1,
-          "resultado": "acierto",
-          "detalle": "Menos de 3.5 amarillas · reales 1"
+          "resultado": "fallo",
+          "detalle": "Más de 1.5 amarillas · reales 1"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
+      "n_acierto": 1,
       "completa": false,
       "que_fallo": [
-        "1X2 · Francia"
+        "1X2 · Francia",
+        "Amarillas Más de 1.5"
       ]
     },
     "acierto": false
@@ -6748,18 +6936,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7499,
-          "linea": 12.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8143,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 8,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 8"
+          "detalle": "Más de 7.5 córners · reales 8"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7702,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": 4,
+          "resultado": "acierto",
+          "detalle": "Menos de 4.5 amarillas · reales 4"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
         "1X2 · España"
@@ -6861,18 +7061,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6885,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8118,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 8,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 8"
+          "detalle": "Más de 6.5 córners · reales 8"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7531,
+          "linea": 6.5,
+          "side": "Menos de",
+          "real": 3,
+          "resultado": "acierto",
+          "detalle": "Menos de 6.5 amarillas · reales 3"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 2,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 3,
       "completa": true,
       "que_fallo": []
     },
@@ -6972,31 +7184,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6722,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8162,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 5,
-          "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 5"
+          "resultado": "fallo",
+          "detalle": "Más de 6.5 córners · reales 5"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6212,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7754,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 2"
+          "detalle": "Menos de 5.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
+      "n_acierto": 1,
       "completa": false,
       "que_fallo": [
-        "1X2 · Suecia"
+        "1X2 · Suecia",
+        "Córners Más de 6.5"
       ]
     },
     "acierto": false
@@ -7095,20 +7310,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7483,
-          "linea": 9.5,
+          "nombre": "Córners Más de 5.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7846,
+          "linea": 5.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Más de 5.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7048,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -7216,23 +7433,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6472,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7605,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Menos de 10.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6258,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.781,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -7339,23 +7558,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7117,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8031,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 10"
+          "detalle": "Menos de 12.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6305,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7885,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 2"
+          "detalle": "Menos de 5.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
@@ -7460,23 +7681,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7051,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7986,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 9,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 9"
+          "detalle": "Menos de 12.5 córners · reales 9"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6437,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7951,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 2"
+          "detalle": "Menos de 5.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
@@ -7583,18 +7806,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6861,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7914,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 8,
           "resultado": "acierto",
-          "detalle": "Menos de 9.5 córners · reales 8"
+          "detalle": "Menos de 10.5 córners · reales 8"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7858,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": 1,
+          "resultado": "acierto",
+          "detalle": "Menos de 4.5 amarillas · reales 1"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
         "1X2 · Dinamarca"
@@ -7696,32 +7931,33 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6957,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8027,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 7,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 7"
+          "detalle": "Más de 6.5 córners · reales 7"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6719,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7856,
+          "linea": 1.5,
+          "side": "Más de",
           "real": 4,
-          "resultado": "fallo",
-          "detalle": "Menos de 3.5 amarillas · reales 4"
+          "resultado": "acierto",
+          "detalle": "Más de 1.5 amarillas · reales 4"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 1,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "1X2 · Polonia",
-        "Amarillas U3.5"
+        "1X2 · Polonia"
       ]
     },
     "acierto": false
@@ -7820,23 +8056,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7242,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8165,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 9,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 9"
+          "detalle": "Menos de 11.5 córners · reales 9"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7468,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7932,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -7943,23 +8181,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6542,
-          "linea": 8.5,
+          "nombre": "Córners Menos de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7706,
+          "linea": 9.5,
+          "side": "Menos de",
           "real": 11,
           "resultado": "fallo",
-          "detalle": "Menos de 8.5 córners · reales 11"
+          "detalle": "Menos de 9.5 córners · reales 11"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6814,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.816,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 2"
+          "detalle": "Menos de 6.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
@@ -7967,7 +8207,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Córners U8.5"
+        "Córners Menos de 9.5"
       ]
     },
     "acierto": true
@@ -8066,20 +8306,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6948,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7846,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 10"
+          "detalle": "Menos de 13.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.703,
           "linea": 5.5,
+          "side": "Menos de",
           "real": 5,
           "resultado": "acierto",
           "detalle": "Menos de 5.5 amarillas · reales 5"
@@ -8187,22 +8429,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6746,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8012,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 13,
-          "resultado": "fallo",
-          "detalle": "Menos de 11.5 córners · reales 13"
+          "resultado": "acierto",
+          "detalle": "Más de 7.5 córners · reales 13"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7658,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": 1,
+          "resultado": "acierto",
+          "detalle": "Menos de 4.5 amarillas · reales 1"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
-      "completa": false,
-      "que_fallo": [
-        "Córners U11.5"
-      ]
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -8300,23 +8552,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7107,
-          "linea": 8.5,
+          "nombre": "Córners Menos de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8157,
+          "linea": 9.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 8.5 córners · sin dato real"
+          "detalle": "Menos de 9.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6558,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.792,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Menos de 6.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -8421,16 +8675,28 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7313,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7523,
+          "linea": 7.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 11.5 córners · sin dato real"
+          "detalle": "Más de 7.5 córners · sin dato real"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.778,
+          "linea": 5.5,
+          "side": "Menos de",
+          "real": null,
+          "resultado": "sin_dato",
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
-      "n_patas": 2,
+      "n_patas": 3,
       "n_evaluables": 1,
       "n_acierto": 1,
       "completa": true,
@@ -8532,23 +8798,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6886,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7796,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 7,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 7"
+          "detalle": "Menos de 13.5 córners · reales 7"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6308,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7855,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 1,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 1"
+          "detalle": "Menos de 5.5 amarillas · reales 1"
         }
       ],
       "n_patas": 3,
@@ -8653,32 +8921,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7354,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.752,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 14,
-          "resultado": "fallo",
-          "detalle": "Menos de 11.5 córners · reales 14"
+          "resultado": "acierto",
+          "detalle": "Más de 7.5 córners · reales 14"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6579,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7963,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": 1,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 1"
+          "detalle": "Menos de 6.5 amarillas · reales 1"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
-      "completa": false,
-      "que_fallo": [
-        "Córners U11.5"
-      ]
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -8776,18 +9044,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6517,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7613,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 6,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 6"
+          "detalle": "Menos de 11.5 córners · reales 6"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8158,
+          "linea": 1.5,
+          "side": "Más de",
+          "real": 3,
+          "resultado": "acierto",
+          "detalle": "Más de 1.5 amarillas · reales 3"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 2,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 3,
       "completa": true,
       "que_fallo": []
     },
@@ -8887,23 +9167,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7359,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7478,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 9,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 9"
+          "detalle": "Más de 7.5 córners · reales 9"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6466,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8013,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 4"
+          "detalle": "Menos de 5.5 amarillas · reales 4"
         }
       ],
       "n_patas": 3,
@@ -9008,20 +9290,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7404,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7454,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 2,
-          "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 2"
+          "resultado": "fallo",
+          "detalle": "Más de 7.5 córners · reales 2"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7332,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 1,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 1"
@@ -9029,9 +9313,11 @@
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 3,
-      "completa": true,
-      "que_fallo": []
+      "n_acierto": 2,
+      "completa": false,
+      "que_fallo": [
+        "Córners Más de 7.5"
+      ]
     },
     "acierto": true
   },
@@ -9129,20 +9415,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7363,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7443,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 11,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 11"
+          "detalle": "Más de 7.5 córners · reales 11"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.735,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 1,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 1"
@@ -9252,23 +9540,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6987,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7909,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 11.5 córners · sin dato real"
+          "detalle": "Menos de 12.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6388,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7962,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -9375,20 +9665,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6911,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7837,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 13,
-          "resultado": "fallo",
-          "detalle": "Menos de 12.5 córners · reales 13"
+          "resultado": "acierto",
+          "detalle": "Menos de 13.5 córners · reales 13"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7323,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -9396,11 +9688,9 @@
       ],
       "n_patas": 3,
       "n_evaluables": 2,
-      "n_acierto": 1,
-      "completa": false,
-      "que_fallo": [
-        "Córners U12.5"
-      ]
+      "n_acierto": 2,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -9498,20 +9788,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6868,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7908,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Menos de 10.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7364,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -9621,20 +9913,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6569,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8089,
+          "linea": 7.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 11.5 córners · sin dato real"
+          "detalle": "Más de 7.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7082,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -9742,20 +10036,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7256,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8167,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 10"
+          "detalle": "Menos de 12.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7462,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -9863,23 +10159,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7316,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8175,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 6,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 6"
+          "detalle": "Menos de 13.5 córners · reales 6"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6589,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.807,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 3,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 3"
+          "detalle": "Menos de 5.5 amarillas · reales 3"
         }
       ],
       "n_patas": 3,
@@ -9984,20 +10282,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6991,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8002,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 10"
+          "detalle": "Menos de 11.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7061,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 4"
@@ -10105,30 +10405,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6916,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8002,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 4,
-          "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 4"
+          "resultado": "fallo",
+          "detalle": "Más de 6.5 córners · reales 4"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6616,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8097,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 2"
+          "detalle": "Menos de 5.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 3,
-      "completa": true,
-      "que_fallo": []
+      "n_acierto": 2,
+      "completa": false,
+      "que_fallo": [
+        "Córners Más de 6.5"
+      ]
     },
     "acierto": true
   },
@@ -10226,20 +10530,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U13.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6598,
-          "linea": 13.5,
+          "nombre": "Córners Más de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7773,
+          "linea": 9.5,
+          "side": "Más de",
           "real": 8,
+          "resultado": "fallo",
+          "detalle": "Más de 9.5 córners · reales 8"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7787,
+          "linea": 5.5,
+          "side": "Menos de",
+          "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 13.5 córners · reales 8"
+          "detalle": "Menos de 5.5 amarillas · reales 4"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
+      "n_patas": 3,
+      "n_evaluables": 3,
       "n_acierto": 2,
-      "completa": true,
-      "que_fallo": []
+      "completa": false,
+      "que_fallo": [
+        "Córners Más de 9.5"
+      ]
     },
     "acierto": true
   },
@@ -10337,18 +10655,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6729,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8173,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 8,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 8"
+          "detalle": "Más de 6.5 córners · reales 8"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7782,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": 2,
+          "resultado": "acierto",
+          "detalle": "Menos de 4.5 amarillas · reales 2"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 2,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 3,
       "completa": true,
       "que_fallo": []
     },
@@ -10448,23 +10778,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U7.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6992,
-          "linea": 7.5,
+          "nombre": "Córners Menos de 8.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8109,
+          "linea": 8.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 7.5 córners · sin dato real"
+          "detalle": "Menos de 8.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6277,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7724,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Menos de 6.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -10569,20 +10901,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6583,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7695,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 3,
           "resultado": "acierto",
-          "detalle": "Menos de 9.5 córners · reales 3"
+          "detalle": "Menos de 10.5 córners · reales 3"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7145,
           "linea": 5.5,
+          "side": "Menos de",
           "real": 1,
           "resultado": "acierto",
           "detalle": "Menos de 5.5 amarillas · reales 1"
@@ -10692,18 +11026,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.7477,
           "linea": 11.5,
+          "side": "Menos de",
           "real": 11,
           "resultado": "acierto",
           "detalle": "Menos de 11.5 córners · reales 11"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7883,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": 3,
+          "resultado": "acierto",
+          "detalle": "Menos de 4.5 amarillas · reales 3"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
         "1X2 · Rusia"
@@ -10805,23 +11151,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6636,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7714,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 10"
+          "detalle": "Menos de 11.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7372,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8024,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -10928,23 +11276,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U14.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.744,
-          "linea": 14.5,
+          "nombre": "Córners Más de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7855,
+          "linea": 9.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 14.5 córners · sin dato real"
+          "detalle": "Más de 9.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6282,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.814,
+          "linea": 1.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 3.5 amarillas · sin dato real"
+          "detalle": "Más de 1.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -11049,23 +11399,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6627,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8182,
+          "linea": 6.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 10.5 córners · sin dato real"
+          "detalle": "Más de 6.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6935,
-          "linea": 4.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7127,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -11170,20 +11522,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6976,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7905,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 12,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 12"
+          "detalle": "Menos de 13.5 córners · reales 12"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7939,
+          "linea": 2.5,
+          "side": "Más de",
+          "real": 2,
+          "resultado": "fallo",
+          "detalle": "Más de 2.5 amarillas · reales 2"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
+      "n_patas": 3,
+      "n_evaluables": 3,
       "n_acierto": 2,
-      "completa": true,
-      "que_fallo": []
+      "completa": false,
+      "que_fallo": [
+        "Amarillas Más de 2.5"
+      ]
     },
     "acierto": true
   },
@@ -11281,20 +11647,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7306,
-          "linea": 12.5,
+          "nombre": "Córners Más de 8.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7342,
+          "linea": 8.5,
+          "side": "Más de",
           "real": 6,
-          "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 6"
+          "resultado": "fallo",
+          "detalle": "Más de 8.5 córners · reales 6"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.747,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -11302,10 +11670,11 @@
       ],
       "n_patas": 3,
       "n_evaluables": 2,
-      "n_acierto": 1,
+      "n_acierto": 0,
       "completa": false,
       "que_fallo": [
-        "1X2 · Noruega"
+        "1X2 · Noruega",
+        "Córners Más de 8.5"
       ]
     },
     "acierto": false
@@ -11404,23 +11773,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7408,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7418,
+          "linea": 7.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 11.5 córners · sin dato real"
+          "detalle": "Más de 7.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6214,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7686,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Menos de 6.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -11527,23 +11898,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6834,
-          "linea": 8.5,
+          "nombre": "Córners Menos de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.795,
+          "linea": 9.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 8.5 córners · sin dato real"
+          "detalle": "Menos de 9.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6345,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7765,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Menos de 6.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -11650,20 +12023,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6574,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7672,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Menos de 10.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7084,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -11771,23 +12146,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6899,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.786,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 11.5 córners · sin dato real"
+          "detalle": "Menos de 12.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6324,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7897,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -11894,20 +12271,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7287,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8173,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 5,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 5"
+          "detalle": "Menos de 12.5 córners · reales 5"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7048,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 5,
           "resultado": "fallo",
           "detalle": "Menos de 4.5 amarillas · reales 5"
@@ -11919,7 +12298,7 @@
       "completa": false,
       "que_fallo": [
         "1X2 · Bélgica",
-        "Amarillas U4.5"
+        "Amarillas Menos de 4.5"
       ]
     },
     "acierto": false
@@ -12018,32 +12397,33 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7262,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8196,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 10"
+          "detalle": "Menos de 11.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7349,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8075,
+          "linea": 2.5,
+          "side": "Más de",
           "real": 6,
-          "resultado": "fallo",
-          "detalle": "Menos de 5.5 amarillas · reales 6"
+          "resultado": "acierto",
+          "detalle": "Más de 2.5 amarillas · reales 6"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 1,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "1X2 · Canadá",
-        "Amarillas U5.5"
+        "1X2 · Canadá"
       ]
     },
     "acierto": false
@@ -12142,23 +12522,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6883,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7931,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 9.5 córners · reales 4"
+          "detalle": "Menos de 10.5 córners · reales 4"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7288,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8106,
+          "linea": 2.5,
+          "side": "Más de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 4"
+          "detalle": "Más de 2.5 amarillas · reales 4"
         }
       ],
       "n_patas": 3,
@@ -12263,18 +12645,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6985,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7922,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 10"
+          "detalle": "Menos de 12.5 córners · reales 10"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 3.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7713,
+          "linea": 3.5,
+          "side": "Menos de",
+          "real": 1,
+          "resultado": "acierto",
+          "detalle": "Menos de 3.5 amarillas · reales 1"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 2,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 3,
       "completa": true,
       "que_fallo": []
     },
@@ -12374,23 +12768,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.7499,
           "linea": 11.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
           "detalle": "Menos de 11.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6543,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8049,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 2"
+          "detalle": "Menos de 5.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
@@ -12495,32 +12891,33 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7423,
-          "linea": 12.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.82,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 11,
           "resultado": "acierto",
-          "detalle": "Menos de 12.5 córners · reales 11"
+          "detalle": "Más de 7.5 córners · reales 11"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6935,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7735,
+          "linea": 1.5,
+          "side": "Más de",
           "real": 5,
-          "resultado": "fallo",
-          "detalle": "Menos de 3.5 amarillas · reales 5"
+          "resultado": "acierto",
+          "detalle": "Más de 1.5 amarillas · reales 5"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 1,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "1X2 · España",
-        "Amarillas U3.5"
+        "1X2 · España"
       ]
     },
     "acierto": false
@@ -12619,23 +13016,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7228,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8181,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 12,
           "resultado": "fallo",
-          "detalle": "Menos de 10.5 córners · reales 12"
+          "detalle": "Menos de 11.5 córners · reales 12"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6911,
-          "linea": 4.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7135,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -12644,7 +13043,7 @@
       "completa": false,
       "que_fallo": [
         "1X2 · Escocia",
-        "Córners U10.5"
+        "Córners Menos de 11.5"
       ]
     },
     "acierto": false
@@ -12743,32 +13142,33 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.711,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8028,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 12,
-          "resultado": "fallo",
-          "detalle": "Menos de 11.5 córners · reales 12"
+          "resultado": "acierto",
+          "detalle": "Menos de 12.5 córners · reales 12"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6765,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7833,
+          "linea": 1.5,
+          "side": "Más de",
           "real": 2,
           "resultado": "acierto",
-          "detalle": "Menos de 3.5 amarillas · reales 2"
+          "detalle": "Más de 1.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 1,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "1X2 · Inglaterra",
-        "Córners U11.5"
+        "1X2 · Inglaterra"
       ]
     },
     "acierto": false
@@ -12867,20 +13267,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.704,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7997,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 12,
-          "resultado": "fallo",
-          "detalle": "Menos de 11.5 córners · reales 12"
+          "resultado": "acierto",
+          "detalle": "Menos de 12.5 córners · reales 12"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7372,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 2"
@@ -12888,11 +13290,10 @@
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 1,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "1X2 · Países Bajos",
-        "Córners U11.5"
+        "1X2 · Países Bajos"
       ]
     },
     "acierto": false
@@ -12991,23 +13392,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6712,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8189,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 10"
+          "detalle": "Más de 6.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6461,
-          "linea": 3.5,
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8183,
+          "linea": 4.5,
+          "side": "Menos de",
           "real": 1,
           "resultado": "acierto",
-          "detalle": "Menos de 3.5 amarillas · reales 1"
+          "detalle": "Menos de 4.5 amarillas · reales 1"
         }
       ],
       "n_patas": 3,
@@ -13112,20 +13515,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7491,
-          "linea": 9.5,
+          "nombre": "Córners Más de 5.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7848,
+          "linea": 5.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Más de 5.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7007,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -13233,20 +13638,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6916,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7984,
+          "linea": 6.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 10.5 córners · sin dato real"
+          "detalle": "Más de 6.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.6971,
           "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 5.5 amarillas · sin dato real"
@@ -13356,20 +13763,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6979,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8006,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 9,
           "resultado": "acierto",
-          "detalle": "Menos de 9.5 córners · reales 9"
+          "detalle": "Menos de 10.5 córners · reales 9"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.6887,
           "linea": 5.5,
+          "side": "Menos de",
           "real": 1,
           "resultado": "acierto",
           "detalle": "Menos de 5.5 amarillas · reales 1"
@@ -13479,18 +13888,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U13.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6736,
-          "linea": 13.5,
+          "nombre": "Córners Menos de 14.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7643,
+          "linea": 14.5,
+          "side": "Menos de",
           "real": 11,
           "resultado": "acierto",
-          "detalle": "Menos de 13.5 córners · reales 11"
+          "detalle": "Menos de 14.5 córners · reales 11"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7769,
+          "linea": 2.5,
+          "side": "Más de",
+          "real": 7,
+          "resultado": "acierto",
+          "detalle": "Más de 2.5 amarillas · reales 7"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
         "1X2 · Uruguay"
@@ -13592,31 +14013,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7454,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7622,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 4,
-          "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 4"
+          "resultado": "fallo",
+          "detalle": "Más de 6.5 córners · reales 4"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6237,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7799,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 9,
           "resultado": "fallo",
-          "detalle": "Menos de 4.5 amarillas · reales 9"
+          "detalle": "Menos de 5.5 amarillas · reales 9"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
+      "n_acierto": 1,
       "completa": false,
       "que_fallo": [
-        "Amarillas U4.5"
+        "Córners Más de 6.5",
+        "Amarillas Menos de 5.5"
       ]
     },
     "acierto": true
@@ -13715,23 +14139,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6695,
-          "linea": 8.5,
+          "nombre": "Córners Menos de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7827,
+          "linea": 9.5,
+          "side": "Menos de",
           "real": 12,
           "resultado": "fallo",
-          "detalle": "Menos de 8.5 córners · reales 12"
+          "detalle": "Menos de 9.5 córners · reales 12"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6854,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.819,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": 5,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 5"
+          "detalle": "Menos de 6.5 amarillas · reales 5"
         }
       ],
       "n_patas": 3,
@@ -13740,7 +14166,7 @@
       "completa": false,
       "que_fallo": [
         "1X2 · Honduras",
-        "Córners U8.5"
+        "Córners Menos de 9.5"
       ]
     },
     "acierto": false
@@ -13839,23 +14265,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6732,
-          "linea": 8.5,
+          "nombre": "Córners Menos de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7823,
+          "linea": 9.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 8.5 córners · sin dato real"
+          "detalle": "Menos de 9.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7013,
-          "linea": 4.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7018,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -13960,16 +14388,28 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7354,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7704,
+          "linea": 6.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 10.5 córners · sin dato real"
+          "detalle": "Más de 6.5 córners · sin dato real"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 3.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7697,
+          "linea": 3.5,
+          "side": "Menos de",
+          "real": null,
+          "resultado": "sin_dato",
+          "detalle": "Menos de 3.5 amarillas · sin dato real"
         }
       ],
-      "n_patas": 2,
+      "n_patas": 3,
       "n_evaluables": 1,
       "n_acierto": 0,
       "completa": false,
@@ -14073,20 +14513,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6485,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8168,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 11,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 11"
+          "detalle": "Más de 7.5 córners · reales 11"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7871,
+          "linea": 2.5,
+          "side": "Más de",
+          "real": 2,
+          "resultado": "fallo",
+          "detalle": "Más de 2.5 amarillas · reales 2"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
+      "n_patas": 3,
+      "n_evaluables": 3,
       "n_acierto": 2,
-      "completa": true,
-      "que_fallo": []
+      "completa": false,
+      "que_fallo": [
+        "Amarillas Más de 2.5"
+      ]
     },
     "acierto": true
   },
@@ -14184,32 +14638,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7079,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7986,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": 13,
-          "resultado": "fallo",
-          "detalle": "Menos de 12.5 córners · reales 13"
+          "resultado": "acierto",
+          "detalle": "Menos de 13.5 córners · reales 13"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6502,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8032,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 4"
+          "detalle": "Menos de 5.5 amarillas · reales 4"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
-      "completa": false,
-      "que_fallo": [
-        "Córners U12.5"
-      ]
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -14307,23 +14761,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6349,
-          "linea": 8.5,
+          "nombre": "Córners Más de 5.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7808,
+          "linea": 5.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 8.5 córners · sin dato real"
+          "detalle": "Más de 5.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6584,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8069,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -14428,23 +14884,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6846,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7912,
+          "linea": 7.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 11.5 córners · sin dato real"
+          "detalle": "Más de 7.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7295,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8054,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -14551,20 +15009,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6897,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7911,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 14,
           "resultado": "fallo",
-          "detalle": "Menos de 9.5 córners · reales 14"
+          "detalle": "Menos de 10.5 córners · reales 14"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7027,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 4"
@@ -14575,7 +15035,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Córners U9.5"
+        "Córners Menos de 10.5"
       ]
     },
     "acierto": true
@@ -14674,16 +15134,28 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7,
-          "linea": 8.5,
+          "nombre": "Córners Menos de 9.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8056,
+          "linea": 9.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 8.5 córners · sin dato real"
+          "detalle": "Menos de 9.5 córners · sin dato real"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7605,
+          "linea": 6.5,
+          "side": "Menos de",
+          "real": null,
+          "resultado": "sin_dato",
+          "detalle": "Menos de 6.5 amarillas · sin dato real"
         }
       ],
-      "n_patas": 2,
+      "n_patas": 3,
       "n_evaluables": 1,
       "n_acierto": 1,
       "completa": true,
@@ -14785,23 +15257,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 8.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.7356,
           "linea": 8.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 8.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6747,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8128,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Menos de 6.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -14906,23 +15380,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7258,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8195,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 10"
+          "detalle": "Menos de 11.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7318,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8057,
+          "linea": 2.5,
+          "side": "Más de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 4"
+          "detalle": "Más de 2.5 amarillas · reales 4"
         }
       ],
       "n_patas": 3,
@@ -15027,23 +15503,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6842,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7912,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 9,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 9"
+          "detalle": "Más de 7.5 córners · reales 9"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6232,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7686,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 2"
+          "detalle": "Menos de 6.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
@@ -15150,20 +15628,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6934,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.788,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 13,
           "resultado": "fallo",
-          "detalle": "Menos de 11.5 córners · reales 13"
+          "detalle": "Menos de 12.5 córners · reales 13"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7243,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 2"
@@ -15174,7 +15654,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Córners U11.5"
+        "Córners Menos de 12.5"
       ]
     },
     "acierto": true
@@ -15273,23 +15753,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.7448,
           "linea": 12.5,
+          "side": "Menos de",
           "real": 12,
           "resultado": "acierto",
           "detalle": "Menos de 12.5 córners · reales 12"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6249,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7834,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -15396,21 +15878,35 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.684,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7906,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 4,
-          "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 4"
+          "resultado": "fallo",
+          "detalle": "Más de 7.5 córners · reales 4"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7774,
+          "linea": 2.5,
+          "side": "Más de",
+          "real": 2,
+          "resultado": "fallo",
+          "detalle": "Más de 2.5 amarillas · reales 2"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 0,
       "completa": false,
       "que_fallo": [
-        "1X2 · Portugal"
+        "1X2 · Portugal",
+        "Córners Más de 7.5",
+        "Amarillas Más de 2.5"
       ]
     },
     "acierto": false
@@ -15509,32 +16005,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7229,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8146,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 10"
+          "detalle": "Menos de 12.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6822,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7794,
+          "linea": 1.5,
+          "side": "Más de",
           "real": 6,
-          "resultado": "fallo",
-          "detalle": "Menos de 3.5 amarillas · reales 6"
+          "resultado": "acierto",
+          "detalle": "Más de 1.5 amarillas · reales 6"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
-      "completa": false,
-      "que_fallo": [
-        "Amarillas U3.5"
-      ]
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -15632,22 +16128,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7002,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8022,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 12,
-          "resultado": "fallo",
-          "detalle": "Menos de 10.5 córners · reales 12"
+          "resultado": "acierto",
+          "detalle": "Más de 6.5 córners · reales 12"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7548,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": 2,
+          "resultado": "acierto",
+          "detalle": "Menos de 4.5 amarillas · reales 2"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
-      "completa": false,
-      "que_fallo": [
-        "Córners U10.5"
-      ]
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -15745,23 +16251,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6899,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.786,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 11.5 córners · sin dato real"
+          "detalle": "Menos de 12.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6324,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7897,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -15866,20 +16374,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6574,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7613,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 11,
-          "resultado": "fallo",
-          "detalle": "Menos de 10.5 córners · reales 11"
+          "resultado": "acierto",
+          "detalle": "Menos de 11.5 córners · reales 11"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7351,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 2"
@@ -15887,11 +16397,9 @@
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
-      "completa": false,
-      "que_fallo": [
-        "Córners U10.5"
-      ]
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -15989,23 +16497,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6938,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7984,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 3,
           "resultado": "acierto",
-          "detalle": "Menos de 9.5 córners · reales 3"
+          "detalle": "Menos de 10.5 córners · reales 3"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6345,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7881,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 1,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 1"
+          "detalle": "Menos de 5.5 amarillas · reales 1"
         }
       ],
       "n_patas": 3,
@@ -16112,20 +16622,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6578,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8075,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 6,
-          "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 6"
+          "resultado": "fallo",
+          "detalle": "Más de 7.5 córners · reales 6"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7881,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": null,
+          "resultado": "sin_dato",
+          "detalle": "Menos de 4.5 amarillas · sin dato real"
         }
       ],
-      "n_patas": 2,
+      "n_patas": 3,
       "n_evaluables": 2,
-      "n_acierto": 2,
-      "completa": true,
-      "que_fallo": []
+      "n_acierto": 1,
+      "completa": false,
+      "que_fallo": [
+        "Córners Más de 7.5"
+      ]
     },
     "acierto": true
   },
@@ -16223,18 +16747,30 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6577,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7606,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 7,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 7"
+          "detalle": "Menos de 11.5 córners · reales 7"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7543,
+          "linea": 4.5,
+          "side": "Menos de",
+          "real": 3,
+          "resultado": "acierto",
+          "detalle": "Menos de 4.5 amarillas · reales 3"
         }
       ],
-      "n_patas": 2,
-      "n_evaluables": 2,
-      "n_acierto": 1,
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 2,
       "completa": false,
       "que_fallo": [
         "1X2 · Inglaterra"
@@ -16336,20 +16872,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7367,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7701,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 10"
+          "detalle": "Más de 6.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7028,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -16457,30 +16995,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6834,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8099,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 10"
+          "detalle": "Más de 6.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6331,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8108,
+          "linea": 1.5,
+          "side": "Más de",
           "real": 1,
-          "resultado": "acierto",
-          "detalle": "Menos de 3.5 amarillas · reales 1"
+          "resultado": "fallo",
+          "detalle": "Más de 1.5 amarillas · reales 1"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 3,
-      "completa": true,
-      "que_fallo": []
+      "n_acierto": 2,
+      "completa": false,
+      "que_fallo": [
+        "Amarillas Más de 1.5"
+      ]
     },
     "acierto": true
   },
@@ -16578,16 +17120,28 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U15.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7149,
-          "linea": 15.5,
+          "nombre": "Córners Menos de 16.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7938,
+          "linea": 16.5,
+          "side": "Menos de",
           "real": 12,
           "resultado": "acierto",
-          "detalle": "Menos de 15.5 córners · reales 12"
+          "detalle": "Menos de 16.5 córners · reales 12"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7766,
+          "linea": 2.5,
+          "side": "Más de",
+          "real": null,
+          "resultado": "sin_dato",
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
-      "n_patas": 2,
+      "n_patas": 3,
       "n_evaluables": 2,
       "n_acierto": 2,
       "completa": true,
@@ -16689,31 +17243,34 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6735,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8145,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 9,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 9"
+          "detalle": "Más de 6.5 córners · reales 9"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7203,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8155,
+          "linea": 2.5,
+          "side": "Más de",
           "real": 1,
-          "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 1"
+          "resultado": "fallo",
+          "detalle": "Más de 2.5 amarillas · reales 1"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
+      "n_acierto": 1,
       "completa": false,
       "que_fallo": [
-        "1X2 · Grecia"
+        "1X2 · Grecia",
+        "Amarillas Más de 2.5"
       ]
     },
     "acierto": false
@@ -16812,20 +17369,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6957,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8001,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 5,
-          "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 5"
+          "resultado": "fallo",
+          "detalle": "Más de 6.5 córners · reales 5"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7441,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 2"
@@ -16833,10 +17392,11 @@
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
+      "n_acierto": 1,
       "completa": false,
       "que_fallo": [
-        "1X2 · Arabia Saudita"
+        "1X2 · Arabia Saudita",
+        "Córners Más de 6.5"
       ]
     },
     "acierto": false
@@ -16935,23 +17495,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7279,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8164,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 8,
           "resultado": "acierto",
-          "detalle": "Menos de 11.5 córners · reales 8"
+          "detalle": "Menos de 12.5 córners · reales 8"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6306,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7865,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 3,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 3"
+          "detalle": "Menos de 5.5 amarillas · reales 3"
         }
       ],
       "n_patas": 3,
@@ -17056,20 +17618,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6925,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7921,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 6,
           "resultado": "acierto",
-          "detalle": "Menos de 9.5 córners · reales 6"
+          "detalle": "Menos de 10.5 córners · reales 6"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7493,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 3,
           "resultado": "acierto",
           "detalle": "Menos de 4.5 amarillas · reales 3"
@@ -17179,16 +17743,28 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7496,
-          "linea": 12.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8183,
+          "linea": 7.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 12.5 córners · sin dato real"
+          "detalle": "Más de 7.5 córners · sin dato real"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7649,
+          "linea": 6.5,
+          "side": "Menos de",
+          "real": null,
+          "resultado": "sin_dato",
+          "detalle": "Menos de 6.5 amarillas · sin dato real"
         }
       ],
-      "n_patas": 2,
+      "n_patas": 3,
       "n_evaluables": 1,
       "n_acierto": 1,
       "completa": true,
@@ -17290,23 +17866,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6406,
-          "linea": 8.5,
+          "nombre": "Córners Más de 5.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7775,
+          "linea": 5.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 8.5 córners · sin dato real"
+          "detalle": "Más de 5.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U3.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.731,
-          "linea": 3.5,
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7335,
+          "linea": 1.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 3.5 amarillas · sin dato real"
+          "detalle": "Más de 1.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -17413,20 +17991,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.748,
           "linea": 11.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 11.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.7401,
           "linea": 4.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 4.5 amarillas · sin dato real"
@@ -17536,32 +18116,35 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7041,
-          "linea": 11.5,
+          "nombre": "Córners Menos de 12.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7972,
+          "linea": 12.5,
+          "side": "Menos de",
           "real": 13,
           "resultado": "fallo",
-          "detalle": "Menos de 11.5 córners · reales 13"
+          "detalle": "Menos de 12.5 córners · reales 13"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6781,
-          "linea": 4.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7309,
+          "linea": 2.5,
+          "side": "Más de",
           "real": 2,
-          "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 2"
+          "resultado": "fallo",
+          "detalle": "Más de 2.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 1,
+      "n_acierto": 0,
       "completa": false,
       "que_fallo": [
         "1X2 · Israel",
-        "Córners U11.5"
+        "Córners Menos de 12.5",
+        "Amarillas Más de 2.5"
       ]
     },
     "acierto": false
@@ -17660,20 +18243,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6887,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8066,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 7,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 7"
+          "detalle": "Más de 6.5 córners · reales 7"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 4.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.75,
           "linea": 4.5,
+          "side": "Menos de",
           "real": 7,
           "resultado": "fallo",
           "detalle": "Menos de 4.5 amarillas · reales 7"
@@ -17684,7 +18269,7 @@
       "n_acierto": 2,
       "completa": false,
       "que_fallo": [
-        "Amarillas U4.5"
+        "Amarillas Menos de 4.5"
       ]
     },
     "acierto": true
@@ -17783,23 +18368,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7167,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8137,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 10"
+          "detalle": "Menos de 11.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6961,
-          "linea": 4.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7006,
+          "linea": 2.5,
+          "side": "Más de",
           "real": 3,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 3"
+          "detalle": "Más de 2.5 amarillas · reales 3"
         }
       ],
       "n_patas": 3,
@@ -17904,20 +18491,22 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7429,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7655,
+          "linea": 6.5,
+          "side": "Más de",
           "real": 9,
           "resultado": "acierto",
-          "detalle": "Menos de 10.5 córners · reales 9"
+          "detalle": "Más de 6.5 córners · reales 9"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
           "prob": 0.694,
           "linea": 5.5,
+          "side": "Menos de",
           "real": 5,
           "resultado": "acierto",
           "detalle": "Menos de 5.5 amarillas · reales 5"
@@ -18027,23 +18616,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6791,
-          "linea": 10.5,
+          "nombre": "Córners Más de 6.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8114,
+          "linea": 6.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 10.5 córners · sin dato real"
+          "detalle": "Más de 6.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7168,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.817,
+          "linea": 2.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 5.5 amarillas · sin dato real"
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -18150,23 +18741,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U10.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6664,
-          "linea": 10.5,
+          "nombre": "Córners Menos de 11.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7662,
+          "linea": 11.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 10.5 córners · sin dato real"
+          "detalle": "Menos de 11.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6455,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7963,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -18271,16 +18864,28 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6672,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.777,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Menos de 10.5 córners · sin dato real"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7794,
+          "linea": 2.5,
+          "side": "Más de",
+          "real": null,
+          "resultado": "sin_dato",
+          "detalle": "Más de 2.5 amarillas · sin dato real"
         }
       ],
-      "n_patas": 2,
+      "n_patas": 3,
       "n_evaluables": 1,
       "n_acierto": 1,
       "completa": true,
@@ -18382,23 +18987,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U13.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6835,
-          "linea": 13.5,
+          "nombre": "Córners Menos de 14.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7723,
+          "linea": 14.5,
+          "side": "Menos de",
           "real": 10,
           "resultado": "acierto",
-          "detalle": "Menos de 13.5 córners · reales 10"
+          "detalle": "Menos de 14.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6311,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7851,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": 2,
           "resultado": "acierto",
-          "detalle": "Menos de 4.5 amarillas · reales 2"
+          "detalle": "Menos de 5.5 amarillas · reales 2"
         }
       ],
       "n_patas": 3,
@@ -18503,16 +19110,28 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7367,
-          "linea": 9.5,
+          "nombre": "Córners Más de 5.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7926,
+          "linea": 5.5,
+          "side": "Más de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 9.5 córners · sin dato real"
+          "detalle": "Más de 5.5 córners · sin dato real"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas Más de 1.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8166,
+          "linea": 1.5,
+          "side": "Más de",
+          "real": null,
+          "resultado": "sin_dato",
+          "detalle": "Más de 1.5 amarillas · sin dato real"
         }
       ],
-      "n_patas": 2,
+      "n_patas": 3,
       "n_evaluables": 1,
       "n_acierto": 0,
       "completa": false,
@@ -18616,33 +19235,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U7.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6349,
-          "linea": 7.5,
+          "nombre": "Córners Más de 4.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8025,
+          "linea": 4.5,
+          "side": "Más de",
           "real": 8,
-          "resultado": "fallo",
-          "detalle": "Menos de 7.5 córners · reales 8"
+          "resultado": "acierto",
+          "detalle": "Más de 4.5 córners · reales 8"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.674,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8121,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": 6,
-          "resultado": "fallo",
-          "detalle": "Menos de 5.5 amarillas · reales 6"
+          "resultado": "acierto",
+          "detalle": "Menos de 6.5 amarillas · reales 6"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 1,
-      "completa": false,
-      "que_fallo": [
-        "Córners U7.5",
-        "Amarillas U5.5"
-      ]
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -18740,32 +19358,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U9.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.6587,
-          "linea": 9.5,
+          "nombre": "Córners Menos de 10.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7696,
+          "linea": 10.5,
+          "side": "Menos de",
           "real": 10,
-          "resultado": "fallo",
-          "detalle": "Menos de 9.5 córners · reales 10"
+          "resultado": "acierto",
+          "detalle": "Menos de 10.5 córners · reales 10"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.7301,
-          "linea": 5.5,
+          "nombre": "Amarillas Más de 2.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8046,
+          "linea": 2.5,
+          "side": "Más de",
           "real": 3,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 3"
+          "detalle": "Más de 2.5 amarillas · reales 3"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
-      "completa": false,
-      "que_fallo": [
-        "Córners U9.5"
-      ]
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -18863,23 +19481,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U8.5",
-          "descripcion": "Mejor under córners",
+          "nombre": "Córners Menos de 8.5",
+          "descripcion": "Mejor línea córners",
           "prob": 0.7247,
           "linea": 8.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
           "detalle": "Menos de 8.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6518,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.8043,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
@@ -18986,32 +19606,32 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U11.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.739,
-          "linea": 11.5,
+          "nombre": "Córners Más de 7.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.7447,
+          "linea": 7.5,
+          "side": "Más de",
           "real": 17,
-          "resultado": "fallo",
-          "detalle": "Menos de 11.5 córners · reales 17"
+          "resultado": "acierto",
+          "detalle": "Más de 7.5 córners · reales 17"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U5.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.6447,
-          "linea": 5.5,
+          "nombre": "Amarillas Menos de 6.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7896,
+          "linea": 6.5,
+          "side": "Menos de",
           "real": 4,
           "resultado": "acierto",
-          "detalle": "Menos de 5.5 amarillas · reales 4"
+          "detalle": "Menos de 6.5 amarillas · reales 4"
         }
       ],
       "n_patas": 3,
       "n_evaluables": 3,
-      "n_acierto": 2,
-      "completa": false,
-      "que_fallo": [
-        "Córners U11.5"
-      ]
+      "n_acierto": 3,
+      "completa": true,
+      "que_fallo": []
     },
     "acierto": true
   },
@@ -19109,23 +19729,25 @@
         },
         {
           "tipo": "corners",
-          "nombre": "Córners U12.5",
-          "descripcion": "Mejor under córners",
-          "prob": 0.7254,
-          "linea": 12.5,
+          "nombre": "Córners Menos de 13.5",
+          "descripcion": "Mejor línea córners",
+          "prob": 0.8097,
+          "linea": 13.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 12.5 córners · sin dato real"
+          "detalle": "Menos de 13.5 córners · sin dato real"
         },
         {
           "tipo": "amarillas",
-          "nombre": "Amarillas U4.5",
-          "descripcion": "Mejor under amarillas",
-          "prob": 0.632,
-          "linea": 4.5,
+          "nombre": "Amarillas Menos de 5.5",
+          "descripcion": "Mejor línea amarillas",
+          "prob": 0.7881,
+          "linea": 5.5,
+          "side": "Menos de",
           "real": null,
           "resultado": "sin_dato",
-          "detalle": "Menos de 4.5 amarillas · sin dato real"
+          "detalle": "Menos de 5.5 amarillas · sin dato real"
         }
       ],
       "n_patas": 3,
