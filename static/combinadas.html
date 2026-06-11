@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Combinadas · Furbolazo IA</title>
+<style>
+  :root{ --bg:#0A0E1A; --card:#121829; --card2:#0E1422; --line:#1E2740;
+         --txt:#E6EAF2; --mut:#97A0B5; --pos:#00E5A0; --neg:#FF5470; --warn:#FFB020; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--txt);
+        font-family:'Space Grotesk',system-ui,Segoe UI,sans-serif; }
+  a{ color:inherit; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:24px 16px 120px; }
+  header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  h1{ font-size:24px; margin:0; }
+  .sub{ color:var(--mut); font-size:13px; margin:4px 0 24px; }
+  .back{ color:var(--mut); text-decoration:none; font-size:13px; }
+  .back:hover{ color:var(--txt); }
+  .grid{ display:grid; grid-template-columns:1fr; gap:16px; }
+  @media(min-width:760px){ .grid{ grid-template-columns:1fr 360px; align-items:start; } }
+  .match{ background:var(--card); border:1px solid var(--line); border-radius:16px;
+          padding:16px; margin-bottom:14px; }
+  .match h3{ margin:0 0 2px; font-size:16px; }
+  .match .meta{ color:var(--mut); font-size:11px; font-family:ui-monospace,monospace;
+                text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; }
+  .legrow{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .legcat{ font-size:10px; color:var(--mut); text-transform:uppercase; letter-spacing:.1em;
+           width:100%; margin:6px 0 2px; }
+  .leg{ background:var(--card2); border:1px solid var(--line); color:var(--txt);
+        border-radius:10px; padding:7px 10px; font-size:12.5px; cursor:pointer;
+        display:flex; align-items:center; gap:8px; font-family:inherit; transition:.12s; }
+  .leg:hover{ border-color:var(--pos); }
+  .leg.on{ background:rgba(0,229,160,.14); border-color:var(--pos); }
+  .leg .p{ font-family:ui-monospace,monospace; color:var(--pos); font-weight:700; }
+  /* boleto */
+  .boleto{ background:var(--card); border:1px solid var(--line); border-radius:16px;
+           padding:16px; position:sticky; top:16px; }
+  .boleto h2{ font-size:14px; margin:0 0 12px; text-transform:uppercase; letter-spacing:.1em; }
+  .bleg{ display:flex; justify-content:space-between; gap:8px; padding:8px 0;
+         border-bottom:1px solid var(--line); font-size:13px; }
+  .bleg small{ color:var(--mut); display:block; font-size:10.5px; font-family:ui-monospace,monospace; }
+  .bleg .x{ color:var(--neg); cursor:pointer; font-weight:700; padding:0 4px; }
+  .empty{ color:var(--mut); font-size:13px; text-align:center; padding:20px 0; }
+  .big{ text-align:center; padding:14px 0 6px; }
+  .big .pct{ font-size:46px; font-weight:700; color:var(--pos); line-height:1; font-family:ui-monospace,monospace; }
+  .big .lbl{ color:var(--mut); font-size:11px; text-transform:uppercase; letter-spacing:.12em; }
+  .odds{ display:flex; justify-content:space-around; margin:10px 0; text-align:center; }
+  .odds .v{ font-size:20px; font-weight:700; font-family:ui-monospace,monospace; }
+  .odds .k{ color:var(--mut); font-size:10px; text-transform:uppercase; letter-spacing:.1em; }
+  .ev{ border-radius:10px; padding:10px; text-align:center; font-size:13px; margin-top:8px; }
+  .ev.good{ background:rgba(0,229,160,.14); color:var(--pos); border:1px solid var(--pos); }
+  .ev.bad{ background:rgba(255,84,112,.12); color:var(--neg); border:1px solid var(--neg); }
+  .myodds{ display:flex; gap:8px; align-items:center; margin-top:12px; }
+  .myodds input{ flex:1; background:var(--card2); border:1px solid var(--line); color:var(--txt);
+                 border-radius:8px; padding:8px; font-family:ui-monospace,monospace; }
+  .note{ color:var(--mut); font-size:11px; margin-top:12px; line-height:1.5; }
+  .clear{ background:none; border:1px solid var(--line); color:var(--mut); border-radius:8px;
+          padding:6px 10px; font-size:11px; cursor:pointer; font-family:inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>🎰 Arma tu combinada</h1>
+      <div class="sub">Elegí tus picks y el modelo calcula la probabilidad real — con correlación entre patas del mismo partido.</div>
+    </div>
+    <a class="back" href="/">← Volver</a>
+  </header>
+
+  <div class="grid">
+    <div id="matches"><div class="empty">Cargando partidos…</div></div>
+
+    <div class="boleto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h2 style="margin:0">Tu boleto</h2>
+        <button class="clear" id="clear">Vaciar</button>
+      </div>
+      <div id="blegs"><div class="empty">Tocá los mercados de la izquierda para agregar patas.</div></div>
+      <div id="result" style="display:none">
+        <div class="big">
+          <div class="pct" id="r-pct">—</div>
+          <div class="lbl">Probabilidad de la combinada</div>
+        </div>
+        <div class="odds">
+          <div><div class="v" id="r-cuota">—</div><div class="k">Cuota justa</div></div>
+          <div><div class="v" id="r-patas">—</div><div class="k">Patas</div></div>
+        </div>
+        <div class="myodds">
+          <input id="myodds" type="number" step="0.01" placeholder="Cuota de tu casa (ej. 5.00)">
+        </div>
+        <div id="ev" class="ev" style="display:none"></div>
+      </div>
+      <div class="note">El % combina cada partido por separado (independientes) y captura la
+        correlación entre patas del mismo partido vía simulación Monte Carlo. Es una estimación
+        del modelo, no una garantía.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '';                       // mismo host
+const fmtPct = p => (p*100).toFixed(1) + '%';
+let MATCHES = [];                     // [{key, e1, e2, params, legs:[...]}]
+let CART = [];                        // [{key, tipo, sel, line, etiqueta, prob}]
+
+function num(v, d){ return (typeof v === 'number' && !isNaN(v)) ? v : d; }
+
+// Construye el catálogo de patas de un partido a partir de su predicción.
+function buildLegs(m){
+  const mk = m.mercados || {};
+  const e1 = m.equipo1, e2 = m.equipo2;
+  const n1 = e1.split(' ')[0], n2 = e2.split(' ')[0];
+  const w = num(m.prob_win,0), d = num(m.prob_draw,0), l = num(m.prob_loss,0);
+  const wl = w + l;
+  const legs = [];
+
+  // 1X2
+  legs.push({cat:'Resultado', tipo:'1x2', sel:'local',     etiqueta:`Gana ${n1}`,   prob:w});
+  legs.push({cat:'Resultado', tipo:'1x2', sel:'empate',    etiqueta:`Empate`,        prob:d});
+  legs.push({cat:'Resultado', tipo:'1x2', sel:'visitante', etiqueta:`Gana ${n2}`,   prob:l});
+  // Doble oportunidad
+  legs.push({cat:'Doble oportunidad', tipo:'doble', sel:'1X', etiqueta:`${n1} o empate`, prob:w+d});
+  legs.push({cat:'Doble oportunidad', tipo:'doble', sel:'12', etiqueta:`${n1} o ${n2}`,  prob:w+l});
+  legs.push({cat:'Doble oportunidad', tipo:'doble', sel:'X2', etiqueta:`Empate o ${n2}`, prob:d+l});
+  // Sin empate (DNB)
+  if(wl>0){
+    legs.push({cat:'Sin empate (DNB)', tipo:'dnb', sel:'local',     etiqueta:`Sin empate · ${n1}`, prob:w/wl});
+    legs.push({cat:'Sin empate (DNB)', tipo:'dnb', sel:'visitante', etiqueta:`Sin empate · ${n2}`, prob:l/wl});
+  }
+  // BTTS
+  const btts = mk.btts || {};
+  legs.push({cat:'Ambos marcan', tipo:'btts', sel:'si', etiqueta:'Ambos marcan: SÍ', prob:num(btts.si,0)});
+  legs.push({cat:'Ambos marcan', tipo:'btts', sel:'no', etiqueta:'Ambos marcan: NO', prob:num(btts.no,0)});
+  // Total goles
+  const tg = mk.total_goles || {};
+  [1.5,2.5,3.5].forEach(ln=>{
+    const o = num(tg['over_'+String(ln).replace('.','_')],null);
+    if(o!=null){
+      legs.push({cat:'Total goles', tipo:'over_goles',  line:ln, etiqueta:`Más de ${ln} goles`,  prob:o});
+      legs.push({cat:'Total goles', tipo:'under_goles', line:ln, etiqueta:`Menos de ${ln} goles`, prob:1-o});
+    }
+  });
+  // Córners (líneas alrededor del esperado)
+  const cesp = num((mk.corners||{}).esperado, 9);
+  [Math.round(cesp)-1.5, Math.round(cesp)+0.5].forEach(ln=>{
+    legs.push({cat:'Córners', tipo:'over_corners',  line:ln, etiqueta:`Más de ${ln} córners`,  prob:overFromDist(mk.corners, ln)});
+    legs.push({cat:'Córners', tipo:'under_corners', line:ln, etiqueta:`Menos de ${ln} córners`, prob:1-overFromDist(mk.corners, ln)});
+  });
+  // Amarillas
+  const aesp = num((mk.amarillas||{}).esperado, 4);
+  [Math.round(aesp)-0.5, Math.round(aesp)+1.5].forEach(ln=>{
+    legs.push({cat:'Amarillas', tipo:'over_amarillas',  line:ln, etiqueta:`Más de ${ln} amarillas`,  prob:overFromDist(mk.amarillas, ln)});
+    legs.push({cat:'Amarillas', tipo:'under_amarillas', line:ln, etiqueta:`Menos de ${ln} amarillas`, prob:1-overFromDist(mk.amarillas, ln)});
+  });
+  return legs.filter(x=>x.prob>0.02 && x.prob<0.98);
+}
+
+// Probabilidad Over X.5 desde la distribución _distribution_summary (over_k_5).
+function overFromDist(dist, line){
+  if(!dist) return 0;
+  const k = Math.floor(line);
+  const key = 'over_'+k+'_5';
+  if(typeof dist[key]==='number') return dist[key];
+  // fallback: aproximar con esperado
+  return 0.5;
+}
+
+function paramsOf(m){
+  const mk = m.mercados || {};
+  return {
+    g1_exp: num((mk.goles_e1||{}).xg, num(m.prob_win,1.2)*2),
+    g2_exp: num((mk.goles_e2||{}).xg, num(m.prob_loss,1.0)*2),
+    corners_e1: num((mk.corners_e1||{}).esperado, 4.8),
+    corners_e2: num((mk.corners_e2||{}).esperado, 4.6),
+    amarillas_e1: num((mk.amarillas_e1||{}).esperado, 1.9),
+    amarillas_e2: num((mk.amarillas_e2||{}).esperado, 1.9),
+  };
+}
+
+function renderMatches(){
+  const cont = document.getElementById('matches');
+  if(!MATCHES.length){ cont.innerHTML = '<div class="empty">No hay partidos con predicción disponibles. Pedile al admin que cargue partidos del día.</div>'; return; }
+  cont.innerHTML = MATCHES.map((m,i)=>{
+    const cats = {};
+    m.legs.forEach((leg,j)=>{ (cats[leg.cat]=cats[leg.cat]||[]).push({leg,j}); });
+    const blocks = Object.entries(cats).map(([cat,arr])=>`
+      <div class="legcat">${cat}</div>
+      <div class="legrow">${arr.map(({leg,j})=>{
+        const on = CART.some(c=>c.key===m.key && c.tipo===leg.tipo && c.sel===leg.sel && c.line===leg.line);
+        return `<button class="leg ${on?'on':''}" data-m="${i}" data-j="${j}">
+          ${leg.etiqueta} <span class="p">${fmtPct(leg.prob)}</span></button>`;
+      }).join('')}</div>`).join('');
+    return `<div class="match">
+      <h3>${m.e1} <span style="color:var(--mut)">vs</span> ${m.e2}</h3>
+      <div class="meta">${m.fase||''} ${m.hora?'· '+m.hora:''}</div>
+      ${blocks}</div>`;
+  }).join('');
+  cont.querySelectorAll('.leg').forEach(b=>b.onclick=()=>{
+    const m = MATCHES[+b.dataset.m], leg = m.legs[+b.dataset.j];
+    toggleLeg(m, leg);
+  });
+}
+
+function toggleLeg(m, leg){
+  const idx = CART.findIndex(c=>c.key===m.key && c.tipo===leg.tipo && c.sel===leg.sel && c.line===leg.line);
+  if(idx>=0) CART.splice(idx,1);
+  else CART.push({key:m.key, nombre:`${m.e1} vs ${m.e2}`, tipo:leg.tipo, sel:leg.sel, line:leg.line, etiqueta:leg.etiqueta, prob:leg.prob});
+  renderMatches(); renderCart(); calc();
+}
+
+function renderCart(){
+  const box = document.getElementById('blegs');
+  const res = document.getElementById('result');
+  if(!CART.length){ box.innerHTML='<div class="empty">Tocá los mercados de la izquierda para agregar patas.</div>'; res.style.display='none'; return; }
+  box.innerHTML = CART.map((c,i)=>`
+    <div class="bleg">
+      <div>${c.etiqueta}<small>${c.nombre}</small></div>
+      <div style="white-space:nowrap"><span class="p" style="font-family:ui-monospace;color:var(--pos)">${fmtPct(c.prob)}</span>
+      <span class="x" data-i="${i}">✕</span></div>
+    </div>`).join('');
+  box.querySelectorAll('.x').forEach(x=>x.onclick=()=>{ CART.splice(+x.dataset.i,1); renderMatches(); renderCart(); calc(); });
+  res.style.display='block';
+}
+
+async function calc(){
+  if(!CART.length) return;
+  // agrupar por partido
+  const byMatch = {};
+  CART.forEach(c=>{
+    const m = MATCHES.find(x=>x.key===c.key);
+    if(!byMatch[c.key]) byMatch[c.key] = {nombre:c.nombre, params:m.params, legs:[]};
+    byMatch[c.key].legs.push({tipo:c.tipo, sel:c.sel, line:c.line, etiqueta:c.etiqueta});
+  });
+  const payload = {partidos:Object.values(byMatch)};
+  try{
+    const r = await fetch(API+'/api/combinada',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const d = await r.json();
+    document.getElementById('r-pct').textContent = d.porcentaje + '%';
+    document.getElementById('r-cuota').textContent = d.cuota_justa ?? '—';
+    document.getElementById('r-patas').textContent = d.n_patas;
+    window._lastProb = d.prob;
+    evalEV();
+  }catch(e){ document.getElementById('r-pct').textContent = 'err'; }
+}
+
+function evalEV(){
+  const box = document.getElementById('ev');
+  const my = parseFloat(document.getElementById('myodds').value);
+  const p = window._lastProb;
+  if(!my || !p){ box.style.display='none'; return; }
+  const ev = my*p - 1;          // valor esperado por unidad apostada
+  box.style.display='block';
+  if(ev>0){ box.className='ev good'; box.innerHTML=`✅ Valor positivo · EV ${(ev*100).toFixed(1)}% — tu cuota ${my.toFixed(2)} paga más que la justa (${(1/p).toFixed(2)})`; }
+  else    { box.className='ev bad';  box.innerHTML=`⚠️ Sin valor · EV ${(ev*100).toFixed(1)}% — tu cuota ${my.toFixed(2)} es menor que la justa (${(1/p).toFixed(2)})`; }
+}
+
+document.getElementById('myodds').addEventListener('input', evalEV);
+document.getElementById('clear').onclick = ()=>{ CART=[]; renderMatches(); renderCart(); };
+
+async function load(){
+  let items = [];
+  try{
+    const ph = await (await fetch(API+'/api/partidos-hoy')).json();
+    items = Array.isArray(ph) ? ph : (ph.partidos||[]);
+  }catch(e){}
+  try{
+    const fp = await (await fetch(API+'/api/featured-pick')).json();
+    if(fp && fp.equipo1) items = [fp, ...items];
+  }catch(e){}
+  // dedup por equipos
+  const seen = new Set();
+  MATCHES = items.filter(m=>m && m.equipo1 && m.equipo2).filter(m=>{
+    const k = m.equipo1+'|'+m.equipo2; if(seen.has(k)) return false; seen.add(k); return true;
+  }).map((m,i)=>({
+    key:'m'+i, e1:m.equipo1, e2:m.equipo2, fase:m.fase, hora:m.hora,
+    mercados:m.mercados, prob_win:m.prob_win, prob_draw:m.prob_draw, prob_loss:m.prob_loss,
+    params: paramsOf(m), legs: buildLegs(m),
+  })).filter(m=>m.legs.length);
+  renderMatches();
+}
+load();
+</script>
+</body>
+</html>

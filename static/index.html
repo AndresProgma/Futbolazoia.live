@@ -879,6 +879,26 @@
             <h4 class="font-mono text-[11px] tracking-widest uppercase mb-4 valor-section-title">Apuestas recomendadas</h4>
             <div id="pk-valores" class="flex flex-col gap-3"></div>
 
+            <!-- Desplegable: más mercados (córners, amarillas, goles, BTTS...) -->
+            <div id="pk-mas-wrap" class="hidden mt-3">
+              <button id="pk-mas-btn" type="button"
+                class="w-full flex items-center justify-center gap-2 font-semibold text-[13px] py-3 px-4 rounded-lg transition-all"
+                style="background:linear-gradient(135deg,rgba(0,229,160,.10),#131826);border:1px solid rgba(0,229,160,.30);color:var(--pos)"
+                onmouseover="this.style.background='linear-gradient(135deg,rgba(0,229,160,.18),#161c2c)'"
+                onmouseout="this.style.background='linear-gradient(135deg,rgba(0,229,160,.10),#131826)'">
+                <span>Ver más mercados</span>
+                <span id="pk-mas-chev" style="transition:transform .2s">▾</span>
+              </button>
+              <div id="pk-mas" class="hidden flex-col gap-3 pt-2"></div>
+            </div>
+
+            <!-- Contexto del partido (forma/estilo/H2H + resultados recientes API) -->
+            <div id="pk-contexto-wrap" class="hidden mt-5">
+              <span class="font-mono text-[9px] uppercase tracking-widest block mb-2" style="color:#5A6478">Contexto del partido</span>
+              <div id="pk-contexto" class="space-y-1.5 rounded-lg p-3 text-[12.5px] leading-relaxed"
+                   style="background:rgba(255,255,255,.02);border:1px solid var(--lb);color:#C2C9D6"></div>
+            </div>
+
             <!-- Carta de 10 stats con toggle Total/E1/E2 -->
             <div id="pk-stats-wrap" class="hidden mt-5">
               <div class="flex items-center justify-between mb-2">
@@ -1165,7 +1185,7 @@
      servicio independiente. Cuando la despliegues, pon aqui su URL UNA sola
      vez y se aplica a todos los botones "Combinadas" de la pagina. -->
 <script>
-  const COMBINADAS_URL = "https://agregacion-furbolazoia.onrender.com"; // servicio aparte (repo agregacion-furbolazoia)
+  const COMBINADAS_URL = "/combinadas"; // calculador in-house: usa /api/combinada (modelo + correlación Monte Carlo)
   document.querySelectorAll('a[href="COMBINADAS_URL"]').forEach(a => { a.href = COMBINADAS_URL; });
 </script>
 <script src="/static/js/api.js"></script>
@@ -1386,31 +1406,119 @@ function _pickLinea(dist, lo = 0.62, hi = 0.82) {
 }
 
 function autoValores(mercados, consenso, e1, e2) {
-  if (!mercados) return [];
   const items = [];
 
-  // 1. Resultado más probable
+  // Orden de prioridad basado en el backtest de rentabilidad (ml/analisis_mercados.py):
+  //   Doble Oportunidad (78.7% acc, edge +1.1) y Apuesta sin empate (74%, edge +3.1)
+  //   SUPERAN a córners (edge −4.1) y amarillas (edge −2.4). Por eso van primero.
   if (consenso) {
+    const w = consenso.win || 0, d = consenso.draw || 0, l = consenso.loss || 0;
+    const n1 = e1.split(' ')[0], n2 = e2.split(' ')[0];
+
+    // 1. Resultado más probable (1X2)
     let label, desc, pct;
-    if (consenso.win >= consenso.draw && consenso.win >= consenso.loss) {
-      label = `1X2 · ${e1}`; desc = 'Victoria local'; pct = Math.round(consenso.win * 100);
-    } else if (consenso.loss >= consenso.win && consenso.loss >= consenso.draw) {
-      label = `1X2 · ${e2}`; desc = 'Victoria visitante'; pct = Math.round(consenso.loss * 100);
-    } else {
-      label = '1X2 · Empate'; desc = 'Partido igualado'; pct = Math.round(consenso.draw * 100);
+    if (w >= d && w >= l)      { label = `1X2 · ${e1}`; desc = 'Victoria ' + n1; pct = Math.round(w * 100); }
+    else if (l >= w && l >= d) { label = `1X2 · ${e2}`; desc = 'Victoria ' + n2; pct = Math.round(l * 100); }
+    else                       { label = '1X2 · Empate'; desc = 'Partido igualado'; pct = Math.round(d * 100); }
+    items.push({ nombre: label, descripcion: desc, porcentaje: pct, edge: '★' });
+
+    // 2. Doble oportunidad — el doble más probable (mercado nº1 en rentabilidad)
+    const dobles = [
+      { k: `Doble · ${n1} o empate`, p: w + d },
+      { k: `Doble · ${n1} o ${n2}`,  p: w + l },
+      { k: `Doble · empate o ${n2}`, p: d + l },
+    ].sort((a, b) => b.p - a.p)[0];
+    if (dobles && dobles.p < 0.93) // si es casi seguro no aporta valor
+      items.push({ nombre: dobles.k, descripcion: 'Doble oportunidad', porcentaje: Math.round(dobles.p * 100), edge: '★' });
+
+    // 3. Apuesta sin empate (DNB) — mejor edge de los mercados mainstream
+    const wl = w + l;
+    if (wl > 0) {
+      const dnbW = w / wl, dnbL = l / wl;
+      const best = dnbW >= dnbL
+        ? { k: `Sin empate · ${n1}`, p: dnbW }
+        : { k: `Sin empate · ${n2}`, p: dnbL };
+      items.push({ nombre: best.k, descripcion: 'Apuesta sin empate (DNB)', porcentaje: Math.round(best.p * 100), edge: '★' });
     }
-    items.push({ nombre: label, descripcion: desc, porcentaje: pct });
   }
 
-  // 2. Mejor línea córners (Más de / Menos de)
-  const cu = _pickLinea(mercados.corners);
-  if (cu) items.push({ nombre: `Córners ${cu.side} ${cu.line}`, descripcion: 'Mejor línea córners', porcentaje: Math.round(cu.prob * 100) });
-
-  // 3. Mejor línea amarillas (Más de / Menos de)
-  const au = _pickLinea(mercados.amarillas);
-  if (au) items.push({ nombre: `Amarillas ${au.side} ${au.line}`, descripcion: 'Mejor línea amarillas', porcentaje: Math.round(au.prob * 100) });
+  // 4-5. Córners / amarillas (secundarios: acertables pero edge negativo en el backtest)
+  if (mercados) {
+    const cu = _pickLinea(mercados.corners);
+    if (cu) items.push({ nombre: `Córners ${cu.side} ${cu.line}`, descripcion: 'Mejor línea córners', porcentaje: Math.round(cu.prob * 100) });
+    const au = _pickLinea(mercados.amarillas);
+    if (au) items.push({ nombre: `Amarillas ${au.side} ${au.line}`, descripcion: 'Mejor línea amarillas', porcentaje: Math.round(au.prob * 100) });
+  }
 
   return items;
+}
+
+function renderMasMercados(pick, extra) {
+  const wrap = document.getElementById('pk-mas-wrap');
+  const box  = document.getElementById('pk-mas');
+  const m = pick.mercados;
+  if (!wrap || !box) return;
+
+  const items = [];
+  if (m) {
+    const tg = _pickLinea(m.total_goles, 0.55, 0.92);
+    if (tg) items.push({ n: `Total goles ${tg.side} ${tg.line}`, d: 'Mejor línea goles', p: Math.round(tg.prob * 100) });
+    if (m.btts && typeof m.btts.si === 'number') {
+      const si = m.btts.si >= 0.5;
+      items.push({ n: `Ambos marcan: ${si ? 'Sí' : 'No'}`, d: 'Ambos equipos', p: Math.round((si ? m.btts.si : m.btts.no) * 100) });
+    }
+    const cu = _pickLinea(m.corners);
+    if (cu) items.push({ n: `Córners ${cu.side} ${cu.line}`, d: 'Mejor línea córners', p: Math.round(cu.prob * 100) });
+    const au = _pickLinea(m.amarillas);
+    if (au) items.push({ n: `Amarillas ${au.side} ${au.line}`, d: 'Mejor línea amarillas', p: Math.round(au.prob * 100) });
+  }
+  // sumar lo que sobró de las recomendadas (por si no estaba en mercados)
+  (extra || []).forEach(v => {
+    if (!items.some(it => it.n === v.nombre)) items.push({ n: v.nombre, d: v.descripcion || '', p: v.porcentaje });
+  });
+
+  if (!items.length) { wrap.classList.add('hidden'); return; }
+  wrap.classList.remove('hidden');
+  box.innerHTML = items.map(it => `
+    <div class="valor-row">
+      <div>
+        <div class="text-[14px] font-medium">${it.n}</div>
+        ${it.d ? `<div class="font-mono text-[10px] text-[#97A0B5] mt-0.5">${it.d}</div>` : ''}
+      </div>
+      <div class="pct font-mono text-[22px] font-bold tracking-tight">${it.p}%</div>
+    </div>`).join('');
+}
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('#pk-mas-btn');
+  if (!btn) return;
+  const box = document.getElementById('pk-mas');
+  const chev = document.getElementById('pk-mas-chev');
+  const open = !box.classList.contains('hidden');
+  box.classList.toggle('hidden', open);
+  box.classList.toggle('flex', !open);
+  if (chev) chev.style.transform = open ? '' : 'rotate(180deg)';
+});
+
+async function cargarContexto(pick) {
+  const wrap = document.getElementById('pk-contexto-wrap');
+  const box  = document.getElementById('pk-contexto');
+  if (!wrap || !box || !pick.equipo1) return;
+  wrap.classList.add('hidden');
+  try {
+    const r = await fetch(`/api/contexto?e1=${encodeURIComponent(pick.equipo1)}&e2=${encodeURIComponent(pick.equipo2)}`);
+    if (!r.ok) return;
+    const d = await r.json();
+    const lineas = [...(d.contexto || []), ...(d.contexto_api || [])];
+    if (!lineas.length) return;
+    box.innerHTML = lineas.map(l => {
+      return l.endsWith(':')   // "Últimos de X:" → subtítulo
+        ? `<div class="font-mono text-[9px] uppercase tracking-widest mt-2" style="color:#5A6478">${l}</div>`
+        : `<div>${l}</div>`;
+    }).join('');
+    if (d.fuente_api) box.innerHTML += `<div class="text-[10px] mt-1" style="color:#5A6478">Fuente actual: ${d.fuente_api}</div>`;
+    wrap.classList.remove('hidden');
+  } catch (e) { /* best-effort */ }
 }
 
 function renderFeaturedPick(pick) {
@@ -1452,6 +1560,7 @@ function renderFeaturedPick(pick) {
 
   _cargarCuotasReales(pick);
   renderStatsCard(pick);
+  cargarContexto(pick);
 
   const bar = document.getElementById('pk-wdl-bar');
   bar.innerHTML = `
@@ -1478,6 +1587,8 @@ function renderFeaturedPick(pick) {
         <div class="pct font-mono text-[22px] font-bold tracking-tight text-[#5A6478]">&#x2014;</div>
       </div>`).join('');
   }
+
+  renderMasMercados(pick, valores.slice(3));
 
   // Modelos + marcador consenso
   const modelos = pick.modelos || [];

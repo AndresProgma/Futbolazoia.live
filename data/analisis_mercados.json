@@ -1,0 +1,342 @@
+[
+  {
+    "mercado": "Doble oportunidad",
+    "n": 2038,
+    "acc": 0.7866,
+    "acc_conf": 0.7866,
+    "cov_conf": 1.0,
+    "break_even": 0.7754,
+    "edge": 0.0111,
+    "n_conf": 2038
+  },
+  {
+    "mercado": "Paradas portero O/U 7.5",
+    "n": 1816,
+    "acc": 0.7775,
+    "acc_conf": 0.7841,
+    "cov_conf": 0.969,
+    "break_even": 0.8025,
+    "edge": -0.0184,
+    "n_conf": 1760
+  },
+  {
+    "mercado": "Faltas O/U 20.5",
+    "n": 1818,
+    "acc": 0.7613,
+    "acc_conf": 0.7624,
+    "cov_conf": 0.991,
+    "break_even": 0.8589,
+    "edge": -0.0966,
+    "n_conf": 1801
+  },
+  {
+    "mercado": "Tarjetas O/U 2.5",
+    "n": 1856,
+    "acc": 0.7446,
+    "acc_conf": 0.7579,
+    "cov_conf": 0.957,
+    "break_even": 0.7817,
+    "edge": -0.0238,
+    "n_conf": 1776
+  },
+  {
+    "mercado": "Fueras de juego O/U 4.5",
+    "n": 1741,
+    "acc": 0.7392,
+    "acc_conf": 0.7557,
+    "cov_conf": 0.832,
+    "break_even": 0.7102,
+    "edge": 0.0455,
+    "n_conf": 1449
+  },
+  {
+    "mercado": "Disparos O/U 19.5",
+    "n": 1846,
+    "acc": 0.7286,
+    "acc_conf": 0.75,
+    "cov_conf": 0.869,
+    "break_even": 0.7502,
+    "edge": -0.0002,
+    "n_conf": 1604
+  },
+  {
+    "mercado": "Tarjetas O/U 5.5",
+    "n": 1856,
+    "acc": 0.7398,
+    "acc_conf": 0.7483,
+    "cov_conf": 0.953,
+    "break_even": 0.7655,
+    "edge": -0.0172,
+    "n_conf": 1768
+  },
+  {
+    "mercado": "Apuesta sin empate (DNB)",
+    "n": 1567,
+    "acc": 0.6956,
+    "acc_conf": 0.7404,
+    "cov_conf": 0.718,
+    "break_even": 0.709,
+    "edge": 0.0315,
+    "n_conf": 1125
+  },
+  {
+    "mercado": "Total goles O/U 1.5",
+    "n": 2038,
+    "acc": 0.7272,
+    "acc_conf": 0.7362,
+    "cov_conf": 0.941,
+    "break_even": 0.7382,
+    "edge": -0.002,
+    "n_conf": 1918
+  },
+  {
+    "mercado": "Faltas O/U 26.5",
+    "n": 1818,
+    "acc": 0.6678,
+    "acc_conf": 0.7129,
+    "cov_conf": 0.694,
+    "break_even": 0.6994,
+    "edge": 0.0136,
+    "n_conf": 1261
+  },
+  {
+    "mercado": "Total goles O/U 3.5",
+    "n": 2038,
+    "acc": 0.6879,
+    "acc_conf": 0.6984,
+    "cov_conf": 0.932,
+    "break_even": 0.7466,
+    "edge": -0.0482,
+    "n_conf": 1900
+  },
+  {
+    "mercado": "Tiros a puerta O/U 6.5",
+    "n": 1846,
+    "acc": 0.6766,
+    "acc_conf": 0.6911,
+    "cov_conf": 0.894,
+    "break_even": 0.7119,
+    "edge": -0.0208,
+    "n_conf": 1651
+  },
+  {
+    "mercado": "Córners O/U 10.5",
+    "n": 1920,
+    "acc": 0.6708,
+    "acc_conf": 0.6823,
+    "cov_conf": 0.902,
+    "break_even": 0.7228,
+    "edge": -0.0406,
+    "n_conf": 1731
+  },
+  {
+    "mercado": "1X2 (resultado final)",
+    "n": 2038,
+    "acc": 0.5358,
+    "acc_conf": 0.6796,
+    "cov_conf": 0.178,
+    "break_even": 0.66,
+    "edge": 0.0196,
+    "n_conf": 362
+  },
+  {
+    "mercado": "Paradas portero O/U 6.5",
+    "n": 1816,
+    "acc": 0.6657,
+    "acc_conf": 0.6781,
+    "cov_conf": 0.864,
+    "break_even": 0.7064,
+    "edge": -0.0282,
+    "n_conf": 1569
+  },
+  {
+    "mercado": "Tiros a puerta O/U 9.5",
+    "n": 1846,
+    "acc": 0.6598,
+    "acc_conf": 0.6779,
+    "cov_conf": 0.9,
+    "break_even": 0.7327,
+    "edge": -0.0548,
+    "n_conf": 1661
+  },
+  {
+    "mercado": "Fueras de juego O/U 2.5",
+    "n": 1741,
+    "acc": 0.6617,
+    "acc_conf": 0.6726,
+    "cov_conf": 0.909,
+    "break_even": 0.7365,
+    "edge": -0.064,
+    "n_conf": 1582
+  },
+  {
+    "mercado": "Faltas O/U 22.5",
+    "n": 1818,
+    "acc": 0.6551,
+    "acc_conf": 0.6716,
+    "cov_conf": 0.893,
+    "break_even": 0.7849,
+    "edge": -0.1133,
+    "n_conf": 1623
+  },
+  {
+    "mercado": "Faltas O/U 24.5",
+    "n": 1818,
+    "acc": 0.626,
+    "acc_conf": 0.6649,
+    "cov_conf": 0.735,
+    "break_even": 0.7216,
+    "edge": -0.0567,
+    "n_conf": 1337
+  },
+  {
+    "mercado": "Disparos O/U 25.5",
+    "n": 1846,
+    "acc": 0.6501,
+    "acc_conf": 0.6605,
+    "cov_conf": 0.911,
+    "break_even": 0.779,
+    "edge": -0.1185,
+    "n_conf": 1682
+  },
+  {
+    "mercado": "Tarjetas O/U 4.5",
+    "n": 1856,
+    "acc": 0.5932,
+    "acc_conf": 0.6471,
+    "cov_conf": 0.615,
+    "break_even": 0.6795,
+    "edge": -0.0324,
+    "n_conf": 1142
+  },
+  {
+    "mercado": "Tarjetas O/U 3.5",
+    "n": 1856,
+    "acc": 0.6067,
+    "acc_conf": 0.6381,
+    "cov_conf": 0.659,
+    "break_even": 0.6677,
+    "edge": -0.0296,
+    "n_conf": 1224
+  },
+  {
+    "mercado": "Disparos O/U 21.5",
+    "n": 1846,
+    "acc": 0.6024,
+    "acc_conf": 0.634,
+    "cov_conf": 0.669,
+    "break_even": 0.6983,
+    "edge": -0.0643,
+    "n_conf": 1235
+  },
+  {
+    "mercado": "Córners O/U 7.5",
+    "n": 1920,
+    "acc": 0.6219,
+    "acc_conf": 0.6317,
+    "cov_conf": 0.86,
+    "break_even": 0.701,
+    "edge": -0.0693,
+    "n_conf": 1651
+  },
+  {
+    "mercado": "Tiros a puerta O/U 7.5",
+    "n": 1846,
+    "acc": 0.5775,
+    "acc_conf": 0.6236,
+    "cov_conf": 0.528,
+    "break_even": 0.6645,
+    "edge": -0.041,
+    "n_conf": 975
+  },
+  {
+    "mercado": "Total goles O/U 2.5",
+    "n": 2038,
+    "acc": 0.5731,
+    "acc_conf": 0.604,
+    "cov_conf": 0.486,
+    "break_even": 0.6555,
+    "edge": -0.0515,
+    "n_conf": 990
+  },
+  {
+    "mercado": "Córners O/U 9.5",
+    "n": 1920,
+    "acc": 0.575,
+    "acc_conf": 0.6024,
+    "cov_conf": 0.603,
+    "break_even": 0.6659,
+    "edge": -0.0635,
+    "n_conf": 1157
+  },
+  {
+    "mercado": "Gana por 2+ goles",
+    "n": 2038,
+    "acc": 0.5888,
+    "acc_conf": 0.6011,
+    "cov_conf": 0.868,
+    "break_even": 0.6645,
+    "edge": -0.0634,
+    "n_conf": 1770
+  },
+  {
+    "mercado": "Tiros a puerta O/U 8.5",
+    "n": 1846,
+    "acc": 0.5823,
+    "acc_conf": 0.6011,
+    "cov_conf": 0.598,
+    "break_even": 0.6758,
+    "edge": -0.0747,
+    "n_conf": 1103
+  },
+  {
+    "mercado": "Disparos O/U 23.5",
+    "n": 1846,
+    "acc": 0.5585,
+    "acc_conf": 0.5851,
+    "cov_conf": 0.684,
+    "break_even": 0.7191,
+    "edge": -0.134,
+    "n_conf": 1263
+  },
+  {
+    "mercado": "Fueras de juego O/U 3.5",
+    "n": 1741,
+    "acc": 0.556,
+    "acc_conf": 0.5823,
+    "cov_conf": 0.527,
+    "break_even": 0.6571,
+    "edge": -0.0747,
+    "n_conf": 917
+  },
+  {
+    "mercado": "Ambos marcan (BTTS)",
+    "n": 2038,
+    "acc": 0.5432,
+    "acc_conf": 0.5808,
+    "cov_conf": 0.383,
+    "break_even": 0.6457,
+    "edge": -0.0649,
+    "n_conf": 780
+  },
+  {
+    "mercado": "Paradas portero O/U 5.5",
+    "n": 1816,
+    "acc": 0.5611,
+    "acc_conf": 0.5781,
+    "cov_conf": 0.472,
+    "break_even": 0.654,
+    "edge": -0.0759,
+    "n_conf": 858
+  },
+  {
+    "mercado": "Córners O/U 8.5",
+    "n": 1920,
+    "acc": 0.5427,
+    "acc_conf": 0.5655,
+    "cov_conf": 0.493,
+    "break_even": 0.6552,
+    "edge": -0.0897,
+    "n_conf": 946
+  }
+]

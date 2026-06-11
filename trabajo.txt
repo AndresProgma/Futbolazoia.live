@@ -1,0 +1,10 @@
+quiero que hagas todo lo que acabas de decir si algo que modifiques baja el acurracy lo quitas, ademas quiero que de estas apuestas
+  que generalmente se vean comunes cuales son las mas rentables: [Pasted text #1 +19 lines][Pasted text #2 +16 lines][Pasted text #3 +23  lines][Pasted text #4 +12 lines][Pasted text #5 +35 lines][Pasted text #6 +22 lines][Pasted text #7 +49 lines]Paradas del Portero
+  (Resuelta usando Opta Data)
+  Paradas del Portero - México (Resuelta usando Opta Data)
+  Paradas del Portero - Sudáfrica (Resuelta usando Opta Data)[Pasted text #8 +12 lines][Pasted text #9 +3 lines][Pasted text #10 +3 lines],
+  cuando veas las mas rentables y las mas faciles de predecir las agregas ena puestas recomendadas si es que son mejores que corners y
+  tarjetas, ademas quiero que llames una api que tenga info actual gratis y que nos diga el contexto del partido ej juegan visitanbtes
+  generalmente pierden cuadoi viistan o la tecnica del equiupo es a muchos corners o tienen un lesionado, informacion contextual que
+  entienda el futbol, da 5 ideas mas para mejorar el acurracy, las aplicas y si no sirven para mejorar las borras, ademas haz un analisis
+  en quie falla el modelo y ajusta cosas

@@ -385,6 +385,10 @@ if _STATIC_DIR.exists():
     def dashboard_root():
         return FileResponse(_STATIC_DIR / "index.html")
 
+    @app.get("/combinadas", include_in_schema=False)
+    def combinadas_page():
+        return FileResponse(_STATIC_DIR / "combinadas.html")
+
 
 def get_session():
     with Session(engine) as session:
@@ -1650,6 +1654,53 @@ def mundial_metricas():
         "cv":   json.loads(cv_df.to_json(orient="records"))   if cv_df   is not None else [],
         "test": json.loads(test_df.to_json(orient="records")) if test_df is not None else [],
     }
+
+
+# ---------------------------------------------------------------------------
+# Combinadas — el usuario arma su parlay y el modelo calcula el % real
+# (correlación intra-partido vía Monte Carlo, independencia entre partidos)
+# ---------------------------------------------------------------------------
+
+class CombiLeg(SQLModel):
+    tipo: str                       # 1x2 | doble | dnb | btts | gana2plus | over/under_*
+    sel: Optional[str] = None       # local | empate | visitante | 1X | 12 | X2 | si | no
+    line: Optional[float] = None
+    etiqueta: str = ""
+
+
+class CombiPartido(SQLModel):
+    nombre: str = ""
+    params: dict = {}               # g1_exp,g2_exp,corners_e1/e2,amarillas_e1/e2
+    legs: list[CombiLeg] = []
+
+
+class CombiBody(SQLModel):
+    partidos: list[CombiPartido] = []
+
+
+@app.get("/api/contexto")
+def get_contexto(e1: str, e2: str, api: bool = True):
+    """Contexto del partido (forma, estilo, H2H + resultados recientes vía API gratis).
+    Información que 'entiende el fútbol' para mostrar bajo el pick."""
+    from ml.contexto import contexto_partido
+    try:
+        return contexto_partido(e1, e2, usar_api=api)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"contexto: {exc}")
+
+
+@app.post("/api/combinada")
+def calcular_combinada(body: CombiBody):
+    """Calcula la probabilidad de una combinada armada por el usuario.
+
+    Patas del mismo partido se evalúan sobre una simulación conjunta
+    (captura la correlación, p.ej. 'gana local' + 'over 2.5'); partidos
+    distintos se tratan como independientes."""
+    from ml.combinadas import simular_combinada
+    partidos = [p.model_dump() for p in body.partidos]
+    if not any(p.get("legs") for p in partidos):
+        raise HTTPException(status_code=400, detail="combinada vacía")
+    return simular_combinada(partidos)
 
 
 # ---------------------------------------------------------------------------
