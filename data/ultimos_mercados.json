@@ -1,0 +1,2099 @@
+[
+  {
+    "equipo1": "Portugal",
+    "equipo2": "Nigeria",
+    "fecha": "2026-06-10",
+    "goles_real": "2–1",
+    "resultado_real": "Win",
+    "goles_real_e1": 2,
+    "goles_real_e2": 1,
+    "corners_real": 5,
+    "corners_real_e1": 3,
+    "corners_real_e2": 2,
+    "amarillas_real": 4,
+    "amarillas_real_e1": 2,
+    "amarillas_real_e2": 2,
+    "consenso": {
+      "pred": "Win",
+      "win": 0.6192,
+      "draw": 0.1828,
+      "loss": 0.1979
+    },
+    "mercados": {
+      "btts": {
+        "si": 0.545,
+        "no": 0.4551
+      },
+      "resultado_correcto": [
+        {
+          "score": "2-0",
+          "g1": 2,
+          "g2": 0,
+          "prob": 0.0994
+        },
+        {
+          "score": "1-1",
+          "g1": 1,
+          "g2": 1,
+          "prob": 0.0988
+        },
+        {
+          "score": "1-0",
+          "g1": 1,
+          "g2": 0,
+          "prob": 0.0988
+        },
+        {
+          "score": "2-1",
+          "g1": 2,
+          "g2": 1,
+          "prob": 0.0983
+        },
+        {
+          "score": "3-0",
+          "g1": 3,
+          "g2": 0,
+          "prob": 0.0664
+        },
+        {
+          "score": "3-1",
+          "g1": 3,
+          "g2": 1,
+          "prob": 0.0646
+        },
+        {
+          "score": "1-2",
+          "g1": 1,
+          "g2": 2,
+          "prob": 0.0508
+        },
+        {
+          "score": "2-2",
+          "g1": 2,
+          "g2": 2,
+          "prob": 0.0505
+        },
+        {
+          "score": "0-0",
+          "g1": 0,
+          "g2": 0,
+          "prob": 0.0502
+        },
+        {
+          "score": "0-1",
+          "g1": 0,
+          "g2": 1,
+          "prob": 0.0485
+        }
+      ],
+      "dnb": {
+        "Portugal": 0.7578,
+        "Nigeria": 0.2422
+      },
+      "doble_oportunidad": {
+        "1X (gana Portugal o empate)": 0.8021,
+        "X2 (empate o gana Nigeria)": 0.3808,
+        "12 (no empate)": 0.8172
+      },
+      "goles_e1": {
+        "nombre": "Portugal",
+        "xg": 2.0,
+        "over_0_5": 0.8639,
+        "over_1_5": 0.5946,
+        "over_2_5": 0.3235
+      },
+      "goles_e2": {
+        "nombre": "Nigeria",
+        "xg": 1.01,
+        "over_0_5": 0.631,
+        "over_1_5": 0.2687,
+        "over_2_5": 0.0817
+      },
+      "total_goles": {
+        "xg": 3.01,
+        "over_0_5": 0.9498,
+        "over_1_5": 0.8026,
+        "over_2_5": 0.5779,
+        "over_3_5": 0.3542,
+        "over_4_5": 0.1875
+      },
+      "handicap": {
+        "Portugal -1": 0.3663,
+        "Portugal -1.5": 0.3663,
+        "Portugal -2": 0.1834,
+        "+1 Nigeria": 0.9352,
+        "+1.5 Nigeria": 0.9352,
+        "Nigeria -1": 0.0648,
+        "Nigeria -1.5": 0.0648
+      },
+      "win_btts": {
+        "Portugal": 0.2839,
+        "Nigeria": 0.0992
+      },
+      "gol_ambas_mitades": 0.5987,
+      "ht_ft": {
+        "W/W": 0.3807,
+        "W/D": 0.0456,
+        "W/L": 0.0137,
+        "D/W": 0.184,
+        "D/D": 0.1285,
+        "D/L": 0.0683,
+        "L/W": 0.0326,
+        "L/D": 0.0479,
+        "L/L": 0.0988
+      },
+      "corners": {
+        "esperado": 10.6,
+        "mas_probable": 10,
+        "mas_probable_p": 0.1255,
+        "top5": [
+          {
+            "valor": 10,
+            "prob": 0.1255
+          },
+          {
+            "valor": 9,
+            "prob": 0.1191
+          },
+          {
+            "valor": 11,
+            "prob": 0.1148
+          },
+          {
+            "valor": 12,
+            "prob": 0.1051
+          },
+          {
+            "valor": 8,
+            "prob": 0.0983
+          }
+        ],
+        "rango_60": {
+          "lo": 8,
+          "hi": 13,
+          "prob": 0.6463
+        },
+        "rango_80": {
+          "lo": 6,
+          "hi": 14,
+          "prob": 0.8361
+        },
+        "over_0_5": 1.0,
+        "over_1_5": 0.9998,
+        "over_2_5": 0.9981,
+        "over_3_5": 0.9935,
+        "over_4_5": 0.9788,
+        "over_5_5": 0.9515,
+        "over_6_5": 0.9021,
+        "over_7_5": 0.8282,
+        "over_8_5": 0.7298,
+        "over_9_5": 0.6108,
+        "over_10_5": 0.4853,
+        "over_11_5": 0.3705,
+        "over_12_5": 0.2653,
+        "over_13_5": 0.1819,
+        "over_14_5": 0.1153,
+        "over_15_5": 0.0694,
+        "over_16_5": 0.0406,
+        "over_17_5": 0.0232,
+        "over_18_5": 0.0117,
+        "over_19_5": 0.006,
+        "over_20_5": 0.0029,
+        "over_21_5": 0.0011,
+        "over_22_5": 0.0006,
+        "over_23_5": 0.0003,
+        "over_24_5": 0.0001,
+        "over_25_5": 0.0001,
+        "over_26_5": 0.0001,
+        "over_27_5": 0.0001,
+        "over_28_5": 0.0
+      },
+      "corners_e1": {
+        "esperado": 6.3,
+        "mas_probable": 6,
+        "mas_probable_p": 0.1581,
+        "top5": [
+          {
+            "valor": 6,
+            "prob": 0.1581
+          },
+          {
+            "valor": 5,
+            "prob": 0.1517
+          },
+          {
+            "valor": 7,
+            "prob": 0.1441
+          },
+          {
+            "valor": 4,
+            "prob": 0.1219
+          },
+          {
+            "valor": 8,
+            "prob": 0.1159
+          }
+        ],
+        "rango_60": {
+          "lo": 4,
+          "hi": 8,
+          "prob": 0.6917
+        },
+        "rango_80": {
+          "lo": 3,
+          "hi": 9,
+          "prob": 0.8455
+        },
+        "over_0_5": 0.9973,
+        "over_1_5": 0.9879,
+        "over_2_5": 0.9537,
+        "over_3_5": 0.879,
+        "over_4_5": 0.7571,
+        "over_5_5": 0.6054,
+        "over_6_5": 0.4473,
+        "over_7_5": 0.3032,
+        "over_8_5": 0.1873,
+        "over_9_5": 0.1082,
+        "over_10_5": 0.0566,
+        "over_11_5": 0.0267,
+        "over_12_5": 0.0121,
+        "over_13_5": 0.0053,
+        "over_14_5": 0.002,
+        "over_15_5": 0.0008,
+        "over_16_5": 0.0002,
+        "over_17_5": 0.0001,
+        "over_18_5": 0.0
+      },
+      "corners_e2": {
+        "esperado": 4.2,
+        "mas_probable": 4,
+        "mas_probable_p": 0.1973,
+        "top5": [
+          {
+            "valor": 4,
+            "prob": 0.1973
+          },
+          {
+            "valor": 3,
+            "prob": 0.183
+          },
+          {
+            "valor": 5,
+            "prob": 0.162
+          },
+          {
+            "valor": 2,
+            "prob": 0.1304
+          },
+          {
+            "valor": 6,
+            "prob": 0.1153
+          }
+        ],
+        "rango_60": {
+          "lo": 2,
+          "hi": 5,
+          "prob": 0.6726
+        },
+        "rango_80": {
+          "lo": 2,
+          "hi": 7,
+          "prob": 0.8567
+        },
+        "over_0_5": 0.9859,
+        "over_1_5": 0.9248,
+        "over_2_5": 0.7944,
+        "over_3_5": 0.6114,
+        "over_4_5": 0.4141,
+        "over_5_5": 0.2521,
+        "over_6_5": 0.1368,
+        "over_7_5": 0.0681,
+        "over_8_5": 0.0298,
+        "over_9_5": 0.012,
+        "over_10_5": 0.0044,
+        "over_11_5": 0.0015,
+        "over_12_5": 0.0006,
+        "over_13_5": 0.0003,
+        "over_14_5": 0.0001,
+        "over_15_5": 0.0001,
+        "over_16_5": 0.0001,
+        "over_17_5": 0.0
+      },
+      "amarillas": {
+        "esperado": 2.6,
+        "mas_probable": 2,
+        "mas_probable_p": 0.2497,
+        "top5": [
+          {
+            "valor": 2,
+            "prob": 0.2497
+          },
+          {
+            "valor": 3,
+            "prob": 0.2193
+          },
+          {
+            "valor": 1,
+            "prob": 0.1942
+          },
+          {
+            "valor": 4,
+            "prob": 0.1423
+          },
+          {
+            "valor": 0,
+            "prob": 0.0736
+          }
+        ],
+        "rango_60": {
+          "lo": 1,
+          "hi": 3,
+          "prob": 0.6633
+        },
+        "rango_80": {
+          "lo": 1,
+          "hi": 4,
+          "prob": 0.8055
+        },
+        "over_0_5": 0.9264,
+        "over_1_5": 0.7322,
+        "over_2_5": 0.4825,
+        "over_3_5": 0.2632,
+        "over_4_5": 0.1209,
+        "over_5_5": 0.05,
+        "over_6_5": 0.0182,
+        "over_7_5": 0.0052,
+        "over_8_5": 0.0015,
+        "over_9_5": 0.0003,
+        "over_10_5": 0.0001,
+        "over_11_5": 0.0
+      },
+      "amarillas_e1": {
+        "esperado": 1.8,
+        "mas_probable": 1,
+        "mas_probable_p": 0.2983,
+        "top5": [
+          {
+            "valor": 1,
+            "prob": 0.2983
+          },
+          {
+            "valor": 2,
+            "prob": 0.2695
+          },
+          {
+            "valor": 0,
+            "prob": 0.1627
+          },
+          {
+            "valor": 3,
+            "prob": 0.1577
+          },
+          {
+            "valor": 4,
+            "prob": 0.0744
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.7304
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 3,
+          "prob": 0.8881
+        },
+        "over_0_5": 0.8373,
+        "over_1_5": 0.5391,
+        "over_2_5": 0.2696,
+        "over_3_5": 0.1119,
+        "over_4_5": 0.0375,
+        "over_5_5": 0.0102,
+        "over_6_5": 0.0024,
+        "over_7_5": 0.0003,
+        "over_8_5": 0.0001,
+        "over_9_5": 0.0001,
+        "over_10_5": 0.0
+      },
+      "amarillas_e2": {
+        "esperado": 0.8,
+        "mas_probable": 0,
+        "mas_probable_p": 0.4502,
+        "top5": [
+          {
+            "valor": 0,
+            "prob": 0.4502
+          },
+          {
+            "valor": 1,
+            "prob": 0.3625
+          },
+          {
+            "valor": 2,
+            "prob": 0.1422
+          },
+          {
+            "valor": 3,
+            "prob": 0.0358
+          },
+          {
+            "valor": 4,
+            "prob": 0.008
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 1,
+          "prob": 0.8128
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 1,
+          "prob": 0.8128
+        },
+        "over_0_5": 0.5497,
+        "over_1_5": 0.1872,
+        "over_2_5": 0.0449,
+        "over_3_5": 0.0091,
+        "over_4_5": 0.0011,
+        "over_5_5": 0.0003,
+        "over_6_5": 0.0
+      },
+      "goles_dist": {
+        "esperado": 3.0,
+        "mas_probable": 2,
+        "mas_probable_p": 0.2246,
+        "top5": [
+          {
+            "valor": 2,
+            "prob": 0.2246
+          },
+          {
+            "valor": 3,
+            "prob": 0.2238
+          },
+          {
+            "valor": 4,
+            "prob": 0.1668
+          },
+          {
+            "valor": 1,
+            "prob": 0.1472
+          },
+          {
+            "valor": 5,
+            "prob": 0.1032
+          }
+        ],
+        "rango_60": {
+          "lo": 2,
+          "hi": 4,
+          "prob": 0.6152
+        },
+        "rango_80": {
+          "lo": 1,
+          "hi": 5,
+          "prob": 0.8657
+        },
+        "over_0_5": 0.9498,
+        "over_1_5": 0.8026,
+        "over_2_5": 0.5779,
+        "over_3_5": 0.3542,
+        "over_4_5": 0.1875,
+        "over_5_5": 0.0842,
+        "over_6_5": 0.0345,
+        "over_7_5": 0.0116,
+        "over_8_5": 0.0034,
+        "over_9_5": 0.001,
+        "over_10_5": 0.0003,
+        "over_11_5": 0.0001,
+        "over_12_5": 0.0
+      },
+      "goles_e1_dist": {
+        "esperado": 2.0,
+        "mas_probable": 2,
+        "mas_probable_p": 0.2711,
+        "top5": [
+          {
+            "valor": 2,
+            "prob": 0.2711
+          },
+          {
+            "valor": 1,
+            "prob": 0.2693
+          },
+          {
+            "valor": 3,
+            "prob": 0.1797
+          },
+          {
+            "valor": 0,
+            "prob": 0.1361
+          },
+          {
+            "valor": 4,
+            "prob": 0.0903
+          }
+        ],
+        "rango_60": {
+          "lo": 1,
+          "hi": 3,
+          "prob": 0.7201
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 3,
+          "prob": 0.8562
+        },
+        "over_0_5": 0.8639,
+        "over_1_5": 0.5946,
+        "over_2_5": 0.3235,
+        "over_3_5": 0.1437,
+        "over_4_5": 0.0534,
+        "over_5_5": 0.0169,
+        "over_6_5": 0.004,
+        "over_7_5": 0.001,
+        "over_8_5": 0.0001,
+        "over_9_5": 0.0
+      },
+      "goles_e2_dist": {
+        "esperado": 1.0,
+        "mas_probable": 0,
+        "mas_probable_p": 0.369,
+        "top5": [
+          {
+            "valor": 0,
+            "prob": 0.369
+          },
+          {
+            "valor": 1,
+            "prob": 0.3623
+          },
+          {
+            "valor": 2,
+            "prob": 0.187
+          },
+          {
+            "valor": 3,
+            "prob": 0.0621
+          },
+          {
+            "valor": 4,
+            "prob": 0.0152
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 1,
+          "prob": 0.7313
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.9183
+        },
+        "over_0_5": 0.631,
+        "over_1_5": 0.2687,
+        "over_2_5": 0.0817,
+        "over_3_5": 0.0197,
+        "over_4_5": 0.0044,
+        "over_5_5": 0.0006,
+        "over_6_5": 0.0001,
+        "over_7_5": 0.0
+      }
+    },
+    "stats_equipos": {
+      "e1": {
+        "nombre": "Portugal",
+        "partidos": 57,
+        "goles_for": 2.11,
+        "goles_against": 0.96,
+        "corners_for": 6.3,
+        "corners_against": 3.9,
+        "tiros": 16.4,
+        "tiros_puerta": 5.3,
+        "amarillas": 1.8,
+        "faltas": 11.3,
+        "posesion": 65.0,
+        "precision_pase": 87.4,
+        "oportunidades": 3.4
+      },
+      "e2": {
+        "nombre": "Nigeria",
+        "partidos": 12,
+        "goles_for": 1.67,
+        "goles_against": 0.83,
+        "corners_for": 4.3,
+        "corners_against": 4.2,
+        "tiros": 7.0,
+        "tiros_puerta": 2.4,
+        "amarillas": 1.7,
+        "faltas": 16.4,
+        "posesion": 35.0,
+        "precision_pase": 81.9,
+        "oportunidades": 3.6
+      }
+    },
+    "apuesta": {
+      "patas": [
+        {
+          "tipo": "1X2",
+          "nombre": "1X2 · Portugal",
+          "descripcion": "Victoria local",
+          "prob": 0.6192,
+          "pick": "Win",
+          "real": "Win",
+          "resultado": "acierto",
+          "detalle": "Predijo victoria local · resultado real 2–1"
+        },
+        {
+          "tipo": "corners",
+          "nombre": "Córners U12.5",
+          "descripcion": "Mejor under córners",
+          "prob": 0.7347,
+          "linea": 12.5,
+          "real": 5,
+          "resultado": "acierto",
+          "detalle": "Menos de 12.5 córners · reales 5"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas U3.5",
+          "descripcion": "Mejor under amarillas",
+          "prob": 0.7368,
+          "linea": 3.5,
+          "real": 4,
+          "resultado": "fallo",
+          "detalle": "Menos de 3.5 amarillas · reales 4"
+        }
+      ],
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 2,
+      "completa": false,
+      "que_fallo": [
+        "Amarillas U3.5"
+      ]
+    },
+    "stats_reales": {
+      "e1": {
+        "posesion": 61.0,
+        "tiros": 13.0,
+        "tiros_puerta": 6.0,
+        "corners_for": 3.0,
+        "amarillas": 2.0,
+        "faltas": 11.0,
+        "precision_pase": 91.0,
+        "oportunidades": 3.0,
+        "goles_for": 2
+      },
+      "e2": {
+        "posesion": 39.0,
+        "tiros": 5.0,
+        "tiros_puerta": 2.0,
+        "corners_for": 2.0,
+        "amarillas": 2.0,
+        "faltas": 19.0,
+        "precision_pase": 86.3,
+        "oportunidades": 0.0,
+        "goles_for": 1
+      }
+    }
+  },
+  {
+    "equipo1": "Inglaterra",
+    "equipo2": "Costa Rica",
+    "fecha": "2026-06-10",
+    "goles_real": "3–0",
+    "resultado_real": "Win",
+    "goles_real_e1": 3,
+    "goles_real_e2": 0,
+    "corners_real": 12,
+    "corners_real_e1": 11,
+    "corners_real_e2": 1,
+    "amarillas_real": 4,
+    "amarillas_real_e1": 0,
+    "amarillas_real_e2": 4,
+    "consenso": {
+      "pred": "Win",
+      "win": 0.7319,
+      "draw": 0.1635,
+      "loss": 0.1046
+    },
+    "mercados": {
+      "btts": {
+        "si": 0.3098,
+        "no": 0.6903
+      },
+      "resultado_correcto": [
+        {
+          "score": "1-0",
+          "g1": 1,
+          "g2": 0,
+          "prob": 0.2025
+        },
+        {
+          "score": "2-0",
+          "g1": 2,
+          "g2": 0,
+          "prob": 0.1533
+        },
+        {
+          "score": "0-0",
+          "g1": 0,
+          "g2": 0,
+          "prob": 0.1349
+        },
+        {
+          "score": "1-1",
+          "g1": 1,
+          "g2": 1,
+          "prob": 0.1029
+        },
+        {
+          "score": "2-1",
+          "g1": 2,
+          "g2": 1,
+          "prob": 0.0773
+        },
+        {
+          "score": "3-0",
+          "g1": 3,
+          "g2": 0,
+          "prob": 0.0723
+        },
+        {
+          "score": "0-1",
+          "g1": 0,
+          "g2": 1,
+          "prob": 0.0666
+        },
+        {
+          "score": "3-1",
+          "g1": 3,
+          "g2": 1,
+          "prob": 0.0375
+        },
+        {
+          "score": "4-0",
+          "g1": 4,
+          "g2": 0,
+          "prob": 0.0267
+        },
+        {
+          "score": "1-2",
+          "g1": 1,
+          "g2": 2,
+          "prob": 0.0249
+        }
+      ],
+      "dnb": {
+        "Inglaterra": 0.875,
+        "Costa Rica": 0.125
+      },
+      "doble_oportunidad": {
+        "1X (gana Inglaterra o empate)": 0.8954,
+        "X2 (empate o gana Costa Rica)": 0.2681,
+        "12 (no empate)": 0.8365
+      },
+      "goles_e1": {
+        "nombre": "Inglaterra",
+        "xg": 1.5,
+        "over_0_5": 0.7773,
+        "over_1_5": 0.442,
+        "over_2_5": 0.1885
+      },
+      "goles_e2": {
+        "nombre": "Costa Rica",
+        "xg": 0.51,
+        "over_0_5": 0.3976,
+        "over_1_5": 0.0922,
+        "over_2_5": 0.015
+      },
+      "total_goles": {
+        "xg": 2.01,
+        "over_0_5": 0.8651,
+        "over_1_5": 0.596,
+        "over_2_5": 0.3219,
+        "over_3_5": 0.1444,
+        "over_4_5": 0.0561
+      },
+      "handicap": {
+        "Inglaterra -1": 0.3288,
+        "Inglaterra -1.5": 0.3288,
+        "Inglaterra -2": 0.1347,
+        "+1 Costa Rica": 0.9734,
+        "+1.5 Costa Rica": 0.9734,
+        "Costa Rica -1": 0.0267,
+        "Costa Rica -1.5": 0.0267
+      },
+      "win_btts": {
+        "Inglaterra": 0.152,
+        "Costa Rica": 0.0336
+      },
+      "gol_ambas_mitades": 0.3897,
+      "ht_ft": {
+        "W/W": 0.3779,
+        "W/D": 0.0299,
+        "W/L": 0.004,
+        "D/W": 0.2322,
+        "D/D": 0.1868,
+        "D/L": 0.0571,
+        "L/W": 0.0169,
+        "L/D": 0.0319,
+        "L/L": 0.0632
+      },
+      "corners": {
+        "esperado": 10.7,
+        "mas_probable": 10,
+        "mas_probable_p": 0.1229,
+        "top5": [
+          {
+            "valor": 10,
+            "prob": 0.1229
+          },
+          {
+            "valor": 11,
+            "prob": 0.1154
+          },
+          {
+            "valor": 9,
+            "prob": 0.115
+          },
+          {
+            "valor": 12,
+            "prob": 0.1031
+          },
+          {
+            "valor": 8,
+            "prob": 0.0991
+          }
+        ],
+        "rango_60": {
+          "lo": 8,
+          "hi": 13,
+          "prob": 0.6402
+        },
+        "rango_80": {
+          "lo": 7,
+          "hi": 15,
+          "prob": 0.8306
+        },
+        "over_0_5": 1.0,
+        "over_1_5": 0.9998,
+        "over_2_5": 0.9983,
+        "over_3_5": 0.9935,
+        "over_4_5": 0.9818,
+        "over_5_5": 0.9547,
+        "over_6_5": 0.9074,
+        "over_7_5": 0.8326,
+        "over_8_5": 0.7335,
+        "over_9_5": 0.6184,
+        "over_10_5": 0.4955,
+        "over_11_5": 0.3801,
+        "over_12_5": 0.277,
+        "over_13_5": 0.1923,
+        "over_14_5": 0.1252,
+        "over_15_5": 0.0767,
+        "over_16_5": 0.0476,
+        "over_17_5": 0.0277,
+        "over_18_5": 0.0138,
+        "over_19_5": 0.007,
+        "over_20_5": 0.0033,
+        "over_21_5": 0.0017,
+        "over_22_5": 0.0009,
+        "over_23_5": 0.0004,
+        "over_24_5": 0.0003,
+        "over_25_5": 0.0001,
+        "over_26_5": 0.0001,
+        "over_27_5": 0.0001,
+        "over_28_5": 0.0
+      },
+      "corners_e1": {
+        "esperado": 5.6,
+        "mas_probable": 5,
+        "mas_probable_p": 0.1699,
+        "top5": [
+          {
+            "valor": 5,
+            "prob": 0.1699
+          },
+          {
+            "valor": 6,
+            "prob": 0.1599
+          },
+          {
+            "valor": 4,
+            "prob": 0.1492
+          },
+          {
+            "valor": 7,
+            "prob": 0.1259
+          },
+          {
+            "valor": 3,
+            "prob": 0.1061
+          }
+        ],
+        "rango_60": {
+          "lo": 4,
+          "hi": 7,
+          "prob": 0.605
+        },
+        "rango_80": {
+          "lo": 3,
+          "hi": 8,
+          "prob": 0.8009
+        },
+        "over_0_5": 0.996,
+        "over_1_5": 0.9768,
+        "over_2_5": 0.9193,
+        "over_3_5": 0.8133,
+        "over_4_5": 0.664,
+        "over_5_5": 0.494,
+        "over_6_5": 0.3342,
+        "over_7_5": 0.2082,
+        "over_8_5": 0.1183,
+        "over_9_5": 0.0622,
+        "over_10_5": 0.0295,
+        "over_11_5": 0.0132,
+        "over_12_5": 0.0055,
+        "over_13_5": 0.0022,
+        "over_14_5": 0.0009,
+        "over_15_5": 0.0003,
+        "over_16_5": 0.0001,
+        "over_17_5": 0.0
+      },
+      "corners_e2": {
+        "esperado": 5.0,
+        "mas_probable": 4,
+        "mas_probable_p": 0.1759,
+        "top5": [
+          {
+            "valor": 4,
+            "prob": 0.1759
+          },
+          {
+            "valor": 5,
+            "prob": 0.1757
+          },
+          {
+            "valor": 6,
+            "prob": 0.1491
+          },
+          {
+            "valor": 3,
+            "prob": 0.1391
+          },
+          {
+            "valor": 7,
+            "prob": 0.1045
+          }
+        ],
+        "rango_60": {
+          "lo": 3,
+          "hi": 6,
+          "prob": 0.6398
+        },
+        "rango_80": {
+          "lo": 2,
+          "hi": 7,
+          "prob": 0.8261
+        },
+        "over_0_5": 0.9936,
+        "over_1_5": 0.9611,
+        "over_2_5": 0.8793,
+        "over_3_5": 0.7402,
+        "over_4_5": 0.5643,
+        "over_5_5": 0.3886,
+        "over_6_5": 0.2395,
+        "over_7_5": 0.1351,
+        "over_8_5": 0.0707,
+        "over_9_5": 0.0335,
+        "over_10_5": 0.0149,
+        "over_11_5": 0.0068,
+        "over_12_5": 0.0023,
+        "over_13_5": 0.0008,
+        "over_14_5": 0.0003,
+        "over_15_5": 0.0001,
+        "over_16_5": 0.0001,
+        "over_17_5": 0.0001,
+        "over_18_5": 0.0001,
+        "over_19_5": 0.0
+      },
+      "amarillas": {
+        "esperado": 3.1,
+        "mas_probable": 3,
+        "mas_probable_p": 0.2233,
+        "top5": [
+          {
+            "valor": 3,
+            "prob": 0.2233
+          },
+          {
+            "valor": 2,
+            "prob": 0.2182
+          },
+          {
+            "valor": 4,
+            "prob": 0.1746
+          },
+          {
+            "valor": 1,
+            "prob": 0.1368
+          },
+          {
+            "valor": 5,
+            "prob": 0.1078
+          }
+        ],
+        "rango_60": {
+          "lo": 2,
+          "hi": 4,
+          "prob": 0.6162
+        },
+        "rango_80": {
+          "lo": 1,
+          "hi": 5,
+          "prob": 0.8608
+        },
+        "over_0_5": 0.9548,
+        "over_1_5": 0.8181,
+        "over_2_5": 0.5998,
+        "over_3_5": 0.3765,
+        "over_4_5": 0.2019,
+        "over_5_5": 0.0941,
+        "over_6_5": 0.0391,
+        "over_7_5": 0.0147,
+        "over_8_5": 0.0054,
+        "over_9_5": 0.0014,
+        "over_10_5": 0.0006,
+        "over_11_5": 0.0001,
+        "over_12_5": 0.0
+      },
+      "amarillas_e1": {
+        "esperado": 1.3,
+        "mas_probable": 1,
+        "mas_probable_p": 0.3519,
+        "top5": [
+          {
+            "valor": 1,
+            "prob": 0.3519
+          },
+          {
+            "valor": 0,
+            "prob": 0.2622
+          },
+          {
+            "valor": 2,
+            "prob": 0.2294
+          },
+          {
+            "valor": 3,
+            "prob": 0.1095
+          },
+          {
+            "valor": 4,
+            "prob": 0.035
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 1,
+          "prob": 0.6141
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.8436
+        },
+        "over_0_5": 0.7378,
+        "over_1_5": 0.3859,
+        "over_2_5": 0.1565,
+        "over_3_5": 0.0469,
+        "over_4_5": 0.012,
+        "over_5_5": 0.0026,
+        "over_6_5": 0.0004,
+        "over_7_5": 0.0001,
+        "over_8_5": 0.0
+      },
+      "amarillas_e2": {
+        "esperado": 1.8,
+        "mas_probable": 1,
+        "mas_probable_p": 0.3069,
+        "top5": [
+          {
+            "valor": 1,
+            "prob": 0.3069
+          },
+          {
+            "valor": 2,
+            "prob": 0.2654
+          },
+          {
+            "valor": 0,
+            "prob": 0.1682
+          },
+          {
+            "valor": 3,
+            "prob": 0.1587
+          },
+          {
+            "valor": 4,
+            "prob": 0.0668
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.7405
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 3,
+          "prob": 0.8992
+        },
+        "over_0_5": 0.8318,
+        "over_1_5": 0.5249,
+        "over_2_5": 0.2595,
+        "over_3_5": 0.1008,
+        "over_4_5": 0.0341,
+        "over_5_5": 0.0101,
+        "over_6_5": 0.0024,
+        "over_7_5": 0.0006,
+        "over_8_5": 0.0002,
+        "over_9_5": 0.0001,
+        "over_10_5": 0.0
+      },
+      "goles_dist": {
+        "esperado": 2.0,
+        "mas_probable": 2,
+        "mas_probable_p": 0.2742,
+        "top5": [
+          {
+            "valor": 2,
+            "prob": 0.2742
+          },
+          {
+            "valor": 1,
+            "prob": 0.2691
+          },
+          {
+            "valor": 3,
+            "prob": 0.1774
+          },
+          {
+            "valor": 0,
+            "prob": 0.1349
+          },
+          {
+            "valor": 4,
+            "prob": 0.0884
+          }
+        ],
+        "rango_60": {
+          "lo": 1,
+          "hi": 3,
+          "prob": 0.7207
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 3,
+          "prob": 0.8556
+        },
+        "over_0_5": 0.8651,
+        "over_1_5": 0.596,
+        "over_2_5": 0.3219,
+        "over_3_5": 0.1444,
+        "over_4_5": 0.0561,
+        "over_5_5": 0.0176,
+        "over_6_5": 0.0048,
+        "over_7_5": 0.0011,
+        "over_8_5": 0.0002,
+        "over_9_5": 0.0001,
+        "over_10_5": 0.0
+      },
+      "goles_e1_dist": {
+        "esperado": 1.5,
+        "mas_probable": 1,
+        "mas_probable_p": 0.3352,
+        "top5": [
+          {
+            "valor": 1,
+            "prob": 0.3352
+          },
+          {
+            "valor": 2,
+            "prob": 0.2535
+          },
+          {
+            "valor": 0,
+            "prob": 0.2227
+          },
+          {
+            "valor": 3,
+            "prob": 0.1221
+          },
+          {
+            "valor": 4,
+            "prob": 0.0452
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.8115
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.8115
+        },
+        "over_0_5": 0.7773,
+        "over_1_5": 0.442,
+        "over_2_5": 0.1885,
+        "over_3_5": 0.0664,
+        "over_4_5": 0.0211,
+        "over_5_5": 0.0049,
+        "over_6_5": 0.0008,
+        "over_7_5": 0.0001,
+        "over_8_5": 0.0
+      },
+      "goles_e2_dist": {
+        "esperado": 0.5,
+        "mas_probable": 0,
+        "mas_probable_p": 0.6025,
+        "top5": [
+          {
+            "valor": 0,
+            "prob": 0.6025
+          },
+          {
+            "valor": 1,
+            "prob": 0.3054
+          },
+          {
+            "valor": 2,
+            "prob": 0.0771
+          },
+          {
+            "valor": 3,
+            "prob": 0.0137
+          },
+          {
+            "valor": 4,
+            "prob": 0.0014
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 0,
+          "prob": 0.6025
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 1,
+          "prob": 0.9078
+        },
+        "over_0_5": 0.3976,
+        "over_1_5": 0.0922,
+        "over_2_5": 0.015,
+        "over_3_5": 0.0014,
+        "over_4_5": 0.0001,
+        "over_5_5": 0.0
+      }
+    },
+    "stats_equipos": {
+      "e1": {
+        "nombre": "Inglaterra",
+        "partidos": 61,
+        "goles_for": 2.1,
+        "goles_against": 0.54,
+        "corners_for": 5.7,
+        "corners_against": 2.3,
+        "tiros": 18.6,
+        "tiros_puerta": 6.4,
+        "amarillas": 1.34,
+        "faltas": 10.1,
+        "posesion": 68.2,
+        "precision_pase": 88.7,
+        "oportunidades": 3.5
+      },
+      "e2": {
+        "nombre": "Costa Rica",
+        "partidos": 30,
+        "goles_for": 1.37,
+        "goles_against": 1.33,
+        "corners_for": 3.5,
+        "corners_against": 5.0,
+        "tiros": 5.7,
+        "tiros_puerta": 1.5,
+        "amarillas": 1.96,
+        "faltas": 12.3,
+        "posesion": 31.8,
+        "precision_pase": 78.9,
+        "oportunidades": 1.8
+      }
+    },
+    "apuesta": {
+      "patas": [
+        {
+          "tipo": "1X2",
+          "nombre": "1X2 · Inglaterra",
+          "descripcion": "Victoria local",
+          "prob": 0.7319,
+          "pick": "Win",
+          "real": "Win",
+          "resultado": "acierto",
+          "detalle": "Predijo victoria local · resultado real 3–0"
+        },
+        {
+          "tipo": "corners",
+          "nombre": "Córners U12.5",
+          "descripcion": "Mejor under córners",
+          "prob": 0.723,
+          "linea": 12.5,
+          "real": 12,
+          "resultado": "acierto",
+          "detalle": "Menos de 12.5 córners · reales 12"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas U3.5",
+          "descripcion": "Mejor under amarillas",
+          "prob": 0.6235,
+          "linea": 3.5,
+          "real": 4,
+          "resultado": "fallo",
+          "detalle": "Menos de 3.5 amarillas · reales 4"
+        }
+      ],
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 2,
+      "completa": false,
+      "que_fallo": [
+        "Amarillas U3.5"
+      ]
+    },
+    "stats_reales": {
+      "e1": {
+        "posesion": 81.0,
+        "tiros": 28.0,
+        "tiros_puerta": 8.0,
+        "corners_for": 11.0,
+        "amarillas": 0.0,
+        "faltas": 7.0,
+        "precision_pase": 90.7,
+        "oportunidades": 5.0,
+        "goles_for": 3
+      },
+      "e2": {
+        "posesion": 19.0,
+        "tiros": 1.0,
+        "tiros_puerta": 0.0,
+        "corners_for": 1.0,
+        "amarillas": 4.0,
+        "faltas": 24.0,
+        "precision_pase": 56.6,
+        "oportunidades": 0.0,
+        "goles_for": 0
+      }
+    }
+  },
+  {
+    "equipo1": "China",
+    "equipo2": "Tailandia",
+    "fecha": "2026-06-09",
+    "goles_real": "0–0",
+    "resultado_real": "Draw",
+    "goles_real_e1": 0,
+    "goles_real_e2": 0,
+    "corners_real": 12,
+    "corners_real_e1": 11,
+    "corners_real_e2": 1,
+    "amarillas_real": 2,
+    "amarillas_real_e1": 1,
+    "amarillas_real_e2": 1,
+    "consenso": {
+      "pred": "Win",
+      "win": 0.3969,
+      "draw": 0.2504,
+      "loss": 0.3527
+    },
+    "mercados": {
+      "btts": {
+        "si": 0.4945,
+        "no": 0.5056
+      },
+      "resultado_correcto": [
+        {
+          "score": "1-1",
+          "g1": 1,
+          "g2": 1,
+          "prob": 0.1227
+        },
+        {
+          "score": "1-0",
+          "g1": 1,
+          "g2": 0,
+          "prob": 0.1221
+        },
+        {
+          "score": "2-1",
+          "g1": 2,
+          "g2": 1,
+          "prob": 0.0954
+        },
+        {
+          "score": "2-0",
+          "g1": 2,
+          "g2": 0,
+          "prob": 0.0911
+        },
+        {
+          "score": "0-0",
+          "g1": 0,
+          "g2": 0,
+          "prob": 0.0842
+        },
+        {
+          "score": "0-1",
+          "g1": 0,
+          "g2": 1,
+          "prob": 0.0814
+        },
+        {
+          "score": "1-2",
+          "g1": 1,
+          "g2": 2,
+          "prob": 0.0622
+        },
+        {
+          "score": "2-2",
+          "g1": 2,
+          "g2": 2,
+          "prob": 0.0462
+        },
+        {
+          "score": "3-0",
+          "g1": 3,
+          "g2": 0,
+          "prob": 0.0447
+        },
+        {
+          "score": "3-1",
+          "g1": 3,
+          "g2": 1,
+          "prob": 0.0434
+        }
+      ],
+      "dnb": {
+        "China": 0.5295,
+        "Tailandia": 0.4705
+      },
+      "doble_oportunidad": {
+        "1X (gana China o empate)": 0.6473,
+        "X2 (empate o gana Tailandia)": 0.6031,
+        "12 (no empate)": 0.7496
+      },
+      "goles_e1": {
+        "nombre": "China",
+        "xg": 1.5,
+        "over_0_5": 0.7773,
+        "over_1_5": 0.442,
+        "over_2_5": 0.1885
+      },
+      "goles_e2": {
+        "nombre": "Tailandia",
+        "xg": 1.01,
+        "over_0_5": 0.633,
+        "over_1_5": 0.2673,
+        "over_2_5": 0.0815
+      },
+      "total_goles": {
+        "xg": 2.51,
+        "over_0_5": 0.9159,
+        "over_1_5": 0.7124,
+        "over_2_5": 0.4583,
+        "over_3_5": 0.2429,
+        "over_4_5": 0.1115
+      },
+      "handicap": {
+        "China -1": 0.2415,
+        "China -1.5": 0.2415,
+        "China -2": 0.0969,
+        "+1 Tailandia": 0.9086,
+        "+1.5 Tailandia": 0.9086,
+        "Tailandia -1": 0.0914,
+        "Tailandia -1.5": 0.0914
+      },
+      "win_btts": {
+        "China": 0.2038,
+        "Tailandia": 0.1137
+      },
+      "gol_ambas_mitades": 0.4995,
+      "ht_ft": {
+        "W/W": 0.2928,
+        "W/D": 0.0452,
+        "W/L": 0.0139,
+        "D/W": 0.1706,
+        "D/D": 0.1667,
+        "D/L": 0.1004,
+        "L/W": 0.0251,
+        "L/D": 0.0464,
+        "L/L": 0.1389
+      },
+      "corners": {
+        "esperado": 10.5,
+        "mas_probable": 10,
+        "mas_probable_p": 0.1266,
+        "top5": [
+          {
+            "valor": 10,
+            "prob": 0.1266
+          },
+          {
+            "valor": 11,
+            "prob": 0.1197
+          },
+          {
+            "valor": 9,
+            "prob": 0.1173
+          },
+          {
+            "valor": 12,
+            "prob": 0.102
+          },
+          {
+            "valor": 8,
+            "prob": 0.0986
+          }
+        ],
+        "rango_60": {
+          "lo": 8,
+          "hi": 13,
+          "prob": 0.6481
+        },
+        "rango_80": {
+          "lo": 6,
+          "hi": 14,
+          "prob": 0.8386
+        },
+        "over_0_5": 1.0,
+        "over_1_5": 0.9997,
+        "over_2_5": 0.9984,
+        "over_3_5": 0.9929,
+        "over_4_5": 0.9789,
+        "over_5_5": 0.9498,
+        "over_6_5": 0.8991,
+        "over_7_5": 0.8202,
+        "over_8_5": 0.7216,
+        "over_9_5": 0.6043,
+        "over_10_5": 0.4777,
+        "over_11_5": 0.358,
+        "over_12_5": 0.256,
+        "over_13_5": 0.1721,
+        "over_14_5": 0.1112,
+        "over_15_5": 0.0698,
+        "over_16_5": 0.0418,
+        "over_17_5": 0.0225,
+        "over_18_5": 0.0122,
+        "over_19_5": 0.0065,
+        "over_20_5": 0.0031,
+        "over_21_5": 0.0014,
+        "over_22_5": 0.0006,
+        "over_23_5": 0.0003,
+        "over_24_5": 0.0002,
+        "over_25_5": 0.0001,
+        "over_26_5": 0.0
+      },
+      "corners_e1": {
+        "esperado": 5.2,
+        "mas_probable": 5,
+        "mas_probable_p": 0.1736,
+        "top5": [
+          {
+            "valor": 5,
+            "prob": 0.1736
+          },
+          {
+            "valor": 4,
+            "prob": 0.1724
+          },
+          {
+            "valor": 6,
+            "prob": 0.1509
+          },
+          {
+            "valor": 3,
+            "prob": 0.1308
+          },
+          {
+            "valor": 7,
+            "prob": 0.1084
+          }
+        ],
+        "rango_60": {
+          "lo": 3,
+          "hi": 6,
+          "prob": 0.6278
+        },
+        "rango_80": {
+          "lo": 2,
+          "hi": 7,
+          "prob": 0.815
+        },
+        "over_0_5": 0.9944,
+        "over_1_5": 0.9664,
+        "over_2_5": 0.8875,
+        "over_3_5": 0.7568,
+        "over_4_5": 0.5844,
+        "over_5_5": 0.4107,
+        "over_6_5": 0.2598,
+        "over_7_5": 0.1514,
+        "over_8_5": 0.0799,
+        "over_9_5": 0.0377,
+        "over_10_5": 0.0171,
+        "over_11_5": 0.0069,
+        "over_12_5": 0.0027,
+        "over_13_5": 0.0009,
+        "over_14_5": 0.0003,
+        "over_15_5": 0.0001,
+        "over_16_5": 0.0
+      },
+      "corners_e2": {
+        "esperado": 5.3,
+        "mas_probable": 5,
+        "mas_probable_p": 0.1729,
+        "top5": [
+          {
+            "valor": 5,
+            "prob": 0.1729
+          },
+          {
+            "valor": 4,
+            "prob": 0.1648
+          },
+          {
+            "valor": 6,
+            "prob": 0.156
+          },
+          {
+            "valor": 3,
+            "prob": 0.1205
+          },
+          {
+            "valor": 7,
+            "prob": 0.1205
+          }
+        ],
+        "rango_60": {
+          "lo": 3,
+          "hi": 6,
+          "prob": 0.6143
+        },
+        "rango_80": {
+          "lo": 3,
+          "hi": 8,
+          "prob": 0.8102
+        },
+        "over_0_5": 0.9956,
+        "over_1_5": 0.9695,
+        "over_2_5": 0.9022,
+        "over_3_5": 0.7816,
+        "over_4_5": 0.6169,
+        "over_5_5": 0.4439,
+        "over_6_5": 0.2878,
+        "over_7_5": 0.1674,
+        "over_8_5": 0.092,
+        "over_9_5": 0.0476,
+        "over_10_5": 0.0215,
+        "over_11_5": 0.0092,
+        "over_12_5": 0.0039,
+        "over_13_5": 0.0014,
+        "over_14_5": 0.0004,
+        "over_15_5": 0.0003,
+        "over_16_5": 0.0001,
+        "over_17_5": 0.0001,
+        "over_18_5": 0.0001,
+        "over_19_5": 0.0
+      },
+      "amarillas": {
+        "esperado": 1.8,
+        "mas_probable": 1,
+        "mas_probable_p": 0.2933,
+        "top5": [
+          {
+            "valor": 1,
+            "prob": 0.2933
+          },
+          {
+            "valor": 2,
+            "prob": 0.2672
+          },
+          {
+            "valor": 0,
+            "prob": 0.1625
+          },
+          {
+            "valor": 3,
+            "prob": 0.1618
+          },
+          {
+            "valor": 4,
+            "prob": 0.0746
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.7229
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 3,
+          "prob": 0.8847
+        },
+        "over_0_5": 0.8376,
+        "over_1_5": 0.5443,
+        "over_2_5": 0.2771,
+        "over_3_5": 0.1153,
+        "over_4_5": 0.0408,
+        "over_5_5": 0.0109,
+        "over_6_5": 0.0024,
+        "over_7_5": 0.0006,
+        "over_8_5": 0.0001,
+        "over_9_5": 0.0001,
+        "over_10_5": 0.0
+      },
+      "amarillas_e1": {
+        "esperado": 1.2,
+        "mas_probable": 1,
+        "mas_probable_p": 0.3624,
+        "top5": [
+          {
+            "valor": 1,
+            "prob": 0.3624
+          },
+          {
+            "valor": 0,
+            "prob": 0.3141
+          },
+          {
+            "valor": 2,
+            "prob": 0.2076
+          },
+          {
+            "valor": 3,
+            "prob": 0.0844
+          },
+          {
+            "valor": 4,
+            "prob": 0.025
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 1,
+          "prob": 0.6765
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.8841
+        },
+        "over_0_5": 0.6859,
+        "over_1_5": 0.3235,
+        "over_2_5": 0.1159,
+        "over_3_5": 0.0315,
+        "over_4_5": 0.0065,
+        "over_5_5": 0.0011,
+        "over_6_5": 0.0003,
+        "over_7_5": 0.0001,
+        "over_8_5": 0.0
+      },
+      "amarillas_e2": {
+        "esperado": 0.7,
+        "mas_probable": 0,
+        "mas_probable_p": 0.5114,
+        "top5": [
+          {
+            "valor": 0,
+            "prob": 0.5114
+          },
+          {
+            "valor": 1,
+            "prob": 0.3483
+          },
+          {
+            "valor": 2,
+            "prob": 0.1105
+          },
+          {
+            "valor": 3,
+            "prob": 0.0245
+          },
+          {
+            "valor": 4,
+            "prob": 0.0046
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 1,
+          "prob": 0.8597
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 1,
+          "prob": 0.8597
+        },
+        "over_0_5": 0.4886,
+        "over_1_5": 0.1403,
+        "over_2_5": 0.0297,
+        "over_3_5": 0.0052,
+        "over_4_5": 0.0006,
+        "over_5_5": 0.0
+      },
+      "goles_dist": {
+        "esperado": 2.5,
+        "mas_probable": 2,
+        "mas_probable_p": 0.2541,
+        "top5": [
+          {
+            "valor": 2,
+            "prob": 0.2541
+          },
+          {
+            "valor": 3,
+            "prob": 0.2154
+          },
+          {
+            "valor": 1,
+            "prob": 0.2034
+          },
+          {
+            "valor": 4,
+            "prob": 0.1315
+          },
+          {
+            "valor": 0,
+            "prob": 0.0842
+          }
+        ],
+        "rango_60": {
+          "lo": 1,
+          "hi": 3,
+          "prob": 0.6729
+        },
+        "rango_80": {
+          "lo": 1,
+          "hi": 4,
+          "prob": 0.8044
+        },
+        "over_0_5": 0.9159,
+        "over_1_5": 0.7124,
+        "over_2_5": 0.4583,
+        "over_3_5": 0.2429,
+        "over_4_5": 0.1115,
+        "over_5_5": 0.0437,
+        "over_6_5": 0.0157,
+        "over_7_5": 0.0044,
+        "over_8_5": 0.0014,
+        "over_9_5": 0.0005,
+        "over_10_5": 0.0001,
+        "over_11_5": 0.0
+      },
+      "goles_e1_dist": {
+        "esperado": 1.5,
+        "mas_probable": 1,
+        "mas_probable_p": 0.3352,
+        "top5": [
+          {
+            "valor": 1,
+            "prob": 0.3352
+          },
+          {
+            "valor": 2,
+            "prob": 0.2535
+          },
+          {
+            "valor": 0,
+            "prob": 0.2227
+          },
+          {
+            "valor": 3,
+            "prob": 0.1221
+          },
+          {
+            "valor": 4,
+            "prob": 0.0452
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.8115
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.8115
+        },
+        "over_0_5": 0.7773,
+        "over_1_5": 0.442,
+        "over_2_5": 0.1885,
+        "over_3_5": 0.0664,
+        "over_4_5": 0.0211,
+        "over_5_5": 0.0049,
+        "over_6_5": 0.0008,
+        "over_7_5": 0.0001,
+        "over_8_5": 0.0
+      },
+      "goles_e2_dist": {
+        "esperado": 1.0,
+        "mas_probable": 0,
+        "mas_probable_p": 0.367,
+        "top5": [
+          {
+            "valor": 0,
+            "prob": 0.367
+          },
+          {
+            "valor": 1,
+            "prob": 0.3656
+          },
+          {
+            "valor": 2,
+            "prob": 0.1858
+          },
+          {
+            "valor": 3,
+            "prob": 0.0621
+          },
+          {
+            "valor": 4,
+            "prob": 0.0155
+          }
+        ],
+        "rango_60": {
+          "lo": 0,
+          "hi": 1,
+          "prob": 0.7327
+        },
+        "rango_80": {
+          "lo": 0,
+          "hi": 2,
+          "prob": 0.9185
+        },
+        "over_0_5": 0.633,
+        "over_1_5": 0.2673,
+        "over_2_5": 0.0815,
+        "over_3_5": 0.0194,
+        "over_4_5": 0.0039,
+        "over_5_5": 0.0006,
+        "over_6_5": 0.0001,
+        "over_7_5": 0.0
+      }
+    },
+    "stats_equipos": {
+      "e1": {
+        "nombre": "China",
+        "partidos": 6,
+        "goles_for": 0.83,
+        "goles_against": 0.67,
+        "corners_for": 5.2,
+        "corners_against": 4.3,
+        "tiros": 11.1,
+        "tiros_puerta": 3.9,
+        "amarillas": 1.17,
+        "faltas": 13.8,
+        "posesion": 50.6,
+        "precision_pase": 75.0,
+        "oportunidades": 1.5
+      },
+      "e2": {
+        "nombre": "Tailandia",
+        "partidos": 6,
+        "goles_for": 0.83,
+        "goles_against": 0.83,
+        "corners_for": 3.8,
+        "corners_against": 5.3,
+        "tiros": 11.3,
+        "tiros_puerta": 3.8,
+        "amarillas": 2.0,
+        "faltas": 13.3,
+        "posesion": 49.4,
+        "precision_pase": 71.0,
+        "oportunidades": 2.3
+      }
+    },
+    "apuesta": {
+      "patas": [
+        {
+          "tipo": "1X2",
+          "nombre": "1X2 · China",
+          "descripcion": "Victoria local",
+          "prob": 0.3969,
+          "pick": "Win",
+          "real": "Draw",
+          "resultado": "fallo",
+          "detalle": "Predijo victoria local · resultado real 0–0"
+        },
+        {
+          "tipo": "corners",
+          "nombre": "Córners U12.5",
+          "descripcion": "Mejor under córners",
+          "prob": 0.744,
+          "linea": 12.5,
+          "real": 12,
+          "resultado": "acierto",
+          "detalle": "Menos de 12.5 córners · reales 12"
+        },
+        {
+          "tipo": "amarillas",
+          "nombre": "Amarillas U2.5",
+          "descripcion": "Mejor under amarillas",
+          "prob": 0.7229,
+          "linea": 2.5,
+          "real": 2,
+          "resultado": "acierto",
+          "detalle": "Menos de 2.5 amarillas · reales 2"
+        }
+      ],
+      "n_patas": 3,
+      "n_evaluables": 3,
+      "n_acierto": 2,
+      "completa": false,
+      "que_fallo": [
+        "1X2 · China"
+      ]
+    },
+    "stats_reales": {
+      "e1": {
+        "posesion": 66.0,
+        "tiros": 23.0,
+        "tiros_puerta": 6.0,
+        "corners_for": 11.0,
+        "amarillas": 1.0,
+        "faltas": 4.0,
+        "precision_pase": 82.6,
+        "oportunidades": 2.0,
+        "goles_for": 0
+      },
+      "e2": {
+        "posesion": 34.0,
+        "tiros": 3.0,
+        "tiros_puerta": 0.0,
+        "corners_for": 1.0,
+        "amarillas": 1.0,
+        "faltas": 12.0,
+        "precision_pase": 64.2,
+        "oportunidades": 0.0,
+        "goles_for": 0
+      }
+    }
+  }
+]

@@ -15,6 +15,11 @@ services:
         value: "*"
       - key: PYTHONUNBUFFERED
         value: "1"
+      # Postgres persistente (Neon/Supabase). Se setea a mano en el dashboard de
+      # Render (Environment) con la connection string. Sin esto usa SQLite efímero
+      # y el pick / partidos-hoy se pierden al reiniciar el contenedor.
+      - key: DATABASE_URL
+        sync: false
     # SQLite vive en /app/futbol.db dentro del contenedor.
     # Para persistencia entre deploys, descomenta y crea un disk en Render:
     # disk:

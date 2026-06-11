@@ -1,700 +1,695 @@
 {
-  "equipo1": "Paris",
-  "equipo2": "Arsenal",
+  "equipo1": "Francia",
+  "equipo2": "Perú",
   "hora": "21:00",
-  "fase": "Final",
-  "competencia": "UCL",
-  "prob_win": 0.5146878707675495,
-  "prob_draw": 0.1732662994448199,
-  "prob_loss": 0.3120458297876305,
+  "fase": "Liga",
+  "competencia": "Mundial",
+  "prob_win": 0.7930088199653157,
+  "prob_draw": 0.16212700505679078,
+  "prob_loss": 0.044864174977893675,
   "valores": [
     {
-      "nombre": "1X2 · Paris",
+      "nombre": "1X2 · Francia",
       "descripcion": "Victoria local",
-      "porcentaje": 51
+      "porcentaje": 79
     },
     {
-      "nombre": "Corners U10.5",
+      "nombre": "Corners U11.5",
       "descripcion": "Mejor under corners",
-      "porcentaje": 66
-    },
-    {
-      "nombre": "Amarillas U3.5",
-      "descripcion": "Mejor under amarillas",
-      "porcentaje": 68
+      "porcentaje": 69
     }
   ],
   "mercados": {
     "btts": {
-      "si": 0.746,
-      "no": 0.254
+      "si": 0.3687,
+      "no": 0.6313
     },
     "resultado_correcto": [
       {
-        "score": "2-1",
-        "g1": 2,
-        "g2": 1,
-        "prob": 0.0731
-      },
-      {
-        "score": "1-2",
-        "g1": 1,
-        "g2": 2,
-        "prob": 0.0714
-      },
-      {
-        "score": "2-2",
-        "g1": 2,
-        "g2": 2,
-        "prob": 0.0707
-      },
-      {
-        "score": "1-1",
-        "g1": 1,
-        "g2": 1,
-        "prob": 0.0706
-      },
-      {
-        "score": "1-3",
-        "g1": 1,
-        "g2": 3,
-        "prob": 0.05
-      },
-      {
-        "score": "3-2",
+        "score": "3-0",
         "g1": 3,
-        "g2": 2,
-        "prob": 0.0493
+        "g2": 0,
+        "prob": 0.1356
       },
       {
-        "score": "3-1",
-        "g1": 3,
-        "g2": 1,
-        "prob": 0.0481
-      },
-      {
-        "score": "2-3",
+        "score": "2-0",
         "g1": 2,
-        "g2": 3,
-        "prob": 0.0478
+        "g2": 0,
+        "prob": 0.1341
+      },
+      {
+        "score": "4-0",
+        "g1": 4,
+        "g2": 0,
+        "prob": 0.1039
       },
       {
         "score": "1-0",
         "g1": 1,
         "g2": 0,
-        "prob": 0.0378
+        "prob": 0.0907
       },
       {
-        "score": "0-1",
-        "g1": 0,
+        "score": "2-1",
+        "g1": 2,
         "g2": 1,
-        "prob": 0.0377
+        "prob": 0.0667
+      },
+      {
+        "score": "5-0",
+        "g1": 5,
+        "g2": 0,
+        "prob": 0.0648
+      },
+      {
+        "score": "3-1",
+        "g1": 3,
+        "g2": 1,
+        "prob": 0.0637
+      },
+      {
+        "score": "4-1",
+        "g1": 4,
+        "g2": 1,
+        "prob": 0.0489
+      },
+      {
+        "score": "1-1",
+        "g1": 1,
+        "g2": 1,
+        "prob": 0.045
+      },
+      {
+        "score": "0-0",
+        "g1": 0,
+        "g2": 0,
+        "prob": 0.0326
       }
     ],
     "dnb": {
-      "Paris": 0.6226,
-      "Arsenal": 0.3774
+      "Francia": 0.9465,
+      "Perú": 0.0535
     },
     "doble_oportunidad": {
-      "1X (gana Paris o empate)": 0.688,
-      "X2 (empate o gana Arsenal)": 0.4853,
-      "12 (no empate)": 0.8267
+      "1X (gana Francia o empate)": 0.9551,
+      "X2 (empate o gana Perú)": 0.207,
+      "12 (no empate)": 0.8379
     },
     "goles_e1": {
-      "nombre": "Paris",
-      "xg": 2,
-      "over_0_5": 0.8639,
-      "over_1_5": 0.5946,
-      "over_2_5": 0.3235
+      "nombre": "Francia",
+      "xg": 3.02,
+      "over_0_5": 0.9497,
+      "over_1_5": 0.8001,
+      "over_2_5": 0.5784
     },
     "goles_e2": {
-      "nombre": "Arsenal",
-      "xg": 2.01,
-      "over_0_5": 0.8635,
-      "over_1_5": 0.5929,
-      "over_2_5": 0.3287
+      "nombre": "Perú",
+      "xg": 0.5,
+      "over_0_5": 0.3864,
+      "over_1_5": 0.0927,
+      "over_2_5": 0.0149
     },
     "total_goles": {
-      "xg": 4.01,
-      "over_0_5": 0.9812,
-      "over_1_5": 0.9058,
-      "over_2_5": 0.7613,
-      "over_3_5": 0.5692,
-      "over_4_5": 0.375
+      "xg": 3.51,
+      "over_0_5": 0.9674,
+      "over_1_5": 0.8636,
+      "over_2_5": 0.6804,
+      "over_3_5": 0.4658,
+      "over_4_5": 0.2785
     },
     "handicap": {
-      "Paris -1": 0.2174,
-      "Paris -1.5": 0.2174,
-      "Paris -2": 0.1007,
-      "+1 Arsenal": 0.777,
-      "+1.5 Arsenal": 0.777,
-      "Arsenal -1": 0.223,
-      "Arsenal -1.5": 0.223
+      "Francia -1": 0.689,
+      "Francia -1.5": 0.689,
+      "Francia -2": 0.477,
+      "+1 Perú": 0.9928,
+      "+1.5 Perú": 0.9928,
+      "Perú -1": 0.0073,
+      "Perú -1.5": 0.0073
     },
     "win_btts": {
-      "Paris": 0.2796,
-      "Arsenal": 0.2822
+      "Francia": 0.2851,
+      "Perú": 0.0174
     },
-    "gol_ambas_mitades": 0.7398,
+    "gol_ambas_mitades": 0.6734,
     "ht_ft": {
-      "W/W": 0.2382,
-      "W/D": 0.0549,
-      "W/L": 0.0343,
-      "D/W": 0.1172,
-      "D/D": 0.0939,
-      "D/L": 0.1205,
-      "L/W": 0.0338,
-      "L/D": 0.0531,
-      "L/L": 0.2542
+      "W/W": 0.6385,
+      "W/D": 0.0186,
+      "W/L": 0.0024,
+      "D/W": 0.2009,
+      "D/D": 0.0621,
+      "D/L": 0.0162,
+      "L/W": 0.0237,
+      "L/D": 0.0189,
+      "L/L": 0.0188
     },
     "corners": {
-      "esperado": 9.4,
+      "esperado": 10.1,
       "mas_probable": 9,
-      "mas_probable_p": 0.1293,
+      "mas_probable_p": 0.1258,
       "top5": [
         {
           "valor": 9,
-          "prob": 0.1293
-        },
-        {
-          "valor": 8,
-          "prob": 0.1231
+          "prob": 0.1258
         },
         {
           "valor": 10,
-          "prob": 0.1211
-        },
-        {
-          "valor": 7,
-          "prob": 0.1101
+          "prob": 0.1244
         },
         {
           "valor": 11,
-          "prob": 0.1063
+          "prob": 0.1149
+        },
+        {
+          "valor": 8,
+          "prob": 0.1141
+        },
+        {
+          "valor": 12,
+          "prob": 0.0964
         }
       ],
       "rango_60": {
         "lo": 7,
         "hi": 12,
-        "prob": 0.6709
+        "prob": 0.6648
       },
       "rango_80": {
         "lo": 6,
-        "hi": 13,
-        "prob": 0.8096
+        "hi": 14,
+        "prob": 0.8521
       },
-      "over_0_5": 0.9999,
-      "over_1_5": 0.9991,
-      "over_2_5": 0.9955,
-      "over_3_5": 0.9849,
-      "over_4_5": 0.9568,
-      "over_5_5": 0.9041,
-      "over_6_5": 0.8246,
-      "over_7_5": 0.7145,
-      "over_8_5": 0.5914,
-      "over_9_5": 0.4621,
-      "over_10_5": 0.3409,
-      "over_11_5": 0.2346,
-      "over_12_5": 0.1537,
-      "over_13_5": 0.0945,
-      "over_14_5": 0.0561,
-      "over_15_5": 0.0315,
-      "over_16_5": 0.0155,
-      "over_17_5": 0.0078,
-      "over_18_5": 0.0035,
-      "over_19_5": 0.001,
-      "over_20_5": 0.0005,
-      "over_21_5": 0.0003,
-      "over_22_5": 0
+      "over_0_5": 1,
+      "over_1_5": 0.9995,
+      "over_2_5": 0.9977,
+      "over_3_5": 0.9898,
+      "over_4_5": 0.9725,
+      "over_5_5": 0.9376,
+      "over_6_5": 0.8766,
+      "over_7_5": 0.7874,
+      "over_8_5": 0.6733,
+      "over_9_5": 0.5474,
+      "over_10_5": 0.4231,
+      "over_11_5": 0.3082,
+      "over_12_5": 0.2117,
+      "over_13_5": 0.1387,
+      "over_14_5": 0.0855,
+      "over_15_5": 0.0495,
+      "over_16_5": 0.0279,
+      "over_17_5": 0.0143,
+      "over_18_5": 0.0081,
+      "over_19_5": 0.0043,
+      "over_20_5": 0.002,
+      "over_21_5": 0.0013,
+      "over_22_5": 0.0007,
+      "over_23_5": 0.0002,
+      "over_24_5": 0.0001,
+      "over_25_5": 0
     },
     "corners_e1": {
-      "esperado": 5.9,
+      "esperado": 5.3,
       "mas_probable": 5,
-      "mas_probable_p": 0.1636,
+      "mas_probable_p": 0.1731,
       "top5": [
         {
           "valor": 5,
-          "prob": 0.1636
+          "prob": 0.1731
+        },
+        {
+          "valor": 4,
+          "prob": 0.1661
         },
         {
           "valor": 6,
-          "prob": 0.1613
+          "prob": 0.1543
         },
         {
-          "valor": 4,
-          "prob": 0.1358
+          "valor": 3,
+          "prob": 0.1239
         },
         {
           "valor": 7,
-          "prob": 0.1333
-        },
-        {
-          "valor": 8,
-          "prob": 0.1001
+          "prob": 0.1172
         }
       ],
       "rango_60": {
-        "lo": 4,
-        "hi": 8,
-        "prob": 0.6942
+        "lo": 3,
+        "hi": 6,
+        "prob": 0.6175
       },
       "rango_80": {
         "lo": 3,
-        "hi": 9,
-        "prob": 0.8571
+        "hi": 8,
+        "prob": 0.8098
       },
-      "over_0_5": 0.9968,
-      "over_1_5": 0.9821,
-      "over_2_5": 0.9358,
-      "over_3_5": 0.8393,
-      "over_4_5": 0.7035,
-      "over_5_5": 0.5398,
-      "over_6_5": 0.3785,
-      "over_7_5": 0.2452,
-      "over_8_5": 0.1451,
-      "over_9_5": 0.0788,
-      "over_10_5": 0.0396,
-      "over_11_5": 0.0184,
-      "over_12_5": 0.0078,
-      "over_13_5": 0.0033,
-      "over_14_5": 0.0011,
-      "over_15_5": 0.0006,
-      "over_16_5": 0.0002,
+      "over_0_5": 0.995,
+      "over_1_5": 0.9703,
+      "over_2_5": 0.8992,
+      "over_3_5": 0.7752,
+      "over_4_5": 0.6091,
+      "over_5_5": 0.436,
+      "over_6_5": 0.2817,
+      "over_7_5": 0.1645,
+      "over_8_5": 0.0893,
+      "over_9_5": 0.0437,
+      "over_10_5": 0.0204,
+      "over_11_5": 0.0079,
+      "over_12_5": 0.0029,
+      "over_13_5": 0.0011,
+      "over_14_5": 0.0003,
+      "over_15_5": 0.0001,
+      "over_16_5": 0.0001,
       "over_17_5": 0
     },
     "corners_e2": {
-      "esperado": 3.5,
-      "mas_probable": 3,
-      "mas_probable_p": 0.2176,
+      "esperado": 4.8,
+      "mas_probable": 4,
+      "mas_probable_p": 0.1842,
       "top5": [
         {
-          "valor": 3,
-          "prob": 0.2176
-        },
-        {
-          "valor": 2,
-          "prob": 0.1885
-        },
-        {
           "valor": 4,
-          "prob": 0.1872
+          "prob": 0.1842
         },
         {
           "valor": 5,
-          "prob": 0.1315
+          "prob": 0.1731
         },
         {
-          "valor": 1,
-          "prob": 0.1118
+          "valor": 3,
+          "prob": 0.1518
+        },
+        {
+          "valor": 6,
+          "prob": 0.1426
+        },
+        {
+          "valor": 2,
+          "prob": 0.1003
         }
       ],
       "rango_60": {
-        "lo": 2,
-        "hi": 5,
-        "prob": 0.7247
+        "lo": 3,
+        "hi": 6,
+        "prob": 0.6516
       },
       "rango_80": {
-        "lo": 1,
-        "hi": 5,
-        "prob": 0.8365
+        "lo": 2,
+        "hi": 7,
+        "prob": 0.844
       },
-      "over_0_5": 0.971,
-      "over_1_5": 0.8592,
-      "over_2_5": 0.6708,
-      "over_3_5": 0.4532,
-      "over_4_5": 0.2661,
-      "over_5_5": 0.1346,
-      "over_6_5": 0.0628,
-      "over_7_5": 0.0253,
-      "over_8_5": 0.0092,
-      "over_9_5": 0.0032,
-      "over_10_5": 0.001,
-      "over_11_5": 0.0005,
-      "over_12_5": 0.0003,
-      "over_13_5": 0.0001,
-      "over_14_5": 0.0001,
-      "over_15_5": 0
+      "over_0_5": 0.9922,
+      "over_1_5": 0.9524,
+      "over_2_5": 0.852,
+      "over_3_5": 0.7003,
+      "over_4_5": 0.5161,
+      "over_5_5": 0.3431,
+      "over_6_5": 0.2004,
+      "over_7_5": 0.1084,
+      "over_8_5": 0.0546,
+      "over_9_5": 0.0249,
+      "over_10_5": 0.0103,
+      "over_11_5": 0.004,
+      "over_12_5": 0.0014,
+      "over_13_5": 0.0003,
+      "over_14_5": 0.0003,
+      "over_15_5": 0.0001,
+      "over_16_5": 0
     },
     "amarillas": {
-      "esperado": 2.9,
-      "mas_probable": 2,
-      "mas_probable_p": 0.2379,
+      "esperado": 3.2,
+      "mas_probable": 3,
+      "mas_probable_p": 0.2192,
       "top5": [
         {
-          "valor": 2,
-          "prob": 0.2379
+          "valor": 3,
+          "prob": 0.2192
         },
         {
-          "valor": 3,
-          "prob": 0.2221
+          "valor": 2,
+          "prob": 0.2142
         },
         {
           "valor": 4,
-          "prob": 0.1631
+          "prob": 0.1799
         },
         {
           "valor": 1,
-          "prob": 0.1622
+          "prob": 0.1392
         },
         {
           "valor": 5,
-          "prob": 0.0897
+          "prob": 0.1088
         }
       ],
       "rango_60": {
         "lo": 2,
         "hi": 4,
-        "prob": 0.623
+        "prob": 0.6133
       },
       "rango_80": {
         "lo": 1,
         "hi": 5,
-        "prob": 0.875
+        "prob": 0.8613
       },
-      "over_0_5": 0.9462,
-      "over_1_5": 0.784,
-      "over_2_5": 0.5461,
-      "over_3_5": 0.324,
-      "over_4_5": 0.1609,
-      "over_5_5": 0.0712,
-      "over_6_5": 0.027,
-      "over_7_5": 0.0098,
-      "over_8_5": 0.003,
-      "over_9_5": 0.0007,
-      "over_10_5": 0.0002,
-      "over_11_5": 0
+      "over_0_5": 0.9617,
+      "over_1_5": 0.8226,
+      "over_2_5": 0.6084,
+      "over_3_5": 0.3892,
+      "over_4_5": 0.2092,
+      "over_5_5": 0.1004,
+      "over_6_5": 0.0404,
+      "over_7_5": 0.015,
+      "over_8_5": 0.0052,
+      "over_9_5": 0.0021,
+      "over_10_5": 0.0006,
+      "over_11_5": 0.0003,
+      "over_12_5": 0
     },
     "amarillas_e1": {
-      "esperado": 1,
+      "esperado": 1.3,
       "mas_probable": 1,
-      "mas_probable_p": 0.3637,
+      "mas_probable_p": 0.3606,
       "top5": [
         {
           "valor": 1,
-          "prob": 0.3637
+          "prob": 0.3606
         },
         {
           "valor": 0,
-          "prob": 0.3611
+          "prob": 0.2821
         },
         {
           "valor": 2,
-          "prob": 0.1895
+          "prob": 0.2217
         },
         {
           "valor": 3,
-          "prob": 0.0643
+          "prob": 0.0969
         },
         {
           "valor": 4,
-          "prob": 0.0177
+          "prob": 0.0294
         }
       ],
       "rango_60": {
         "lo": 0,
         "hi": 1,
-        "prob": 0.7248
+        "prob": 0.6426
       },
       "rango_80": {
         "lo": 0,
         "hi": 2,
-        "prob": 0.9143
+        "prob": 0.8643
       },
-      "over_0_5": 0.6389,
-      "over_1_5": 0.2752,
-      "over_2_5": 0.0857,
-      "over_3_5": 0.0214,
-      "over_4_5": 0.0037,
-      "over_5_5": 0.001,
-      "over_6_5": 0.0001,
+      "over_0_5": 0.7179,
+      "over_1_5": 0.3574,
+      "over_2_5": 0.1357,
+      "over_3_5": 0.0387,
+      "over_4_5": 0.0094,
+      "over_5_5": 0.0019,
+      "over_6_5": 0.0003,
       "over_7_5": 0.0001,
       "over_8_5": 0
     },
     "amarillas_e2": {
-      "esperado": 1.8,
+      "esperado": 1.9,
       "mas_probable": 1,
-      "mas_probable_p": 0.296,
+      "mas_probable_p": 0.2882,
       "top5": [
         {
           "valor": 1,
-          "prob": 0.296
+          "prob": 0.2882
         },
         {
           "valor": 2,
-          "prob": 0.2702
+          "prob": 0.2697
         },
         {
           "valor": 3,
-          "prob": 0.1676
+          "prob": 0.1701
         },
         {
           "valor": 0,
-          "prob": 0.1527
+          "prob": 0.1482
         },
         {
           "valor": 4,
-          "prob": 0.0751
+          "prob": 0.0812
         }
       ],
       "rango_60": {
         "lo": 1,
         "hi": 3,
-        "prob": 0.7339
+        "prob": 0.7279
       },
       "rango_80": {
         "lo": 0,
         "hi": 3,
-        "prob": 0.8866
+        "prob": 0.8761
       },
-      "over_0_5": 0.8472,
-      "over_1_5": 0.5513,
-      "over_2_5": 0.2811,
-      "over_3_5": 0.1134,
-      "over_4_5": 0.0384,
-      "over_5_5": 0.012,
-      "over_6_5": 0.0026,
-      "over_7_5": 0.0008,
-      "over_8_5": 0.0001,
+      "over_0_5": 0.8518,
+      "over_1_5": 0.5636,
+      "over_2_5": 0.2939,
+      "over_3_5": 0.1239,
+      "over_4_5": 0.0427,
+      "over_5_5": 0.0132,
+      "over_6_5": 0.003,
+      "over_7_5": 0.0011,
+      "over_8_5": 0.0003,
       "over_9_5": 0.0001,
       "over_10_5": 0
     },
     "goles_dist": {
-      "esperado": 4,
-      "mas_probable": 4,
-      "mas_probable_p": 0.1941,
+      "esperado": 3.5,
+      "mas_probable": 3,
+      "mas_probable_p": 0.2145,
       "top5": [
         {
-          "valor": 4,
-          "prob": 0.1941
-        },
-        {
           "valor": 3,
-          "prob": 0.1921
+          "prob": 0.2145
         },
         {
-          "valor": 5,
-          "prob": 0.1562
+          "valor": 4,
+          "prob": 0.1873
         },
         {
           "valor": 2,
-          "prob": 0.1444
+          "prob": 0.1832
         },
         {
-          "valor": 6,
-          "prob": 0.1056
+          "valor": 5,
+          "prob": 0.1338
+        },
+        {
+          "valor": 1,
+          "prob": 0.1038
         }
       ],
       "rango_60": {
         "lo": 2,
         "hi": 5,
-        "prob": 0.6869
+        "prob": 0.7188
       },
       "rango_80": {
         "lo": 1,
-        "hi": 6,
-        "prob": 0.868
+        "hi": 5,
+        "prob": 0.8226
       },
-      "over_0_5": 0.9812,
-      "over_1_5": 0.9058,
-      "over_2_5": 0.7613,
-      "over_3_5": 0.5692,
-      "over_4_5": 0.375,
-      "over_5_5": 0.2188,
-      "over_6_5": 0.1133,
-      "over_7_5": 0.052,
-      "over_8_5": 0.0208,
-      "over_9_5": 0.0083,
-      "over_10_5": 0.0024,
-      "over_11_5": 0.0009,
-      "over_12_5": 0.0004,
+      "over_0_5": 0.9674,
+      "over_1_5": 0.8636,
+      "over_2_5": 0.6804,
+      "over_3_5": 0.4658,
+      "over_4_5": 0.2785,
+      "over_5_5": 0.1447,
+      "over_6_5": 0.0675,
+      "over_7_5": 0.029,
+      "over_8_5": 0.0106,
+      "over_9_5": 0.0036,
+      "over_10_5": 0.0011,
+      "over_11_5": 0.0003,
+      "over_12_5": 0.0001,
       "over_13_5": 0.0001,
-      "over_14_5": 0.0001,
-      "over_15_5": 0.0001,
-      "over_16_5": 0.0001,
-      "over_17_5": 0
+      "over_14_5": 0
     },
     "goles_e1_dist": {
-      "esperado": 2,
+      "esperado": 3,
       "mas_probable": 2,
-      "mas_probable_p": 0.2711,
+      "mas_probable_p": 0.2218,
       "top5": [
         {
           "valor": 2,
-          "prob": 0.2711
-        },
-        {
-          "valor": 1,
-          "prob": 0.2693
+          "prob": 0.2218
         },
         {
           "valor": 3,
-          "prob": 0.1797
-        },
-        {
-          "valor": 0,
-          "prob": 0.1361
+          "prob": 0.2198
         },
         {
           "valor": 4,
-          "prob": 0.0903
+          "prob": 0.1686
+        },
+        {
+          "valor": 1,
+          "prob": 0.1496
+        },
+        {
+          "valor": 5,
+          "prob": 0.1046
         }
       ],
       "rango_60": {
-        "lo": 1,
-        "hi": 3,
-        "prob": 0.7201
+        "lo": 2,
+        "hi": 4,
+        "prob": 0.6101
       },
       "rango_80": {
-        "lo": 0,
-        "hi": 3,
-        "prob": 0.8562
+        "lo": 1,
+        "hi": 5,
+        "prob": 0.8643
       },
-      "over_0_5": 0.8639,
-      "over_1_5": 0.5946,
-      "over_2_5": 0.3235,
-      "over_3_5": 0.1437,
-      "over_4_5": 0.0534,
-      "over_5_5": 0.0169,
-      "over_6_5": 0.004,
-      "over_7_5": 0.001,
-      "over_8_5": 0.0001,
-      "over_9_5": 0
+      "over_0_5": 0.9497,
+      "over_1_5": 0.8001,
+      "over_2_5": 0.5784,
+      "over_3_5": 0.3586,
+      "over_4_5": 0.19,
+      "over_5_5": 0.0854,
+      "over_6_5": 0.0367,
+      "over_7_5": 0.0129,
+      "over_8_5": 0.0037,
+      "over_9_5": 0.001,
+      "over_10_5": 0.0003,
+      "over_11_5": 0.0001,
+      "over_12_5": 0
     },
     "goles_e2_dist": {
-      "esperado": 2,
-      "mas_probable": 1,
-      "mas_probable_p": 0.2706,
+      "esperado": 0.5,
+      "mas_probable": 0,
+      "mas_probable_p": 0.6136,
       "top5": [
         {
+          "valor": 0,
+          "prob": 0.6136
+        },
+        {
           "valor": 1,
-          "prob": 0.2706
+          "prob": 0.2937
         },
         {
           "valor": 2,
-          "prob": 0.2642
+          "prob": 0.0777
         },
         {
           "valor": 3,
-          "prob": 0.1817
-        },
-        {
-          "valor": 0,
-          "prob": 0.1366
+          "prob": 0.0132
         },
         {
           "valor": 4,
-          "prob": 0.0933
+          "prob": 0.0018
         }
       ],
       "rango_60": {
-        "lo": 1,
-        "hi": 3,
-        "prob": 0.7165
+        "lo": 0,
+        "hi": 0,
+        "prob": 0.6136
       },
       "rango_80": {
         "lo": 0,
-        "hi": 3,
-        "prob": 0.8531
+        "hi": 1,
+        "prob": 0.9073
       },
-      "over_0_5": 0.8635,
-      "over_1_5": 0.5929,
-      "over_2_5": 0.3287,
-      "over_3_5": 0.1469,
-      "over_4_5": 0.0537,
-      "over_5_5": 0.0165,
-      "over_6_5": 0.0046,
-      "over_7_5": 0.0015,
-      "over_8_5": 0.0002,
-      "over_9_5": 0.0001,
-      "over_10_5": 0
+      "over_0_5": 0.3864,
+      "over_1_5": 0.0927,
+      "over_2_5": 0.0149,
+      "over_3_5": 0.0018,
+      "over_4_5": 0.0001,
+      "over_5_5": 0
     }
   },
   "modelos": [
     {
       "modelo": "Dixon-Coles",
-      "pred": "Loss",
-      "win": 0.3392634685620206,
-      "draw": 0.27089131732236915,
-      "loss": 0.3898452141156102,
+      "pred": "Win",
+      "win": 0.6814028136857367,
+      "draw": 0.2277194226334198,
+      "loss": 0.09087776368084359,
       "accuracy": 58
     },
     {
       "modelo": "Logistic Regression",
       "pred": "Win",
-      "win": 0.5722882096237826,
-      "draw": 0.12808771338657776,
-      "loss": 0.2996240769896397,
+      "win": 0.7863028641332153,
+      "draw": 0.19308630901172988,
+      "loss": 0.020610826855054873,
       "accuracy": 55
     },
     {
       "modelo": "SVM",
       "pred": "Win",
-      "win": 0.5108837103940571,
-      "draw": 0.13537460064139187,
-      "loss": 0.353741688964551,
+      "win": 0.7216212243682794,
+      "draw": 0.22220122685194274,
+      "loss": 0.05617754877977795,
       "accuracy": 53
+    },
+    {
+      "modelo": "XGBoost",
+      "pred": "Win",
+      "win": 0.9064361502910426,
+      "draw": 0.09356384970895738,
+      "loss": 0,
+      "accuracy": 46
     },
     {
       "modelo": "Random Forest",
       "pred": "Win",
-      "win": 0.5701844658758412,
-      "draw": 0.1506503782523545,
-      "loss": 0.2791651558718043,
+      "win": 0.8987290650142516,
+      "draw": 0.10127093498574836,
+      "loss": 0,
       "accuracy": 51
+    },
+    {
+      "modelo": "LightGBM",
+      "pred": "Win",
+      "win": 0.8797959620593387,
+      "draw": 0.12020403794066126,
+      "loss": 0,
+      "accuracy": 49
     },
     {
       "modelo": "Gradient Boosting",
       "pred": "Win",
-      "win": 0.684931140017739,
-      "draw": 0.12119363452764391,
-      "loss": 0.19387522545461702,
+      "win": 0.80543403043005,
+      "draw": 0.16572337359338093,
+      "loss": 0.028842595976568932,
       "accuracy": 48
     },
     {
       "modelo": "KNN",
       "pred": "Win",
-      "win": 0.4426817686725199,
-      "draw": 0.15426537276417107,
-      "loss": 0.4030528585633089,
+      "win": 0.6172651232134211,
+      "draw": 0.22359334720232757,
+      "loss": 0.1591415295842513,
       "accuracy": 48
-    },
-    {
-      "modelo": "LightGBM",
-      "pred": "Win",
-      "win": 0.5572883018270297,
-      "draw": 0.11788173264297215,
-      "loss": 0.3248299655299981,
-      "accuracy": 49
-    },
-    {
-      "modelo": "XGBoost",
-      "pred": "Win",
-      "win": 0.6137030917751588,
-      "draw": 0.1804354376569943,
-      "loss": 0.20586147056784704,
-      "accuracy": 46
     },
     {
       "modelo": "Stacker",
       "pred": "Win",
-      "win": 0.49710212792730707,
-      "draw": 0.23119083665506288,
-      "loss": 0.27170703541763014,
+      "win": 0.8365780323279824,
+      "draw": 0.10953812260779283,
+      "loss": 0.053883845064224715,
       "accuracy": null
     }
   ],
   "goles": [
     {
       "modelo": "Random Forest",
-      "g1": 2,
-      "g2": 2,
-      "std1": 0.1332716523633076,
-      "std2": 0.07950716469110536
+      "g1": 3,
+      "g2": 0,
+      "std1": 0.04499999999999993,
+      "std2": 0.03
     },
     {
       "modelo": "XGBoost",
-      "g1": 2,
-      "g2": 2,
+      "g1": 3,
+      "g2": 1,
       "std1": 0,
       "std2": 0
     }
@@ -702,85 +697,85 @@
   "ultimos_e1": [
     {
       "fecha": "—",
-      "rival": "Arsenal",
-      "gf": 1,
+      "rival": "Azerbaiyán",
+      "gf": 3,
       "gc": 1,
-      "res": "D",
-      "es_local": true
-    },
-    {
-      "fecha": "—",
-      "rival": "Bayern Munchen",
-      "gf": 1,
-      "gc": 1,
-      "res": "D",
-      "es_local": false
-    },
-    {
-      "fecha": "—",
-      "rival": "Bayern Munchen",
-      "gf": 5,
-      "gc": 4,
       "res": "W",
-      "es_local": true
-    }
-  ],
-  "ultimos_e2": [
-    {
-      "fecha": "—",
-      "rival": "Paris",
-      "gf": 1,
-      "gc": 1,
-      "res": "D",
       "es_local": false
     },
     {
       "fecha": "—",
-      "rival": "Atleti",
-      "gf": 1,
+      "rival": "Ucrania",
+      "gf": 4,
       "gc": 0,
       "res": "W",
       "es_local": true
     },
     {
       "fecha": "—",
-      "rival": "Atleti",
-      "gf": 1,
-      "gc": 1,
+      "rival": "Islandia",
+      "gf": 2,
+      "gc": 2,
       "res": "D",
       "es_local": false
     }
   ],
+  "ultimos_e2": [
+    {
+      "fecha": "—",
+      "rival": "Paraguay",
+      "gf": 0,
+      "gc": 1,
+      "res": "L",
+      "es_local": true
+    },
+    {
+      "fecha": "—",
+      "rival": "Uruguay",
+      "gf": 0,
+      "gc": 3,
+      "res": "L",
+      "es_local": false
+    },
+    {
+      "fecha": "—",
+      "rival": "Ecuador",
+      "gf": 0,
+      "gc": 0,
+      "res": "D",
+      "es_local": true
+    }
+  ],
   "stats_equipos": {
     "e1": {
-      "nombre": "Paris",
-      "partidos": 33,
-      "goles_for": 2.53,
-      "goles_against": 1.16,
-      "corners_for": 5.9,
-      "corners_against": 3.3,
-      "tiros": 15.2,
-      "tiros_puerta": 5.5,
-      "amarillas": 1.03,
-      "faltas": 9.2,
-      "posesion": 49.7,
-      "precision_pase": 89.2,
-      "oportunidades": 1
+      "nombre": "Francia",
+      "partidos": 58,
+      "goles_for": 1.67,
+      "goles_against": 0.81,
+      "corners_for": 5.3,
+      "corners_against": 3.6,
+      "tiros": 14.1,
+      "tiros_puerta": 5.2,
+      "amarillas": 1.26,
+      "faltas": 10.6,
+      "posesion": 55.8,
+      "precision_pase": 87.9,
+      "oportunidades": 3.2
     },
     "e2": {
-      "nombre": "Arsenal",
-      "partidos": 29,
-      "goles_for": 2.14,
-      "goles_against": 0.57,
-      "corners_for": 5.4,
-      "corners_against": 3.5,
-      "tiros": 13.9,
-      "tiros_puerta": 5.9,
-      "amarillas": 1.89,
-      "faltas": 11.4,
-      "posesion": 50.3,
-      "precision_pase": 86.2,
-      "oportunidades": 0.6
+      "nombre": "Perú",
+      "partidos": 54,
+      "goles_for": 0.74,
+      "goles_against": 1.33,
+      "corners_for": 3.3,
+      "corners_against": 4.8,
+      "tiros": 9.6,
+      "tiros_puerta": 3.4,
+      "amarillas": 2.17,
+      "faltas": 14.3,
+      "posesion": 43.8,
+      "precision_pase": 78.2,
+      "oportunidades": 1.3
     }
   }
 }

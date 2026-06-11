@@ -64,6 +64,7 @@ TORNEOS = {
     'asian_cup':      {'id': 246,   'nombre': 'AFC Asian Cup',                'conf': 'AFC'},
     'gold_cup':       {'id': 140,   'nombre': 'CONCACAF Gold Cup',            'conf': 'CONCACAF'},
     'concacaf_nl':    {'id': 14100, 'nombre': 'CONCACAF Nations League',      'conf': 'CONCACAF'},
+    'amistosos':      {'id': 851,   'nombre': 'Amistoso Internacional',       'conf': 'FIFA'},
 }
 
 # ─── Columnas extra para selecciones ──────────────────────────────────────────
@@ -299,10 +300,67 @@ def listar_temporadas(sess, torneo_id):
     ]
 
 
+def listar_partidos_por_eventos(sess, torneo_id, season_id, solo_conocidos=True):
+    """Lista partidos terminados de una temporada SIN estructura de rounds
+    (p. ej. amistosos). Usa el endpoint paginado events/last/{page}.
+
+    - solo_conocidos: descarta partidos cuyos equipos no estén en el mapeo de
+      selecciones (juveniles U21/U19, clubes, selecciones menores sin datos).
+    """
+    from datetime import datetime
+    partidos = []
+    page = 0
+    while True:
+        data = sess.api(
+            f'/unique-tournament/{torneo_id}/season/{season_id}/events/last/{page}'
+        )
+        if not data:
+            break
+        eventos = data.get('events', [])
+        if not eventos:
+            break
+        for ev in eventos:
+            if ev.get('status', {}).get('type', '') != 'finished':
+                continue
+            home_raw = ev.get('homeTeam', {}).get('name', '')
+            away_raw = ev.get('awayTeam', {}).get('name', '')
+            # Descartar juveniles / femeninas explícitas por sufijo
+            if any(x in f'{home_raw} {away_raw}' for x in
+                   ('U21', 'U20', 'U19', 'U23', 'U17', 'W', ' Women')):
+                continue
+            home = _norm_seleccion(home_raw)
+            away = _norm_seleccion(away_raw)
+            if solo_conocidos and (
+                _confederacion(home) == 'Desconocido' or
+                _confederacion(away) == 'Desconocido'):
+                continue
+            ts = ev.get('startTimestamp')
+            fecha = datetime.fromtimestamp(ts).strftime('%Y-%m-%d') if ts else None
+            partidos.append({
+                'event_id':   ev['id'],
+                'home':       home,
+                'away':       away,
+                'fecha':      fecha,
+                'goles_home': ev.get('homeScore', {}).get('current'),
+                'goles_away': ev.get('awayScore', {}).get('current'),
+                'round':      0,
+                'fase':       'Amistoso',
+            })
+        if not data.get('hasNextPage'):
+            break
+        page += 1
+
+    # Ordenar cronológicamente (events/last viene de más reciente a más viejo)
+    partidos.sort(key=lambda p: p['fecha'] or '')
+    print(f'    Amistoso  {len(partidos)} partidos terminados (selecciones conocidas)')
+    return partidos
+
+
 def listar_partidos(sess, torneo_id, season_id):
     data_rounds = sess.api(f'/unique-tournament/{torneo_id}/season/{season_id}/rounds')
-    if not data_rounds:
-        return []
+    if not data_rounds or not data_rounds.get('rounds'):
+        # Sin rounds (amistosos): listar por eventos terminados de la temporada
+        return listar_partidos_por_eventos(sess, torneo_id, season_id)
 
     rounds_raw = data_rounds.get('rounds', [])
     if not rounds_raw:

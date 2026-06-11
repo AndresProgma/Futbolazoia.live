@@ -112,7 +112,17 @@ def _load_cache(path: Path) -> dict | None:
         path.unlink(missing_ok=True)
     return None
 
-engine = create_engine(DATABASE_URL)
+# Normaliza URLs de Postgres (Neon/Render entregan postgres://) y fija el driver.
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+psycopg2://", 1)
+elif DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
+
+if DATABASE_URL.startswith("sqlite"):
+    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+else:
+    # Postgres (Neon): pre-ping evita conexiones muertas tras el spin-down de Render.
+    engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
 # --- Registro de modelos: UN SOLO modelo residente a la vez (slot único) ------
 # Los 3 modelos (UCL+PL+Mundial) NO caben juntos en los 512MB de RAM de Render
@@ -338,6 +348,12 @@ async def lifespan(app: FastAPI):
             conn.commit()
         except Exception:
             pass
+    # Sembrar el almacén persistente desde los JSON commiteados (una sola vez).
+    try:
+        _seed_estado_once("featured_pick", FEATURED_PICK_FILE, {})
+        _seed_estado_once("partidos_hoy", PARTIDOS_HOY_FILE, [])
+    except Exception as exc:
+        print(f"⚠ No se pudo sembrar EstadoApp: {exc}")
     with Session(engine) as session:
         _cargar_excel(session)
     # Precargar SOLO UCL (es el homepage). PL y Mundial se cargan bajo demanda y
@@ -1229,6 +1245,7 @@ def stats_track_record(session: Session = Depends(get_session)):
 FEATURED_PICK_FILE    = _PROJECT_ROOT / "data" / "featured_pick.json"
 PARTIDOS_HOY_FILE     = _PROJECT_ROOT / "data" / "partidos_hoy.json"
 RECORD_HISTORICO_FILE = _PROJECT_ROOT / "data" / "record_historico.json"
+ULTIMOS_MERCADOS_FILE = _PROJECT_ROOT / "data" / "ultimos_mercados.json"
 
 # Estado del generador de record: "idle" | "running" | "done" | "error:<msg>"
 _record_status: dict = {"status": "idle", "progreso": 0, "total": 0}
@@ -1239,12 +1256,59 @@ def admin_page():
     return FileResponse("static/admin.html")
 
 
+class EstadoApp(SQLModel, table=True):
+    """Almacén clave-valor persistente. En Render free el filesystem es efímero
+    (los JSON se pierden al reiniciar), así que el pick destacado y los partidos
+    de hoy se guardan aquí. Con DATABASE_URL apuntando a Postgres (Neon) esto
+    sobrevive a reinicios/deploys."""
+    clave: str = Field(primary_key=True)
+    valor: str  # JSON serializado
+
+
+def _estado_get(clave: str):
+    with Session(engine) as s:
+        row = s.get(EstadoApp, clave)
+        return json.loads(row.valor) if row else None
+
+
+def _estado_set(clave: str, valor) -> None:
+    with Session(engine) as s:
+        row = s.get(EstadoApp, clave)
+        payload = json.dumps(valor, ensure_ascii=False)
+        if row:
+            row.valor = payload
+        else:
+            row = EstadoApp(clave=clave, valor=payload)
+        s.add(row)
+        s.commit()
+
+
+def _estado_delete(clave: str) -> None:
+    with Session(engine) as s:
+        row = s.get(EstadoApp, clave)
+        if row:
+            s.delete(row)
+            s.commit()
+
+
+def _seed_estado_once(clave: str, file_path: Path, default):
+    """Siembra la DB una sola vez desde el JSON commiteado. Tras un borrado
+    deliberado del admin NO vuelve a sembrar (gracias al flag _seeded:*)."""
+    if _estado_get(f"_seeded:{clave}") is not None:
+        return
+    if file_path.exists():
+        try:
+            _estado_set(clave, json.loads(file_path.read_text(encoding="utf-8")))
+        except Exception:
+            _estado_set(clave, default)
+    _estado_set(f"_seeded:{clave}", True)
+
+
 @app.get("/api/featured-pick")
 def get_featured_pick():
-    """Retorna el partido destacado del día configurado por el admin."""
-    if FEATURED_PICK_FILE.exists():
-        return json.loads(FEATURED_PICK_FILE.read_text(encoding="utf-8"))
-    return {}
+    """Retorna el partido destacado del día (persistido en DB)."""
+    data = _estado_get("featured_pick")
+    return data if data is not None else {}
 
 
 class ValorBet(SQLModel):
@@ -1273,18 +1337,15 @@ class FeaturedPickBody(SQLModel):
 
 @app.delete("/api/admin/featured-pick", status_code=204)
 def delete_featured_pick():
-    """Elimina el pick del día."""
-    if FEATURED_PICK_FILE.exists():
-        FEATURED_PICK_FILE.unlink()
+    """Elimina el pick del día (queda borrado también tras reiniciar)."""
+    _estado_delete("featured_pick")
 
 
 @app.post("/api/admin/featured-pick")
 def set_featured_pick(data: FeaturedPickBody):
-    """Guarda el partido destacado del día (solo admin via frontend)."""
-    FEATURED_PICK_FILE.write_text(
-        json.dumps(data.model_dump(), ensure_ascii=False, indent=2),
-        encoding="utf-8",
-    )
+    """Guarda el partido destacado del día (solo admin via frontend).
+    Persiste en DB → sobrevive a reinicios de Render."""
+    _estado_set("featured_pick", data.model_dump())
     return data
 
 
@@ -1294,40 +1355,34 @@ def set_featured_pick(data: FeaturedPickBody):
 
 @app.get("/api/partidos-hoy")
 def get_partidos_hoy():
-    """Lista de partidos de hoy configurada por el admin."""
-    if PARTIDOS_HOY_FILE.exists():
-        return json.loads(PARTIDOS_HOY_FILE.read_text(encoding="utf-8"))
-    return []
+    """Lista de partidos de hoy configurada por el admin (persistida en DB)."""
+    lista = _estado_get("partidos_hoy")
+    return lista if lista is not None else []
 
 
 @app.post("/api/admin/partidos-hoy", status_code=201)
 def agregar_partido_hoy(data: FeaturedPickBody):
     """Agrega un partido a la lista de hoy."""
-    lista: list = []
-    if PARTIDOS_HOY_FILE.exists():
-        lista = json.loads(PARTIDOS_HOY_FILE.read_text(encoding="utf-8"))
+    lista = _estado_get("partidos_hoy") or []
     lista.append(data.model_dump())
-    PARTIDOS_HOY_FILE.write_text(json.dumps(lista, ensure_ascii=False, indent=2), encoding="utf-8")
+    _estado_set("partidos_hoy", lista)
     return {"ok": True, "total": len(lista)}
 
 
 @app.delete("/api/admin/partidos-hoy/{idx}", status_code=204)
 def eliminar_partido_hoy(idx: int):
     """Elimina un partido de la lista por índice."""
-    if not PARTIDOS_HOY_FILE.exists():
-        raise HTTPException(status_code=404, detail="Lista vacía")
-    lista = json.loads(PARTIDOS_HOY_FILE.read_text(encoding="utf-8"))
+    lista = _estado_get("partidos_hoy") or []
     if idx < 0 or idx >= len(lista):
         raise HTTPException(status_code=404, detail="Índice fuera de rango")
     lista.pop(idx)
-    PARTIDOS_HOY_FILE.write_text(json.dumps(lista, ensure_ascii=False, indent=2), encoding="utf-8")
+    _estado_set("partidos_hoy", lista)
 
 
 @app.delete("/api/admin/partidos-hoy", status_code=204)
 def limpiar_partidos_hoy():
     """Vacía la lista de partidos de hoy."""
-    if PARTIDOS_HOY_FILE.exists():
-        PARTIDOS_HOY_FILE.unlink()
+    _estado_set("partidos_hoy", [])
 
 
 # ---------------------------------------------------------------------------
@@ -1412,6 +1467,15 @@ def record_publico(session: Session = Depends(get_session)):
     if pred_df is None:
         return {"tipo": "sin_datos", "predicciones": []}
     return {"tipo": "test_split", "predicciones": json.loads(pred_df.to_json(orient="records"))}
+
+
+@app.get("/api/ultimos-mercados")
+def ultimos_mercados():
+    """Mercados completos (todas las estadísticas apostables) de los últimos
+    partidos resueltos, para el desplegable de la tarjeta del pick."""
+    if ULTIMOS_MERCADOS_FILE.exists():
+        return {"partidos": json.loads(ULTIMOS_MERCADOS_FILE.read_text(encoding="utf-8"))}
+    return {"partidos": []}
 
 
 # ===========================================================================

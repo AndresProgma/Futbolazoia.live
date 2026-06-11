@@ -891,6 +891,15 @@
               </div>
               <div id="pk-stats-rows" class="space-y-1 rounded-lg p-3" style="background:rgba(255,255,255,.02);border:1px solid var(--lb)"></div>
             </div>
+
+            <!-- Desplegable: todas las estadísticas apostables de los últimos partidos -->
+            <div id="um-wrap" class="hidden mt-5">
+              <span class="font-mono text-[9px] uppercase tracking-widest block mb-2" style="color:#5A6478">Estad&#xED;sticas del partido &middot; &#xFA;ltimos 3</span>
+              <select id="um-select" onchange="renderUltimoMercado()"
+                class="w-full mb-3 px-3 py-2 rounded-lg font-mono text-xs cursor-pointer"
+                style="background:rgba(255,255,255,.04);border:1px solid var(--lb);color:#E6EAF2"></select>
+              <div id="um-stats" class="space-y-1.5"></div>
+            </div>
           </div>
 
           <div>
@@ -1072,7 +1081,7 @@
       <h2 class="text-xl font-semibold tracking-tight">Record de partidos</h2>
       <span id="record-badge" class="font-mono text-[11px] text-[#5A6478]"></span>
     </div>
-    <p class="text-xs text-[#97A0B5] mb-5">Predicci&#xF3;n de cada modelo vs lo que pas&#xF3; de verdad. Verde = acert&#xF3;, rojo = fall&#xF3;.</p>
+    <p class="text-xs text-[#97A0B5] mb-5">Predicci&#xF3;n de cada modelo vs lo que pas&#xF3; de verdad. Verde = acert&#xF3;, rojo = fall&#xF3;. <span style="color:var(--pos)">Toc&#xE1; una fila</span> para ver si la apuesta recomendada acert&#xF3; completa o qu&#xE9; pata fall&#xF3;.</p>
     <div class="overflow-x-auto">
       <table class="w-full text-sm" id="tbl-record-publico">
         <thead class="text-[10px] text-[#5A6478] uppercase border-b border-[var(--line)] font-mono tracking-widest">
@@ -1080,6 +1089,7 @@
             <th class="text-left py-2 px-2">Local</th>
             <th class="text-left py-2 px-2">Visitante</th>
             <th class="text-center py-2 px-2">Real</th>
+            <th class="text-center py-2 px-2">Apuesta</th>
             <th id="th-rec-rf"  class="text-center py-2 px-2">RF</th>
             <th id="th-rec-gb"  class="text-center py-2 px-2">GB</th>
             <th id="th-rec-lr"  class="text-center py-2 px-2">LR</th>
@@ -1090,7 +1100,7 @@
           </tr>
         </thead>
         <tbody id="record-body">
-          <tr><td colspan="10" class="text-center py-6 text-[#5A6478] text-xs">Cargando...</td></tr>
+          <tr><td colspan="11" class="text-center py-6 text-[#5A6478] text-xs">Cargando...</td></tr>
         </tbody>
       </table>
     </div>
@@ -2070,6 +2080,119 @@ function _updateRecHeaders(rows, tipo) {
   }
 }
 
+// ── Estadísticas apostables de los últimos partidos (desplegable) ──────
+let _ultimosMercados = [];
+
+async function cargarUltimosMercados() {
+  const wrap = document.getElementById('um-wrap');
+  const sel  = document.getElementById('um-select');
+  if (!wrap || !sel) return;
+  try {
+    const data = await fetch(`${API_BASE}/api/ultimos-mercados`).then(r => r.json());
+    _ultimosMercados = data.partidos || [];
+    if (_ultimosMercados.length === 0) { wrap.classList.add('hidden'); return; }
+    sel.innerHTML = _ultimosMercados.map((p, i) =>
+      `<option value="${i}">${p.equipo1} ${p.goles_real} ${p.equipo2} · ${p.fecha}</option>`).join('');
+    wrap.classList.remove('hidden');
+    renderUltimoMercado();
+  } catch (e) { wrap.classList.add('hidden'); }
+}
+
+// Una fila de comparación E1 vs E2 con barra proporcional
+function _umBar(label, v1, v2, unit) {
+  const a = Number(v1) || 0, b = Number(v2) || 0;
+  const tot = a + b;
+  const w1 = tot > 0 ? Math.round(a / tot * 100) : 50;
+  const fmt = x => unit === '%' ? Math.round(x) + '%' : (Number.isInteger(x) ? x : (+x).toFixed(1));
+  return `<div class="py-1.5">
+    <div class="flex items-center justify-between text-[11px] mb-1">
+      <span class="font-mono font-bold" style="color:var(--pos)">${fmt(a)}</span>
+      <span class="text-[#97A0B5]">${label}</span>
+      <span class="font-mono font-bold" style="color:var(--red)">${fmt(b)}</span>
+    </div>
+    <div class="flex h-1.5 rounded-full overflow-hidden" style="background:rgba(255,255,255,.06)">
+      <div style="width:${w1}%;background:var(--pos)"></div>
+      <div style="width:${100 - w1}%;background:var(--red)"></div>
+    </div>
+  </div>`;
+}
+
+function renderUltimoMercado() {
+  const sel  = document.getElementById('um-select');
+  const cont = document.getElementById('um-stats');
+  if (!sel || !cont) return;
+  const p = _ultimosMercados[parseInt(sel.value) || 0];
+  const se = p && (p.stats_reales || p.stats_equipos);
+  if (!se) {
+    cont.innerHTML = '<div class="text-[11px] text-[#5A6478]">Sin estadísticas para este partido.</div>';
+    return;
+  }
+  const esReal = !!p.stats_reales;
+  const e1 = se.e1, e2 = se.e2;
+  const rows = [
+    ['Goles',           e1.goles_for,      e2.goles_for,      ''],
+    ['Posesión',        e1.posesion,       e2.posesion,       '%'],
+    ['Tiros',           e1.tiros,          e2.tiros,          ''],
+    ['Tiros a puerta',  e1.tiros_puerta,   e2.tiros_puerta,   ''],
+    ['Córners',         e1.corners_for,    e2.corners_for,    ''],
+    ['Amarillas',       e1.amarillas,      e2.amarillas,      ''],
+    ['Faltas',          e1.faltas,         e2.faltas,         ''],
+    ['Precisión pase',  e1.precision_pase, e2.precision_pase, '%'],
+    ['Oportunidades',   e1.oportunidades,  e2.oportunidades,  ''],
+  ].filter(r => r[1] != null || r[2] != null);
+  const head = `<div class="flex items-center justify-between text-[11px] font-semibold mb-2">
+    <span style="color:var(--pos)">${p.equipo1}</span>
+    <span class="font-mono text-[#5A6478]">${p.goles_real}</span>
+    <span style="color:var(--red)">${p.equipo2}</span>
+  </div>`;
+  const nota = `<div class="text-[9px] text-[#5A6478] mt-1.5 font-mono">${esReal ? 'Estadísticas reales del partido' : 'Valores esperados por el modelo'}</div>`;
+  cont.innerHTML = head +
+    `<div class="rounded-lg p-3" style="background:rgba(255,255,255,.02);border:1px solid var(--lb)">${rows.map(r => _umBar(r[0], r[1], r[2], r[3])).join('')}</div>` +
+    nota;
+}
+
+// ── Apuesta recomendada en el record (badge + detalle clickeable) ──────
+function _recApuestaBadge(ap) {
+  if (!ap || !ap.n_evaluables) return '<span class="text-[#5A6478] text-xs font-mono">—</span>';
+  const c = ap.completa ? 'var(--pos)' : 'var(--red)';
+  const bg = ap.completa ? 'rgba(0,229,160,.12)' : 'rgba(255,77,94,.12)';
+  const icon = ap.completa ? '✓' : '✗';
+  return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-mono text-[10px] font-bold" style="background:${bg};color:${c}">${icon} ${ap.n_acierto}/${ap.n_evaluables} <span style="font-size:8px">▾</span></span>`;
+}
+
+function _recPataRow(p) {
+  const icon = p.resultado === 'acierto' ? '✓' : p.resultado === 'fallo' ? '✗' : '·';
+  const col  = p.resultado === 'acierto' ? 'var(--pos)' : p.resultado === 'fallo' ? 'var(--red)' : '#5A6478';
+  const prob = p.prob != null ? `${Math.round(p.prob*100)}%` : '';
+  return `<div class="flex items-center justify-between gap-3 py-1.5 px-3 rounded" style="background:rgba(255,255,255,.02)">
+    <span class="flex items-center gap-2 min-w-0">
+      <span class="font-mono font-bold text-center" style="color:${col};width:14px">${icon}</span>
+      <span class="text-xs font-semibold whitespace-nowrap">${p.nombre}</span>
+      <span class="text-[10px] font-mono text-[#5A6478]">${prob}</span>
+    </span>
+    <span class="text-[10px] font-mono text-[#97A0B5] text-right">${p.detalle||''}</span>
+  </div>`;
+}
+
+function _recApuestaDetail(r, i) {
+  const ap = r.apuesta;
+  if (!ap) return '';
+  const head = ap.completa
+    ? `<span style="color:var(--pos)">✓ La apuesta combinada acert&#xF3; COMPLETA (${ap.n_acierto}/${ap.n_evaluables} patas)</span>`
+    : `<span style="color:var(--red)">✗ Fall&#xF3;: ${(ap.que_fallo||[]).join(', ')||'—'} &nbsp;(${ap.n_acierto}/${ap.n_evaluables} acertadas)</span>`;
+  const patas = (ap.patas||[]).map(_recPataRow).join('');
+  return `<tr id="rec-detail-${i}" class="hidden"><td colspan="11" class="px-3 pb-4 pt-1" style="background:rgba(11,14,20,.5)">
+    <div class="text-[10px] font-mono uppercase tracking-widest mb-2 text-[#5A6478]">Apuesta recomendada · ${r.equipo1} vs ${r.equipo2}${r.fecha ? ' · '+r.fecha : ''}</div>
+    <div class="text-xs font-semibold mb-2.5">${head}</div>
+    <div class="flex flex-col gap-1.5 max-w-2xl">${patas}</div>
+  </td></tr>`;
+}
+
+function _toggleRec(i) {
+  const el = document.getElementById('rec-detail-'+i);
+  if (el) el.classList.toggle('hidden');
+}
+
 async function renderRecordPublico() {
   const tbody = document.getElementById('record-body');
   const badge = document.getElementById('record-badge');
@@ -2090,7 +2213,7 @@ async function renderRecordPublico() {
     }
 
     if (rows.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="10" class="text-center py-6 text-[#5A6478] text-xs">Sin datos — generá el record desde el panel admin.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="11" class="text-center py-6 text-[#5A6478] text-xs">Sin datos — generá el record desde el panel admin.</td></tr>`;
       return;
     }
 
@@ -2098,27 +2221,26 @@ async function renderRecordPublico() {
     if (tipo === 'v2_honesto') {
       const colC = { Win:'var(--pos)', Draw:'var(--amber)', Loss:'var(--red)' };
       const letra = v => v ? v[0] : '—';
-      tbody.innerHTML = rows.map(r => {
+      const MODS = ['Random Forest','Gradient Boosting','Logistic Regression','SVM','XGBoost','KNN','Dixon-Coles'];
+      const ordered = rows.slice().sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
+
+      tbody.innerHTML = ordered.map((r, i) => {
         if (r.error) return `<tr class="border-b border-[var(--line)]">
           <td class="py-2 px-2 text-sm">${r.equipo1}</td>
           <td class="py-2 px-2 text-sm">${r.equipo2}</td>
-          <td colspan="8" class="py-2 px-2 text-xs text-[#5A6478] font-mono">Error: ${r.error}</td></tr>`;
+          <td colspan="9" class="py-2 px-2 text-xs text-[#5A6478] font-mono">Error: ${r.error}</td></tr>`;
 
         const real = r.resultado_real;
         const cReal = colC[real] || '#E6EAF2';
-        const cons  = r.consenso?.pred;
-        const ok    = real && cons === real;
 
         const modMap = {};
         (r.modelos || []).forEach(m => { modMap[m.modelo] = m; });
-        const MODS = ['Random Forest','Gradient Boosting','Logistic Regression','SVM','XGBoost','KNN','Dixon-Coles'];
 
         const mCells = MODS.map(name => {
           const m = modMap[name];
           if (!m) return `<td class="py-2 px-2 text-center font-mono text-xs text-[#5A6478]">—</td>`;
           const mOk = real && m.pred === real;
           const mCol = mOk ? 'var(--pos)' : real ? 'var(--red)' : '#97A0B5';
-          const pct  = Math.round(Math.max(m.win||0, m.draw||0, m.loss||0) * 100);
           const predPct = m.pred === 'Win' ? Math.round((m.win||0)*100)
                         : m.pred === 'Draw' ? Math.round((m.draw||0)*100)
                         : Math.round((m.loss||0)*100);
@@ -2127,12 +2249,17 @@ async function renderRecordPublico() {
           </td>`;
         }).join('');
 
-        return `<tr class="border-b border-[var(--line)] hover:bg-surface-700/30">
+        const clickable = r.apuesta ? `onclick="_toggleRec(${i})" style="cursor:pointer"` : '';
+        const fechaTip = r.fecha ? ` title="${r.fecha}"` : '';
+
+        return `<tr class="border-b border-[var(--line)] hover:bg-surface-700/30" ${clickable}${fechaTip}>
           <td class="py-2 px-2 text-sm">${r.equipo1}</td>
           <td class="py-2 px-2 text-sm">${r.equipo2}</td>
           <td class="py-2 px-2 text-center font-mono text-xs font-bold" style="color:${cReal}">${letra(real)}<br><span style="color:#5A6478;font-size:9px">${r.goles_real||'—'}</span></td>
+          <td class="py-2 px-2 text-center">${_recApuestaBadge(r.apuesta)}</td>
           ${mCells}
-        </tr>`;
+        </tr>
+        ${_recApuestaDetail(r, i)}`;
       }).join('');
       return;
     }
@@ -2156,6 +2283,7 @@ async function renderRecordPublico() {
         <td class="py-2 px-2 text-sm">${r.Equipo1||'—'}</td>
         <td class="py-2 px-2 text-sm">${r.Equipo2||'—'}</td>
         ${colReal(r.Resultado_Real)}
+        <td class="py-2 px-2 text-center text-[#5A6478] text-xs font-mono">—</td>
         ${colRes(r.Resultado_Real, r['Random Forest'],       'Random Forest',       r)}
         ${colRes(r.Resultado_Real, r['Gradient Boosting'],   'Gradient Boosting',   r)}
         ${colRes(r.Resultado_Real, r['Logistic Regression'], 'Logistic Regression', r)}
@@ -2279,6 +2407,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateHeroCount(),
     renderTrustStats(),
     renderRecordPublico(),
+    cargarUltimosMercados(),
   ]);
 });
 

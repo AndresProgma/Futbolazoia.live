@@ -113,3 +113,73 @@ IDEAS PENDIENTES — Predicción Champions League
      4. Validación honesta antes de mergear.
 
    Stack del scraper actual: ver el proyecto de scraping de redes sociales del usuario.
+
+10. ESTRATEGIA DE PUBLICIDAD Y CAPTACIÓN (Meta Ads + orgánico) — discutido 2026-06-09
+    Objetivo: lanzar publicidad en Meta (Facebook + Instagram) y convertir tráfico frío
+    en suscriptores del Telegram de pago, partiendo de 0 audiencia.
+
+    A) ENGANCHE / OFERTA PARA QUE COMPREN
+       El hook NO es "barato", es BAJAR EL RIESGO de comprar + dar razón para decidir HOY.
+       Con un track record honesto (62.9%), la mejor arma es la PRUEBA, no el descuento.
+       - Prueba gratis 3 días: entra al VIP gratis, ve los picks resolverse, al 4º día se
+         cobra automático salvo que cancele. Ataca el miedo a la estafa (el hook más fuerte).
+       - Garantía atada al record: "Mes de prueba $5; si el mes cierra en ROI negativo,
+         devuelvo o siguiente mes gratis". Solo si se confía en el modelo (eso es la prueba).
+
+    B) ANCLA DE PRECIO (mensual vs anual) — mostrar SIEMPRE 3 opciones
+         Mensual:     $10/mes  ($10/mes)  — existe para que el anual se vea regalado
+         Anual:       $60/año  ($5/mes)   — "Ahorras 50%, 6 meses gratis"  ← el que se quiere vender
+         Lanzamiento: $5 primer mes       — "Precio fundador, sube pronto"
+       Truco: el mensual caro a $10 es el ancla; sin él, el anual a $5/mes no engancha.
+
+    C) ESCASEZ REAL (no falsa)
+       - "Solo 50 plazas de fundador a este precio" (cerrar de verdad y subir precio).
+       - "El precio sube el [fecha]" (verificable).
+
+    D) EMBUDO RECOMENDADO PARA ARRANCAR EN FRÍO
+       Vender directo desde el ad frío casi nunca convierte. Embudo:
+       1. Ad de Meta → no vende, REGALA: "te paso el pick de [partido grande] gratis".
+          Captura el lead al Telegram gratis.
+       2. En el canal gratis ven el track record resolverse solo unos días (prueba social).
+       3. Ahí se ofrece: prueba VIP 3 días + plan anual $5/mes (ancla vs $10 mensual).
+
+    E) COSTOS META ADS EN COLOMBIA (tú pones el presupuesto, pagas por subasta)
+       - Mínimo técnico: ~$1-2 USD/día.  Presupuesto de prueba serio: ~$100-200 USD / 2-3 sem.
+       - CPM (1000 vistas): ~$1-4 USD | CPC: ~$0.02-0.15 | Costo por lead: ~$0.30-2 USD.
+       - Con $5-10 USD/día (~$150-300/mes) campaña de prueba decente; ~5-30 leads/día según
+         calidad del creativo y segmentación.
+       - Las primeras 1-2 semanas Meta "calibra" la audiencia (fase de aprendizaje).
+       - Probar 3-5 versiones del ad y matar las que no rinden.
+
+    F) ⚠️ POLÍTICA ANTI-APUESTAS DE META (crítico — aplica IGUAL en FB e IG)
+       Meta rechaza/banea ads de apuestas. NO usar: "apuesta", "gana dinero", "cuota",
+       "casa de apuestas", "pronóstico ganador", ni mostrar cuotas ni prometer ganancias.
+       SÍ usar: "análisis", "predicción estadística", "modelo de IA", "comprobar".
+       El ad manda al Telegram GRATIS (no a checkout) → Meta lo lee como educativo/tech.
+       El enfoque ingeniero+ML+código AYUDA: parece producto tecnológico, no apuestas.
+
+    G) PLATAFORMAS — no es elegir una
+       - Ads pagados: UNA sola campaña pega en FB + IG + Reels a la vez (ubicaciones
+         Advantage+), segmentando hombres 18-45 Colombia interesados en fútbol/Champions.
+         Los seguidores actuales NO importan para el pagado (la segmentación la pones tú).
+       - Facebook: más audiencia adulta/masculina de apuestas + GRUPOS de pronósticos muy
+         activos = distribución ORGÁNICA gratis (vía más barata para los primeros suscriptores).
+       - Instagram/TikTok Reels: alcance joven y viralidad para los videos cortos.
+       - Requisito: para correr ads en IG hace falta una PÁGINA de Facebook conectada.
+       - Recomendación de marca: crear cuenta NUEVA dedicada y coherente (no reusar cuentas
+         con audiencia equivocada); el ad pagado le trae la audiencia correcta.
+
+    H) GUION VIDEO 1 (30s, vertical 9:16, subtítulos siempre) — orden que convierte:
+       resultado → autoridad → prueba técnica → track público → CTA con gancho
+       0-3s   HOOK (últimos partidos): "Acerté 8 de mis últimos 10 partidos. No fue suerte."
+              (usar número REAL y verificable). Overlay con ✅/❌. Frena el scroll.
+       3-8s   Autoridad: "No soy adivino, soy ingeniero. Construí un modelo de ML que predice."
+       8-20s  Prueba técnica: insertos rápidos (2-3s) de código corriendo + gráfico de
+              decaimiento temporal + dashboard. MOSTRAR, no explicar (decorado de seriedad).
+              Overlays: "+370 partidos", "Decaimiento temporal", "Validación real".
+       20-25s Track público (anti-estafa): "Publico cada análisis ANTES del partido, con
+              fecha. Compruébalo tú mismo." + inserto de predicción con timestamp.
+       25-30s CTA: "Análisis GRATIS en mi Telegram 👇" botón grande + link.
+       Pendiente antes de grabar: número real de aciertos; canal Telegram gratis ya con
+       5-10 predicciones publicadas con fecha (si llegan a canal vacío, se van).
+       Producción: celular + luz de ventana + CapCut; corte cada 2-3s, sin pausas muertas.
