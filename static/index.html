@@ -1235,6 +1235,8 @@ function applyRole() {
 }
 
 function toggleLoginModal() {
+  // Ya logueado como admin → ir directo al panel, sin volver a pedir credenciales.
+  if (fzAdmin()) { location.href = '/admin'; return; }
   const m = document.getElementById('modal-login');
   const hidden = m.classList.toggle('hidden');
   if (!hidden) setTimeout(() => document.getElementById('inp-user').focus(), 60);

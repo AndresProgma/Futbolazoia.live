@@ -406,6 +406,27 @@ def get_session():
         yield session
 
 
+_MUNDIAL_METRICAS_JSON = _PROJECT_ROOT / "data" / "mundial_metricas.json"
+
+
+def _write_mundial_metricas(results: dict) -> None:
+    """Vuelca las métricas CV/test del modelo Mundial a un JSON ligero, para que
+    /api/mundial/metricas las sirva SIN cargar el modelo (Render free no puede)."""
+    try:
+        cv_df = results.get("cv_results")
+        test_df = results.get("model_results")
+        df = results.get("df")
+        out = {
+            "n_partidos": len(df) if df is not None else 0,
+            "cv":   json.loads(cv_df.to_json(orient="records"))   if cv_df   is not None else [],
+            "test": json.loads(test_df.to_json(orient="records")) if test_df is not None else [],
+        }
+        _MUNDIAL_METRICAS_JSON.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
+        print(f"✓ Métricas Mundial → {_MUNDIAL_METRICAS_JSON.name}")
+    except Exception as exc:
+        print(f"⚠ No se pudo escribir mundial_metricas.json: {exc}")
+
+
 def _run_mundial_pipeline_background(force_retrain: bool = False) -> None:
     """Entrena Mundial (force_retrain=True). Sin force solo marca disponibilidad;
     el modelo se carga a RAM bajo demanda, no en el arranque."""
@@ -422,6 +443,7 @@ def _run_mundial_pipeline_background(force_retrain: bool = False) -> None:
             return
         results = run_pipeline_mundial(str(csv_path))
         _save_cache(_MUNDIAL_CACHE, results)
+        _write_mundial_metricas(results)   # refresca el JSON ligero para servir sin modelo
         _set_active_model(_MUNDIAL_KEY, results)
         _mundial_status = "ready"
         print("✓ Modelo Mundial entrenado y cacheado")
@@ -919,6 +941,11 @@ def predecir_rapido(data: PrediccionRapida, session: Session = Depends(get_sessi
     es_mundial = data.competencia and "mundial" in data.competencia.lower()
 
     if es_mundial:
+        # 1º: ¿hay una predicción pre-generada en local y publicada en Neon para
+        # este partido? Se sirve sin cargar el modelo (Render free no puede).
+        cached = _estado_get(f"predcache:{data.equipo1}|{data.equipo2}")
+        if cached is not None:
+            return cached
         if _mundial_status == "training":
             raise HTTPException(status_code=503, detail="Modelo Mundial aún entrenando")
         mundial = _get_model(_MUNDIAL_KEY)
@@ -1571,6 +1598,58 @@ def ultimos_equipo(equipo: str, competencia: str | None = None, n: int = 3):
     return {"equipo": equipo, "partidos": out}
 
 
+# ---------------------------------------------------------------------------
+# Historial de partidos por competencia (UCL / Premier / Mundial)
+# ---------------------------------------------------------------------------
+_HISTORIAL_DF: dict = {}
+
+
+def _dataset_historial(competencia: str | None):
+    """DataFrame del dataset completo según competencia (cacheado).
+
+    Las tres comparten columnas clave: Fecha, Fase, Equipo1, Equipo2,
+    EQUIPO1_GOLES, EQUIPO2_GOLES. Premier combina sus dos temporadas."""
+    comp = (competencia or "ucl").lower()
+    if comp not in _HISTORIAL_DF:
+        try:
+            if "mundial" in comp or "selec" in comp:
+                df = pd.read_csv(DEFAULT_MUNDIAL_DATASET)
+            elif "premier" in comp or comp == "pl":
+                partes = [pd.read_csv(p) for p in [
+                    _PROJECT_ROOT / "data" / "premier_2024-25_enriquecido.csv",
+                    _PROJECT_ROOT / "data" / "premier_2025-26_enriquecido.csv",
+                ] if p.exists()]
+                df = pd.concat(partes, ignore_index=True) if partes else None
+            else:  # ucl (default)
+                df = pd.read_excel(DATASET) if Path(DATASET).exists() else None
+            _HISTORIAL_DF[comp] = df
+        except Exception:
+            _HISTORIAL_DF[comp] = None
+    return _HISTORIAL_DF[comp]
+
+
+@app.get("/api/historial")
+def historial_partidos(competencia: str = "ucl"):
+    """Historial de partidos jugados (Fecha/Fase/Equipos/Marcador) del dataset
+    de la competencia indicada: 'ucl', 'premier' o 'mundial'."""
+    df = _dataset_historial(competencia)
+    if df is None or "Equipo1" not in df.columns:
+        return {"competencia": competencia, "partidos": []}
+    d = df.copy()
+    d["_f"] = pd.to_datetime(d.get("Fecha"), errors="coerce")
+    mask = d["EQUIPO1_GOLES"].notna() & d["EQUIPO2_GOLES"].notna()
+    d = d[mask].sort_values("_f", ascending=False)
+    out = [{
+        "fecha":    str(r.get("Fecha", ""))[:10],
+        "fase":     None if pd.isna(r.get("Fase")) else str(r.get("Fase")),
+        "equipo1":  str(r.get("Equipo1")),
+        "equipo2":  str(r.get("Equipo2")),
+        "goles_e1": _num_or_none(r.get("EQUIPO1_GOLES")),
+        "goles_e2": _num_or_none(r.get("EQUIPO2_GOLES")),
+    } for _, r in d.iterrows()]
+    return {"competencia": competencia, "total": len(out), "partidos": out}
+
+
 # ===========================================================================
 # MUNDIAL — endpoints para selecciones nacionales / FIFA World Cup
 # ===========================================================================
@@ -1616,6 +1695,9 @@ def mundial_equipos():
 @app.post("/api/mundial/predecir")
 def mundial_predecir(data: PrediccionMundial):
     """Predicción completa de un partido de selecciones."""
+    cached = _estado_get(f"predcache:{data.equipo1}|{data.equipo2}")
+    if cached is not None:
+        return cached
     if _mundial_status == "training":
         raise HTTPException(status_code=503, detail="pipeline mundial: training")
     mundial = _get_model(_MUNDIAL_KEY)
@@ -1651,7 +1733,16 @@ def mundial_elos():
 
 @app.get("/api/mundial/metricas")
 def mundial_metricas():
-    """Métricas CV del pipeline mundial."""
+    """Métricas CV del pipeline mundial.
+
+    Sirve desde un JSON ligero precomputado (data/mundial_metricas.json) para NO
+    cargar el modelo de ~333MB a RAM — en Render free eso revienta por OOM. Solo
+    si el JSON no existe cae al modelo en memoria."""
+    if _MUNDIAL_METRICAS_JSON.exists():
+        try:
+            return json.loads(_MUNDIAL_METRICAS_JSON.read_text(encoding="utf-8"))
+        except Exception:
+            pass
     if _mundial_status == "training":
         raise HTTPException(status_code=503, detail="pipeline mundial: training")
     mundial = _get_model(_MUNDIAL_KEY)
@@ -1660,11 +1751,16 @@ def mundial_metricas():
     cv_df = mundial.get("cv_results")
     test_df = mundial.get("model_results")
     df = mundial.get("df")
-    return {
+    out = {
         "n_partidos": len(df) if df is not None else 0,
         "cv":   json.loads(cv_df.to_json(orient="records"))   if cv_df   is not None else [],
         "test": json.loads(test_df.to_json(orient="records")) if test_df is not None else [],
     }
+    try:
+        _MUNDIAL_METRICAS_JSON.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
+    except Exception:
+        pass
+    return out
 
 
 # ---------------------------------------------------------------------------

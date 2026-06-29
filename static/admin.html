@@ -422,7 +422,14 @@
           <h2 class="text-sm font-semibold">Historial de partidos</h2>
           <p class="text-[11px] text-[#97A0B5]">Dataset completo</p>
         </div>
-        <input id="filtro-historial" type="text" placeholder="Filtrar equipos..." class="input w-48"/>
+        <div class="flex items-center gap-2">
+          <select id="sel-competencia-historial" class="input w-36">
+            <option value="ucl">UCL</option>
+            <option value="premier">Premier</option>
+            <option value="mundial">Mundial</option>
+          </select>
+          <input id="filtro-historial" type="text" placeholder="Filtrar equipos..." class="input w-48"/>
+        </div>
       </div>
       <div class="overflow-y-auto max-h-96">
         <table class="w-full text-sm">

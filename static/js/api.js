@@ -27,6 +27,7 @@ const api = {
   health:                    ()                          => request('/api/health'),
   equipos:                   ()                          => request('/api/equipos'),
   partidos:                  ()                          => request('/partidos'),
+  historial:                 (competencia='ucl')         => request(`/api/historial?competencia=${encodeURIComponent(competencia)}`),
   evaluaciones:              ()                          => request('/evaluaciones'),
   crearEvaluacion:           (filepath)                  => request('/evaluaciones', { method: 'POST', body: JSON.stringify({ filepath }) }),
   estadoEvaluacion:          (id)                        => request(`/api/evaluaciones/${id}/status`),

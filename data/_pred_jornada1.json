@@ -1,0 +1,218 @@
+[
+  {
+    "fecha": "2026-06-11",
+    "e1": "México",
+    "e2": "Sudáfrica",
+    "win": 0.631,
+    "draw": 0.209,
+    "loss": 0.16,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-11",
+    "e1": "Corea del Sur",
+    "e2": "República Checa",
+    "win": 0.541,
+    "draw": 0.233,
+    "loss": 0.227,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-12",
+    "e1": "Canadá",
+    "e2": "Bosnia",
+    "win": 0.615,
+    "draw": 0.206,
+    "loss": 0.179,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-12",
+    "e1": "USA",
+    "e2": "Paraguay",
+    "win": 0.545,
+    "draw": 0.227,
+    "loss": 0.229,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-13",
+    "e1": "Catar",
+    "e2": "Suiza",
+    "win": 0.209,
+    "draw": 0.285,
+    "loss": 0.506,
+    "pred": "2"
+  },
+  {
+    "fecha": "2026-06-13",
+    "e1": "Brasil",
+    "e2": "Marruecos",
+    "win": 0.483,
+    "draw": 0.271,
+    "loss": 0.246,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-13",
+    "e1": "Escocia",
+    "e2": "Haití",
+    "win": 0.632,
+    "draw": 0.201,
+    "loss": 0.168,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-13",
+    "e1": "Australia",
+    "e2": "Turquía",
+    "win": 0.33,
+    "draw": 0.273,
+    "loss": 0.396,
+    "pred": "2"
+  },
+  {
+    "fecha": "2026-06-14",
+    "e1": "Alemania",
+    "e2": "Curazao",
+    "win": 0.749,
+    "draw": 0.168,
+    "loss": 0.083,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-14",
+    "e1": "Países Bajos",
+    "e2": "Japón",
+    "win": 0.609,
+    "draw": 0.209,
+    "loss": 0.182,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-14",
+    "e1": "Costa de Marfil",
+    "e2": "Ecuador",
+    "win": 0.38,
+    "draw": 0.252,
+    "loss": 0.367,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-14",
+    "e1": "Suecia",
+    "e2": "Túnez",
+    "win": 0.424,
+    "draw": 0.243,
+    "loss": 0.333,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-15",
+    "e1": "España",
+    "e2": "Cabo Verde",
+    "win": 0.734,
+    "draw": 0.175,
+    "loss": 0.09,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-15",
+    "e1": "Bélgica",
+    "e2": "Egipto",
+    "win": 0.668,
+    "draw": 0.187,
+    "loss": 0.145,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-15",
+    "e1": "Arabia Saudita",
+    "e2": "Uruguay",
+    "win": 0.192,
+    "draw": 0.271,
+    "loss": 0.537,
+    "pred": "2"
+  },
+  {
+    "fecha": "2026-06-15",
+    "e1": "Irán",
+    "e2": "Nueva Zelanda",
+    "win": 0.571,
+    "draw": 0.228,
+    "loss": 0.201,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-16",
+    "e1": "Francia",
+    "e2": "Senegal",
+    "win": 0.606,
+    "draw": 0.209,
+    "loss": 0.185,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-16",
+    "e1": "Noruega",
+    "e2": "Iraq",
+    "win": 0.618,
+    "draw": 0.19,
+    "loss": 0.192,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-16",
+    "e1": "Argentina",
+    "e2": "Argelia",
+    "win": 0.677,
+    "draw": 0.181,
+    "loss": 0.142,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-16",
+    "e1": "Austria",
+    "e2": "Jordania",
+    "win": 0.552,
+    "draw": 0.258,
+    "loss": 0.189,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-17",
+    "e1": "Portugal",
+    "e2": "RD Congo",
+    "win": 0.712,
+    "draw": 0.18,
+    "loss": 0.107,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-17",
+    "e1": "Inglaterra",
+    "e2": "Croacia",
+    "win": 0.503,
+    "draw": 0.242,
+    "loss": 0.255,
+    "pred": "1"
+  },
+  {
+    "fecha": "2026-06-17",
+    "e1": "Ghana",
+    "e2": "Panamá",
+    "win": 0.32,
+    "draw": 0.286,
+    "loss": 0.394,
+    "pred": "2"
+  },
+  {
+    "fecha": "2026-06-17",
+    "e1": "Colombia",
+    "e2": "Uzbekistán",
+    "win": 0.61,
+    "draw": 0.262,
+    "loss": 0.127,
+    "pred": "1"
+  }
+]

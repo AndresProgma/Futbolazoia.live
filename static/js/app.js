@@ -96,7 +96,10 @@ async function cargarEquipos() {
 // Historial
 // ---------------------------------------------------------------------------
 async function cargarPartidos() {
-  state.partidos = await api.partidos();
+  const sel = $('sel-competencia-historial');
+  const comp = sel ? sel.value : 'ucl';
+  const data = await api.historial(comp);
+  state.partidos = data.partidos || [];
   renderHistorial(state.partidos);
 }
 
@@ -120,6 +123,13 @@ $('filtro-historial').addEventListener('input', (e) => {
     p.equipo2.toLowerCase().includes(q) ||
     (p.fase || '').toLowerCase().includes(q)
   ));
+});
+
+const _selCompHist = $('sel-competencia-historial');
+if (_selCompHist) _selCompHist.addEventListener('change', () => {
+  const f = $('filtro-historial');
+  if (f) f.value = '';
+  cargarPartidos();
 });
 
 // ---------------------------------------------------------------------------

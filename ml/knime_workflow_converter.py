@@ -74,6 +74,14 @@ def _dc_proba_in_class_order(dc, equipo1, equipo2, is_home_e1, classes):
 CALIBRAR_DEFECTO = True
 DRAW_WEIGHT_BOOST = 1.5   # peso de la clase Draw (probado 2.0/2.5: solo +0.05-0.5p F1, ruido)
 
+# Peso extra para los partidos del Mundial 2026 ya jugados (Partido_id con prefijo
+# 'SEL-WORLD_CUP-2026'). Cada uno cuenta como N en el entrenamiento de los modelos
+# de PREDICCIÓN (full_models, post-CV) → equivale a sample_weight=N sin corromper
+# las features pre-partido (ELO/forma se calculan una sola vez) ni romper la
+# validación walk-forward (la CV usa el dataset original). 1 = sin peso extra.
+WC2026_PREFIX = 'SEL-WORLD_CUP-2026'
+WC2026_PESO   = 6
+
 
 def _class_weight():
     """Pesos de clase para LabelEncoder (0=Draw, 1=Loss, 2=Win — orden alfabético)."""
@@ -1414,14 +1422,37 @@ def main(filepath, test_size=0.2, random_state=42, context_filepaths=None):
     # diversidad de semilla) sin necesidad de re-entrenar nada en cada llamada.
     N_PRED_SEEDS = 5
     print(f"⚡ Entrenando modelos de predicción ({N_PRED_SEEDS} semillas × dataset completo)...")
+
+    # Peso extra al Mundial 2026: replicar esas filas (ya con sus features
+    # calculadas) sólo para el entrenamiento de los modelos de predicción.
+    # Equivale a sample_weight=WC2026_PESO sin tocar pipelines ni la CV.
+    # select_columns elimina Partido_id, pero df_raw_stats (copiado antes) lo
+    # conserva con las mismas etiquetas de índice que X → lo usamos para
+    # localizar los partidos del Mundial 2026.
+    if WC2026_PESO > 1 and 'Partido_id' in df_raw_stats.columns:
+        _es_wc26 = df_raw_stats['Partido_id'].astype(str).str.startswith(WC2026_PREFIX)
+        _idx_wc26 = X.index[_es_wc26.loc[X.index].values]
+    else:
+        _idx_wc26 = X.index[[]]
+    if len(_idx_wc26):
+        _rep = [X] + [X.loc[_idx_wc26]] * (WC2026_PESO - 1)
+        X_fit = pd.concat(_rep, ignore_index=True)
+        y_fit = pd.concat([y] + [y.loc[_idx_wc26]] * (WC2026_PESO - 1), ignore_index=True)
+        df_dc_fit = pd.concat([df_dc] + [df_dc.loc[_idx_wc26]] * (WC2026_PESO - 1),
+                              ignore_index=True)
+        print(f"   ⚖️  Mundial 2026: {len(_idx_wc26)} partidos × peso {WC2026_PESO} "
+              f"→ +{len(_idx_wc26) * (WC2026_PESO - 1)} filas de entrenamiento")
+    else:
+        X_fit, y_fit, df_dc_fit = X, y, df_dc
+
     full_models: dict = {}
     for seed in range(N_PRED_SEEDS):
         for name, clf in build_classifiers(seed=seed, n_features=len(X.columns)).items():
-            clf.fit(X, y)
+            clf.fit(X_fit, y_fit)
             full_models.setdefault(name, []).append(clf)
 
     # Dixon-Coles: una sola "semilla" (no es estocástico) entrenada sobre todo el dataset
-    dc_full = DixonColesModel(max_goals=10).fit(df_dc)
+    dc_full = DixonColesModel(max_goals=10).fit(df_dc_fit)
     full_models['Dixon-Coles'] = [dc_full]
 
     # Feature importance: usar el primer RF ya fiteado sobre el dataset completo
@@ -1451,6 +1482,11 @@ def main(filepath, test_size=0.2, random_state=42, context_filepaths=None):
 
     y1_full = df_model['EQUIPO1_GOLES']
     y2_full = df_model['EQUIPO2_GOLES']
+    if len(_idx_wc26):
+        y1_fit = pd.concat([y1_full] + [y1_full.loc[_idx_wc26]] * (WC2026_PESO - 1), ignore_index=True)
+        y2_fit = pd.concat([y2_full] + [y2_full.loc[_idx_wc26]] * (WC2026_PESO - 1), ignore_index=True)
+    else:
+        y1_fit, y2_fit = y1_full, y2_full
     full_regressors: dict = {}
     for seed in range(N_PRED_SEEDS):
         r_rf1  = RandomForestRegressor(n_estimators=100, random_state=seed,        n_jobs=-1)
@@ -1459,8 +1495,8 @@ def main(filepath, test_size=0.2, random_state=42, context_filepaths=None):
                                random_state=seed,        verbosity=0)
         r_xgb2 = XGBRegressor(n_estimators=100, max_depth=3, learning_rate=0.1,
                                random_state=seed + 1000, verbosity=0)
-        r_rf1.fit(X, y1_full); r_rf2.fit(X, y2_full)
-        r_xgb1.fit(X, y1_full); r_xgb2.fit(X, y2_full)
+        r_rf1.fit(X_fit, y1_fit); r_rf2.fit(X_fit, y2_fit)
+        r_xgb1.fit(X_fit, y1_fit); r_xgb2.fit(X_fit, y2_fit)
         full_regressors.setdefault('Random Forest', []).append((r_rf1, r_rf2))
         full_regressors.setdefault('XGBoost',       []).append((r_xgb1, r_xgb2))
     print(f"   ✓ {N_PRED_SEEDS} semillas × {len(full_models)} clasificadores + {len(full_regressors)} regresores listos")
@@ -1469,23 +1505,34 @@ def main(filepath, test_size=0.2, random_state=42, context_filepaths=None):
     print("\n📐 Regresores de mercado...")
     full_market_regressors: dict = {}
 
-    def _train_market_reg(key, y_ser, label):
-        """Entrena RF, evalúa accuracy (% test donde ML < baseline) y guarda si >55%."""
-        ytr_, yte_ = y_ser.iloc[:n_train], y_ser.iloc[n_train:]
+    def _train_market_reg(key, y_raw, label):
+        """Entrena RF sobre filas con dato REAL (descarta partidos sin stats,
+        p.ej. Mundial 2026 sin captura, que si no contaminarían el test con
+        targets constantes), evalúa vs baseline y guarda si Acc > 55%."""
+        valid = y_raw.notna().values
+        Xv, yv = X[valid], y_raw[valid]
+        nv = len(yv)
+        if nv < 60:
+            print(f"   {label:25s} → datos insuficientes ({nv} con stat)")
+            return
+        # Split cronológico sobre las filas válidas (últimas 35 como test)
+        nt = max(nv - 35, int(nv * 0.5))
+        Xtr_, Xte_ = Xv.iloc[:nt], Xv.iloc[nt:]
+        ytr_, yte_ = yv.iloc[:nt], yv.iloc[nt:]
         if len(yte_) == 0:
             return
         baseline_pred = np.full(len(yte_), ytr_.mean())
         rf_ = RandomForestRegressor(n_estimators=200, max_depth=6, random_state=42, n_jobs=-1)
-        rf_.fit(X_train, ytr_)
-        ml_pred = rf_.predict(X_test)
+        rf_.fit(Xtr_, ytr_)
+        ml_pred = rf_.predict(Xte_)
         acc = float((np.abs(yte_.values - ml_pred) < np.abs(yte_.values - baseline_pred)).mean())
         mae_b = float(np.abs(yte_.values - baseline_pred).mean())
         mae_ml = float(np.abs(yte_.values - ml_pred).mean())
         ok = acc > 0.55
-        print(f"   {label:25s} → Acc {acc*100:.1f}%  MAE base {mae_b:.2f} → ML {mae_ml:.2f}  {'✅ usar ML' if ok else '❌ usar media'}")
+        print(f"   {label:25s} → Acc {acc*100:.1f}%  MAE base {mae_b:.2f} → ML {mae_ml:.2f}  ({nv} part.)  {'✅ usar ML' if ok else '❌ usar media'}")
         if ok:
             rf_full_ = RandomForestRegressor(n_estimators=200, max_depth=6, random_state=42, n_jobs=-1)
-            rf_full_.fit(X, y_ser)
+            rf_full_.fit(Xv, yv)
             full_market_regressors[key] = rf_full_
 
     def _col(c):
@@ -1493,29 +1540,30 @@ def main(filepath, test_size=0.2, random_state=42, context_filepaths=None):
             return None
         return pd.to_numeric(df_raw_stats.loc[X.index, c], errors='coerce')
 
-    # Totales (corners + amarillas) — para Poisson Monte Carlo
-    for key, c1, c2, fb, lbl in [
-        ('corners',   'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', 9.0, 'corners total'),
-        ('amarillas', 'Tarjetas_amarillas_E1',         'Tarjetas_amarillas_E2',         3.6, 'amarillas total'),
+    # Totales (corners + amarillas) — para Poisson Monte Carlo.
+    # Series CRUDA (con NaN donde no hay stats); _train_market_reg descarta esas filas.
+    for key, c1, c2, lbl in [
+        ('corners',   'Saques_de_esquina_sacados_E1', 'Saques_de_esquina_sacados_E2', 'corners total'),
+        ('amarillas', 'Tarjetas_amarillas_E1',         'Tarjetas_amarillas_E2',         'amarillas total'),
     ]:
         s1, s2 = _col(c1), _col(c2)
         if s1 is None or s2 is None:
             print(f"   ⚠️  {key}: columnas no encontradas")
             continue
-        _train_market_reg(key, (s1 + s2).fillna(fb), lbl)
+        _train_market_reg(key, s1 + s2, lbl)
 
     # Por equipo (disparos, tiros a puerta, posesión) — para stats card
-    for key_e1, key_e2, c1, c2, fb, lbl in [
-        ('disparos_e1',     'disparos_e2',     'Disparos_totales_E1',  'Disparos_totales_E2',  12.0, 'disparos'),
-        ('tiros_puerta_e1', 'tiros_puerta_e2', 'Disparos_a_puerta_E1', 'Disparos_a_puerta_E2',  4.0, 'tiros a puerta'),
-        ('posesion_e1',     'posesion_e2',     'Posesion_E1',          'Posesion_E2',           50.0, 'posesión'),
+    for key_e1, key_e2, c1, c2, lbl in [
+        ('disparos_e1',     'disparos_e2',     'Disparos_totales_E1',  'Disparos_totales_E2',  'disparos'),
+        ('tiros_puerta_e1', 'tiros_puerta_e2', 'Disparos_a_puerta_E1', 'Disparos_a_puerta_E2',  'tiros a puerta'),
+        ('posesion_e1',     'posesion_e2',     'Posesion_E1',          'Posesion_E2',           'posesión'),
     ]:
         s1, s2 = _col(c1), _col(c2)
         if s1 is None or s2 is None:
             print(f"   ⚠️  {lbl}: columnas no encontradas")
             continue
-        _train_market_reg(key_e1, s1.fillna(fb), f'{lbl} E1')
-        _train_market_reg(key_e2, s2.fillna(fb), f'{lbl} E2')
+        _train_market_reg(key_e1, s1, f'{lbl} E1')
+        _train_market_reg(key_e2, s2, f'{lbl} E2')
 
     # Stacker OOF — entrena sobre el dataset completo con walk-forward CV
     stacker_info = train_stacker(X, y, n_splits=3, random_state=random_state)

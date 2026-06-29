@@ -1,0 +1,530 @@
+[
+  {
+    "e1": "México",
+    "e2": "Sudáfrica",
+    "goles_esp": 0.0,
+    "corners_esp": 10.6,
+    "amarillas_esp": 3.5,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ],
+    "corners_ou": [
+      "Más de",
+      7.5,
+      0.83
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      4.5,
+      0.73
+    ]
+  },
+  {
+    "e1": "Corea del Sur",
+    "e2": "República Checa",
+    "goles_esp": 0.0,
+    "corners_esp": 10.8,
+    "amarillas_esp": 4.5,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ],
+    "corners_ou": [
+      "Más de",
+      7.5,
+      0.84
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      6.5,
+      0.83
+    ]
+  },
+  {
+    "e1": "Canadá",
+    "e2": "Bosnia",
+    "goles_esp": 0.0,
+    "corners_esp": 9.7,
+    "amarillas_esp": 4.6,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ],
+    "corners_ou": [
+      "Más de",
+      6.5,
+      0.85
+    ],
+    "amarillas_ou": [
+      "Más de",
+      2.5,
+      0.84
+    ]
+  },
+  {
+    "e1": "USA",
+    "e2": "Paraguay",
+    "goles_esp": 0.0,
+    "corners_esp": 10.0,
+    "amarillas_esp": 4.0,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ],
+    "corners_ou": [
+      "Menos de",
+      12.5,
+      0.79
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      5.5,
+      0.78
+    ]
+  },
+  {
+    "e1": "Catar",
+    "e2": "Suiza",
+    "goles_esp": 0.0,
+    "corners_esp": 7.3,
+    "amarillas_esp": 4.5,
+    "goles_ou": [
+      "Menos de",
+      2.5,
+      0.67
+    ],
+    "corners_ou": [
+      "Más de",
+      4.5,
+      0.85
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      6.5,
+      0.83
+    ]
+  },
+  {
+    "e1": "Brasil",
+    "e2": "Marruecos",
+    "goles_esp": 0.0,
+    "corners_esp": 9.1,
+    "amarillas_esp": 4.1,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ],
+    "corners_ou": [
+      "Más de",
+      6.5,
+      0.81
+    ],
+    "amarillas_ou": [
+      "Más de",
+      2.5,
+      0.78
+    ]
+  },
+  {
+    "e1": "Escocia",
+    "e2": "Haití",
+    "goles_esp": 0.0,
+    "corners_esp": 8.6,
+    "amarillas_esp": 3.6,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ],
+    "corners_ou": [
+      "Menos de",
+      11.5,
+      0.84
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      5.5,
+      0.84
+    ]
+  },
+  {
+    "e1": "Australia",
+    "e2": "Turquía",
+    "goles_esp": 0.0,
+    "corners_esp": 10.1,
+    "amarillas_esp": 4.0,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.72
+    ],
+    "corners_ou": [
+      "Más de",
+      7.5,
+      0.79
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      5.5,
+      0.79
+    ]
+  },
+  {
+    "e1": "Alemania",
+    "e2": "Curazao",
+    "goles_esp": 0.0,
+    "corners_esp": 10.0,
+    "amarillas_esp": 3.3,
+    "goles_ou": [
+      "Menos de",
+      3.5,
+      0.85
+    ],
+    "corners_ou": [
+      "Menos de",
+      12.5,
+      0.79
+    ],
+    "amarillas_ou": [
+      "Más de",
+      1.5,
+      0.84
+    ]
+  },
+  {
+    "e1": "Países Bajos",
+    "e2": "Japón",
+    "goles_esp": 0.0,
+    "corners_esp": 10.3,
+    "amarillas_esp": 2.7,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ],
+    "corners_ou": [
+      "Menos de",
+      13.5,
+      0.84
+    ],
+    "amarillas_ou": [
+      "Más de",
+      1.5,
+      0.75
+    ]
+  },
+  {
+    "e1": "Costa de Marfil",
+    "e2": "Ecuador",
+    "goles_esp": 0.0,
+    "corners_esp": 10.6,
+    "amarillas_esp": 3.7,
+    "goles_ou": [
+      "Menos de",
+      3.5,
+      0.76
+    ],
+    "corners_ou": [
+      "Más de",
+      7.5,
+      0.83
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      5.5,
+      0.83
+    ]
+  },
+  {
+    "e1": "Suecia",
+    "e2": "Túnez",
+    "goles_esp": 0.0,
+    "corners_esp": 10.0,
+    "amarillas_esp": 3.3,
+    "goles_ou": [
+      "Menos de",
+      2.5,
+      0.67
+    ],
+    "corners_ou": [
+      "Menos de",
+      12.5,
+      0.79
+    ],
+    "amarillas_ou": [
+      "Más de",
+      1.5,
+      0.84
+    ]
+  },
+  {
+    "e1": "España",
+    "e2": "Cabo Verde",
+    "goles_esp": 0.0,
+    "corners_esp": 11.6,
+    "amarillas_esp": 2.7,
+    "goles_ou": [
+      "Más de",
+      2.5,
+      0.76
+    ],
+    "corners_ou": [
+      "Más de",
+      8.5,
+      0.82
+    ],
+    "amarillas_ou": [
+      "Más de",
+      1.5,
+      0.76
+    ]
+  },
+  {
+    "e1": "Bélgica",
+    "e2": "Egipto",
+    "goles_esp": 0.0,
+    "corners_esp": 10.8,
+    "amarillas_esp": 2.9,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ],
+    "corners_ou": [
+      "Más de",
+      7.5,
+      0.84
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      4.5,
+      0.83
+    ]
+  },
+  {
+    "e1": "Arabia Saudita",
+    "e2": "Uruguay",
+    "goles_esp": 0.0,
+    "corners_esp": 8.4,
+    "amarillas_esp": 3.9,
+    "goles_ou": [
+      "Menos de",
+      3.5,
+      0.76
+    ],
+    "corners_ou": [
+      "Más de",
+      5.5,
+      0.84
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      5.5,
+      0.81
+    ]
+  },
+  {
+    "e1": "Irán",
+    "e2": "Nueva Zelanda",
+    "goles_esp": 0.0,
+    "corners_esp": 8.3,
+    "amarillas_esp": 3.7,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.73
+    ],
+    "corners_ou": [
+      "Más de",
+      5.5,
+      0.83
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      5.5,
+      0.83
+    ]
+  },
+  {
+    "e1": "Francia",
+    "e2": "Senegal",
+    "goles_esp": 0.0,
+    "corners_esp": 9.3,
+    "amarillas_esp": 3.1,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ],
+    "corners_ou": [
+      "Más de",
+      6.5,
+      0.82
+    ],
+    "amarillas_ou": [
+      "Más de",
+      1.5,
+      0.81
+    ]
+  },
+  {
+    "e1": "Noruega",
+    "e2": "Iraq",
+    "goles_esp": 0.0,
+    "corners_esp": 10.7,
+    "amarillas_esp": 3.6,
+    "goles_ou": [
+      "Menos de",
+      3.5,
+      0.76
+    ],
+    "corners_ou": [
+      "Más de",
+      7.5,
+      0.83
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      5.5,
+      0.84
+    ]
+  },
+  {
+    "e1": "Argentina",
+    "e2": "Argelia",
+    "goles_esp": 0.0,
+    "corners_esp": 7.8,
+    "amarillas_esp": 4.9,
+    "goles_ou": [
+      "Más de",
+      2.5,
+      0.76
+    ],
+    "corners_ou": [
+      "Menos de",
+      10.5,
+      0.84
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      6.5,
+      0.78
+    ]
+  },
+  {
+    "e1": "Austria",
+    "e2": "Jordania",
+    "goles_esp": 0.0,
+    "corners_esp": 9.2,
+    "amarillas_esp": 3.0,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ],
+    "corners_ou": [
+      "Más de",
+      6.5,
+      0.81
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      4.5,
+      0.81
+    ]
+  },
+  {
+    "e1": "Portugal",
+    "e2": "RD Congo",
+    "goles_esp": 0.0,
+    "corners_esp": 8.7,
+    "amarillas_esp": 3.4,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.73
+    ],
+    "corners_ou": [
+      "Menos de",
+      11.5,
+      0.83
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      4.5,
+      0.74
+    ]
+  },
+  {
+    "e1": "Inglaterra",
+    "e2": "Croacia",
+    "goles_esp": 0.0,
+    "corners_esp": 9.9,
+    "amarillas_esp": 2.8,
+    "goles_ou": [
+      "Menos de",
+      3.5,
+      0.76
+    ],
+    "corners_ou": [
+      "Menos de",
+      12.5,
+      0.8
+    ],
+    "amarillas_ou": [
+      "Menos de",
+      4.5,
+      0.85
+    ]
+  },
+  {
+    "e1": "Ghana",
+    "e2": "Panamá",
+    "goles_esp": 0.0,
+    "corners_esp": 8.6,
+    "amarillas_esp": 4.2,
+    "goles_ou": [
+      "Menos de",
+      2.5,
+      0.67
+    ],
+    "corners_ou": [
+      "Menos de",
+      11.5,
+      0.84
+    ],
+    "amarillas_ou": [
+      "Más de",
+      2.5,
+      0.79
+    ]
+  },
+  {
+    "e1": "Colombia",
+    "e2": "Uzbekistán",
+    "goles_esp": 0.0,
+    "corners_esp": 8.3,
+    "amarillas_esp": 3.1,
+    "goles_ou": [
+      "Menos de",
+      4.5,
+      0.73
+    ],
+    "corners_ou": [
+      "Más de",
+      5.5,
+      0.84
+    ],
+    "amarillas_ou": [
+      "Más de",
+      1.5,
+      0.82
+    ]
+  }
+]
